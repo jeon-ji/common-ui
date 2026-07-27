@@ -1,0 +1,9 @@
+/*
+ * 배포 CSS 진입점.
+ *
+ * 이 파일은 반드시 `src/index.ts`가 import 해서 **모듈 그래프 안에** 있어야 한다.
+ * 그래프 밖에 두면 dist/style.css에 포함되지 않아 소비자 앱에서만 조용히 깨진다
+ * (전역 규칙 3 / 리뷰 C2).
+ */
+
+@layer ui.tokens, ui.reset, ui.components;

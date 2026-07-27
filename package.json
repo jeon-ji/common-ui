@@ -6,6 +6,12 @@
   "packageManager": "pnpm@10.34.5",
   "scripts": {
     "dev": "pnpm --filter @jeon-ji/common-ui-docs dev",
-    "build": "pnpm --filter @jeon-ji/common-ui build"
+    "build": "pnpm --filter @jeon-ji/common-ui build",
+    "typecheck": "tsc -b"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.6",
+    "tsx": "^4.23.1",
+    "typescript": "^5.9.3"
   }
 }
