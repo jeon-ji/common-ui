@@ -1,0 +1,99 @@
+import js from "@eslint/js";
+import prettierConfig from "eslint-config-prettier";
+import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
+import { flatConfigs as importX } from "eslint-plugin-import-x";
+import jsxA11y from "eslint-plugin-jsx-a11y";
+import reactHooks from "eslint-plugin-react-hooks";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
+import globals from "globals";
+import { config as defineConfig, configs as tseslint } from "typescript-eslint";
+
+/**
+ * 게이트는 처음부터 전부 켠다.
+ * 나중에 켜면 위반이 수백 건 쌓여 영영 못 켠다 — sije-common의 exhaustive-deps 40건 방치가 그 결과다.
+ */
+export default defineConfig(
+  {
+    ignores: ["**/dist/**", "**/node_modules/**", "**/.tmp/**", "**/coverage/**"],
+  },
+
+  js.configs.recommended,
+  // type-aware 규칙 — recommended만 켜면 타입을 아는 검사(floating promise 등)를 전부 놓친다 (리뷰 M10)
+  tseslint.recommendedTypeChecked,
+  importX.recommended,
+  importX.typescript,
+
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+      globals: globals.browser,
+    },
+    settings: {
+      "import-x/resolver-next": [
+        createTypeScriptImportResolver({
+          project: ["packages/*/tsconfig.*.json", "apps/*/tsconfig.json"],
+        }),
+      ],
+    },
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
+    rules: {
+      "no-console": "error",
+
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
+
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        { prefer: "type-imports", fixStyle: "inline-type-imports" },
+      ],
+
+      // 배럴 역참조 구조 차단 (전역 규칙 17 / 리뷰 A1)
+      "import-x/no-cycle": ["error", { maxDepth: Infinity, ignoreExternal: true }],
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: [
+                "../**/index",
+                "../**/index.js",
+                "@jeon-ji/common-ui",
+                "@jeon-ji/common-ui/*",
+              ],
+              message: "배럴 역참조 금지 — 내부 참조는 항상 직접 경로로 한다 (전역 규칙 17).",
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  // React — a11y는 strict, exhaustive-deps는 error. 경고로 두면 방치된다.
+  {
+    files: ["**/*.{jsx,tsx}"],
+    extends: [jsxA11y.flatConfigs.strict, reactHooks.configs.flat["recommended-latest"]],
+    rules: {
+      "react-hooks/exhaustive-deps": "error",
+    },
+  },
+
+  // 설정 파일·스크립트는 Node 환경이고 타입 정보가 필요 없다
+  {
+    files: ["**/*.config.{js,ts}", "eslint.config.js", "scripts/**/*.ts"],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+  {
+    files: ["**/*.js"],
+    extends: [tseslint.disableTypeChecked],
+  },
+
+  // 포맷 관련 규칙은 prettier에 위임 (항상 마지막)
+  prettierConfig,
+);

@@ -5,3 +5,4 @@ packages:
 # 빌드 스크립트 실행을 허용할 의존성 (pnpm 10 기본값은 전부 차단)
 onlyBuiltDependencies:
   - esbuild
+  - unrs-resolver
