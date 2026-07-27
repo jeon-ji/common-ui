@@ -1,0 +1,6 @@
+# 개행을 LF로 고정한다.
+# 생성물 드리프트 게이트(03 문서)가 Windows 로컬과 Linux CI 사이에서
+# 개행 차이만으로 실패하는 것을 막기 위한 전제 조건이다.
+* text=auto eol=lf
+
+pnpm-lock.yaml linguist-generated=true -diff
