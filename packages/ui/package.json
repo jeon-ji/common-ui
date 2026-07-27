@@ -1,5 +1,47 @@
 {
   "name": "@jeon-ji/common-ui",
   "version": "0.0.0",
-  "type": "module"
+  "type": "module",
+  "description": "React 19 디자인 시스템 — CSS 변수 토큰 기반, ESM only",
+  "license": "MIT",
+  "author": "jeon-ji",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeon-ji/common-ui.git",
+    "directory": "packages/ui"
+  },
+  "homepage": "https://jeon-ji.github.io/common-ui",
+  "bugs": "https://github.com/jeon-ji/common-ui/issues",
+  "keywords": ["react", "design-system", "components", "ui"],
+  "sideEffects": ["**/*.css"],
+  "files": ["dist"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js"
+    },
+    "./tokens": {
+      "types": "./dist/tokens/index.d.ts",
+      "import": "./dist/tokens/index.js"
+    },
+    "./styles.css": "./dist/style.css",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {},
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  }
 }
