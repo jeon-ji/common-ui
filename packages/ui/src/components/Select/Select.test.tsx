@@ -170,3 +170,59 @@ test("disabled: 열리지 않는다", async () => {
   await user.click(screen.getByRole("combobox"));
   expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
 });
+
+test("multiple: 토글 선택되고 목록이 열린 채 유지된다", async () => {
+  const user = userEvent.setup();
+  const onChange = vi.fn();
+  render(<Select multiple items={ITEMS} onChange={onChange} aria-label="과일" />);
+  const trigger = screen.getByRole("combobox");
+
+  await user.click(trigger);
+  expect(screen.getByRole("listbox")).toHaveAttribute("aria-multiselectable", "true");
+
+  await user.click(screen.getByRole("option", { name: "사과" }));
+  expect(onChange).toHaveBeenLastCalledWith(["apple"]);
+  expect(screen.getByRole("listbox")).toBeInTheDocument(); // 닫히지 않는다
+
+  await user.click(screen.getByRole("option", { name: "포도" }));
+  expect(onChange).toHaveBeenLastCalledWith(["apple", "grape"]);
+
+  // 다시 클릭하면 해제
+  await user.click(screen.getByRole("option", { name: /사과/ }));
+  expect(onChange).toHaveBeenLastCalledWith(["grape"]);
+});
+
+test("multiple: 트리거에 선택 라벨이 나열된다", async () => {
+  const user = userEvent.setup();
+  render(<Select multiple items={ITEMS} defaultValue={["apple", "grape"]} aria-label="과일" />);
+  const trigger = screen.getByRole("combobox");
+  expect(trigger).toHaveTextContent("사과, 포도");
+
+  await user.click(trigger);
+  expect(screen.getByRole("option", { name: /사과/ })).toHaveAttribute("aria-selected", "true");
+  expect(screen.getByRole("option", { name: /포도/ })).toHaveAttribute("aria-selected", "true");
+});
+
+test("multiple: Enter로 토글해도 포커스와 목록이 유지된다", async () => {
+  const user = userEvent.setup();
+  const onChange = vi.fn();
+  render(<Select multiple items={ITEMS} onChange={onChange} aria-label="과일" />);
+
+  await user.tab();
+  await user.keyboard("{ArrowDown}{Enter}");
+  expect(onChange).toHaveBeenLastCalledWith(["apple"]);
+  expect(screen.getByRole("listbox")).toBeInTheDocument();
+  expect(screen.getByRole("combobox")).toHaveFocus();
+
+  await user.keyboard("{ArrowDown}{Enter}");
+  expect(onChange).toHaveBeenLastCalledWith(["apple", "grape"]);
+});
+
+test("판별 유니온: 모드에 맞지 않는 타입은 컴파일되지 않는다", () => {
+  // @ts-expect-error -- 단일 모드에 배열 value 금지
+  const invalidSingle = <Select items={ITEMS} value={["a"]} />;
+  // @ts-expect-error -- 다중 모드에 문자열 콜백 금지
+  const invalidMultiple = <Select multiple items={ITEMS} onChange={(v: string) => v} />;
+  expect(invalidSingle).toBeTruthy();
+  expect(invalidMultiple).toBeTruthy();
+});

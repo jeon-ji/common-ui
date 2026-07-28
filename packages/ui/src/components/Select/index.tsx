@@ -22,20 +22,72 @@ export interface SelectItem {
   disabled?: boolean;
 }
 
-export interface SelectProps extends Omit<
+interface SelectBaseProps extends Omit<
   ComponentPropsWithoutRef<"button">,
   "value" | "defaultValue" | "onChange" | "children" | "type" | "role"
 > {
   /** 선택지 목록 — 렌더는 컴포넌트가, 데이터는 소비자가 소유한다 */
   items: SelectItem[];
+  /** 미선택 상태에 표시할 문구 */
+  placeholder?: string;
+}
+
+export interface SelectSingleProps extends SelectBaseProps {
+  /** 단일 선택 (기본) */
+  multiple?: false;
   /** 제어 선택 값 (미선택은 null) */
   value?: string | null;
   /** 비제어 초기 선택 값 */
   defaultValue?: string | null;
   /** 선택된 항목의 value만 넘긴다 */
   onChange?: (value: string) => void;
-  /** 미선택 상태에 표시할 문구 */
-  placeholder?: string;
+}
+
+export interface SelectMultipleProps extends SelectBaseProps {
+  /** 다중 선택 — 옵션 선택 후에도 목록이 열려 있는다 */
+  multiple: true;
+  /** 제어 선택 값 배열 */
+  value?: string[];
+  /** 비제어 초기 선택 값 배열 */
+  defaultValue?: string[];
+  /** 선택된 value 배열만 넘긴다 */
+  onChange?: (value: string[]) => void;
+}
+
+/**
+ * 판별 유니온 — `multiple` 여부가 value/onChange의 타입을 결정한다.
+ * 단일 모드에 배열을 넣거나 다중 모드에 문자열 콜백을 넣으면 컴파일되지 않는다
+ * (sije-common 최고 자산으로 꼽힌 패턴의 계승).
+ */
+export type SelectProps = SelectSingleProps | SelectMultipleProps;
+
+/** 유니온을 내부 공통 표현(string[])으로 정규화한다 */
+function normalizeProps(props: SelectProps) {
+  if (props.multiple) {
+    const { multiple, value, defaultValue, onChange, ...rest } = props;
+    void multiple;
+    return {
+      multiple: true,
+      value,
+      defaultValue: defaultValue ?? [],
+      onChange,
+      rest,
+    } as const;
+  }
+  const { multiple, value, defaultValue, onChange, ...rest } = props;
+  void multiple;
+  return {
+    multiple: false,
+    value: value === undefined ? undefined : value === null ? [] : [value],
+    defaultValue: defaultValue == null ? [] : [defaultValue],
+    onChange: onChange
+      ? (values: string[]) => {
+          const first = values[0];
+          if (first !== undefined) onChange(first);
+        }
+      : undefined,
+    rest,
+  } as const;
 }
 
 /** 다음 활성(비활성 제외) 인덱스 — direction 방향으로 탐색, 없으면 현재 유지 */
@@ -59,25 +111,23 @@ function edgeEnabled(items: SelectItem[], direction: 1 | -1): number {
  * 가리킨다(combobox 표준 패턴). Escape는 열려 있을 때만 이 컴포넌트가 소유한다 —
  * 소유권 확인 후에만 stopPropagation 한다 (전역 규칙 15).
  */
-export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
-  {
+export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(props, ref) {
+  const normalized = normalizeProps(props);
+  const { multiple } = normalized;
+  const {
     items,
-    value: valueProp,
-    defaultValue = null,
-    onChange,
     placeholder = "선택",
     disabled,
     id,
     className,
     onKeyDown,
     ...rest
-  },
-  ref,
-) {
-  const [value, setValue] = useControllableState<string | null>({
-    value: valueProp,
-    defaultValue,
-    onChange: onChange as (value: string | null) => void,
+  } = normalized.rest;
+
+  const [values, setValues] = useControllableState<string[]>({
+    value: normalized.value,
+    defaultValue: normalized.defaultValue,
+    onChange: normalized.onChange,
   });
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -88,10 +138,10 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   const optionId = (index: number) => `${baseId}-opt-${String(index)}`;
 
   // 매칭 실패는 캐스팅으로 덮지 않는다 — undefined면 placeholder를 그대로 보여준다 (리뷰 M12)
-  const selected = items.find((item) => item.value === value);
+  const selectedItems = items.filter((item) => values.includes(item.value));
 
   const openList = () => {
-    const selectedIndex = items.findIndex((item) => item.value === value && !item.disabled);
+    const selectedIndex = items.findIndex((item) => values.includes(item.value) && !item.disabled);
     setActiveIndex(selectedIndex >= 0 ? selectedIndex : edgeEnabled(items, 1));
     setOpen(true);
   };
@@ -104,7 +154,14 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   const selectAt = (index: number) => {
     const item = items[index];
     if (!item || item.disabled) return;
-    setValue(item.value);
+    if (multiple) {
+      // 토글 — 목록은 열린 채 유지한다 (연속 선택)
+      setValues((prev) =>
+        prev.includes(item.value) ? prev.filter((v) => v !== item.value) : [...prev, item.value],
+      );
+      return;
+    }
+    setValues([item.value]);
     close();
   };
 
@@ -193,8 +250,18 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
         onKeyDown={handleKeyDown}
         {...rest}
       >
-        <span className="ui-select-value" data-placeholder={selected ? undefined : ""}>
-          {selected ? selected.label : placeholder}
+        <span
+          className="ui-select-value"
+          data-placeholder={selectedItems.length > 0 ? undefined : ""}
+        >
+          {selectedItems.length > 0
+            ? selectedItems.map((item, index) => (
+                <span key={item.value}>
+                  {index > 0 && ", "}
+                  {item.label}
+                </span>
+              ))
+            : placeholder}
         </span>
         <ChevronDownIcon className="ui-select-chevron" data-open={open ? "" : undefined} />
       </button>
@@ -202,7 +269,12 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
       {open && (
         // div + role — jsx-a11y strict는 ul/li에 인터랙티브 역할 부여를 금지한다.
         // 키보드는 트리거(aria-activedescendant)가 담당하므로 옵션 자체는 포커스 대상이 아니다.
-        <div className="ui-select-list" role="listbox" id={listId}>
+        <div
+          className="ui-select-list"
+          role="listbox"
+          id={listId}
+          aria-multiselectable={multiple || undefined}
+        >
           {items.map((item, index) => (
             // activedescendant 패턴: 옵션은 설계상 포커스 대상이 아니며 키보드는 combobox(트리거)가 전담한다
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus
@@ -210,7 +282,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
               key={item.value}
               id={optionId(index)}
               role="option"
-              aria-selected={item.value === value}
+              aria-selected={values.includes(item.value)}
               aria-disabled={item.disabled || undefined}
               data-active={index === activeIndex ? "" : undefined}
               className="ui-select-option"
@@ -220,7 +292,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
               }}
             >
               <span className="ui-select-option-label">{item.label}</span>
-              {item.value === value && <CheckIcon className="ui-select-option-check" />}
+              {values.includes(item.value) && <CheckIcon className="ui-select-option-check" />}
             </div>
           ))}
         </div>

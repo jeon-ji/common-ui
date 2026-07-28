@@ -3,6 +3,8 @@ import { DemoBlock } from "../../components/DemoBlock";
 import { PropsTable } from "../../components/PropsTable";
 import BasicDemo from "../../demos/Select/basic";
 import basicSource from "../../demos/Select/basic.tsx?raw";
+import MultipleDemo from "../../demos/Select/multiple";
+import multipleSource from "../../demos/Select/multiple.tsx?raw";
 
 export function SelectPage() {
   return (
@@ -21,6 +23,13 @@ export function SelectPage() {
         code={basicSource}
       >
         <BasicDemo />
+      </DemoBlock>
+      <DemoBlock
+        title="다중 선택"
+        description="multiple — 판별 유니온이라 value/onChange 타입이 배열로 바뀐다"
+        code={multipleSource}
+      >
+        <MultipleDemo />
       </DemoBlock>
 
       <h2 id="api">API</h2>
