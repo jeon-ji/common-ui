@@ -1,0 +1,68 @@
+/* TextField — 값은 전부 토큰 변수만 참조한다 (전역 규칙 12) */
+
+@layer ui.components {
+  .ui-textfield {
+    display: flex;
+    align-items: center;
+    gap: var(--ui-spacing-1_5);
+    height: var(--ui-spacing-10);
+    padding: 0 var(--ui-spacing-2);
+    background: var(--ui-color-bg-default);
+    border: 1px solid var(--ui-color-border-default);
+    border-radius: var(--ui-radius-md);
+    font-family: var(--ui-font-sans);
+    transition: border-color var(--ui-duration-fast) var(--ui-easing-standard);
+  }
+
+  .ui-textfield:focus-within {
+    border-color: var(--ui-color-primary-default);
+    outline: 1px solid var(--ui-color-primary-default);
+    outline-offset: 0;
+  }
+
+  .ui-textfield[data-invalid] {
+    border-color: var(--ui-color-danger-default);
+  }
+
+  .ui-textfield[data-invalid]:focus-within {
+    outline-color: var(--ui-color-danger-default);
+  }
+
+  .ui-textfield[data-disabled] {
+    background: var(--ui-color-bg-muted);
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .ui-textfield-input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: 0 var(--ui-spacing-1);
+    font: inherit;
+    font-size: var(--ui-text-body2-size);
+    color: var(--ui-color-text-primary);
+    background: transparent;
+    border: none;
+    outline: none;
+  }
+
+  .ui-textfield-input::placeholder {
+    color: var(--ui-color-text-disabled);
+  }
+
+  .ui-textfield-input:disabled {
+    cursor: not-allowed;
+  }
+
+  /* 브라우저 기본 search 클리어 버튼 제거 — 자체 버튼으로 통일 */
+  .ui-textfield-input[type="search"]::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  .ui-textfield-affix {
+    display: inline-flex;
+    align-items: center;
+    color: var(--ui-color-text-secondary);
+  }
+}

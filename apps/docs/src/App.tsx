@@ -9,6 +9,7 @@ import { PortalPage } from "./pages/components/PortalPage";
 import { SamplePage } from "./pages/components/SamplePage";
 import { SkeletonPage } from "./pages/components/SkeletonPage";
 import { SpinnerPage } from "./pages/components/SpinnerPage";
+import { TextFieldPage } from "./pages/components/TextFieldPage";
 import { TextPage } from "./pages/components/TextPage";
 import { Colors } from "./pages/foundation/Colors";
 import { Spacing } from "./pages/foundation/Spacing";
@@ -40,6 +41,7 @@ export function App() {
         <Route path="/components/skeleton" element={<SkeletonPage />} />
         <Route path="/components/spinner" element={<SpinnerPage />} />
         <Route path="/components/text" element={<TextPage />} />
+        <Route path="/components/text-field" element={<TextFieldPage />} />
         <Route
           path="*"
           element={

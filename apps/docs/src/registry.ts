@@ -57,6 +57,7 @@ export const docGroups: readonly DocGroup[] = [
       { slug: "skeleton", title: "Skeleton" },
       { slug: "spinner", title: "Spinner" },
       { slug: "text", title: "Text · Heading" },
+      { slug: "text-field", title: "TextField" },
     ],
   },
 ] as const;

@@ -81,13 +81,13 @@ export default defineConfig(
         {
           patterns: [
             {
+              // icons 배럴은 목록에 없다 — 아이콘이 배럴 안에서 정의되므로(직접 경로가
+              // 존재하지 않음) 역참조가 아니다. 실제 순환은 import-x/no-cycle이 잡는다.
               group: [
                 "**/components/index",
                 "**/components/index.js",
                 "**/hooks/index",
                 "**/hooks/index.js",
-                "**/icons/index",
-                "**/icons/index.js",
                 "**/tokens/index",
                 "**/tokens/index.js",
                 "@jeon-ji/common-ui",

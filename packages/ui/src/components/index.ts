@@ -12,3 +12,4 @@ export { Sample, type SampleProps } from "./Sample/index.js";
 export { Skeleton, type SkeletonProps } from "./Skeleton/index.js";
 export { Spinner, type SpinnerProps } from "./Spinner/index.js";
 export { Heading, type HeadingProps, Text, type TextProps } from "./Text/index.js";
+export { TextField, type TextFieldProps } from "./TextField/index.js";
