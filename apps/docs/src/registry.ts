@@ -39,6 +39,11 @@ export const docGroups: readonly DocGroup[] = [
     ],
   },
   {
+    title: "Hooks",
+    base: "/hooks",
+    entries: [{ slug: "use-controllable-state", title: "useControllableState" }],
+  },
+  {
     title: "Components",
     base: "/components",
     // M2에서 05 문서의 필수 컴포넌트가 순서대로 채워진다

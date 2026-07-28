@@ -67,11 +67,43 @@ for (const [slug, entry] of registrySlugs) {
   }
 }
 
+// ── 훅도 같은 DoD를 적용한다 — 훅 파일 ↔ /hooks 레지스트리 양방향 대조 ──────
+const hooksDir = path.join(rootDir, "packages", "ui", "src", "hooks");
+const hookFiles = readdirSync(hooksDir)
+  .filter((f) => /^use[A-Z].*\.ts$/.test(f) && !f.includes(".test."))
+  .map((f) => f.replace(/\.ts$/, ""));
+
+const hookGroup = docGroups.find((group) => group.base === "/hooks");
+const hookSlugs = new Map((hookGroup?.entries ?? []).map((entry) => [entry.slug, entry] as const));
+
+for (const hook of hookFiles) {
+  const slug = kebab(hook);
+  const entry = hookSlugs.get(slug);
+  if (!entry || entry.planned) {
+    errors.push(
+      `hooks/${hook}: 문서 레지스트리에 없다 — Hooks 그룹에 "${slug}"를 추가하고 문서 페이지를 만들 것 (전역 규칙 19)`,
+    );
+    continue;
+  }
+  const demoDir = path.join(demosDir, "hooks", hook);
+  const hasDemo =
+    existsSync(demoDir) && readdirSync(demoDir).some((file) => /^[a-z].*\.tsx$/.test(file));
+  if (!hasDemo) {
+    errors.push(`hooks/${hook}: 데모 파일이 없다 — apps/docs/src/demos/hooks/${hook}/<demo>.tsx`);
+  }
+}
+const hookFileSlugs = new Set(hookFiles.map(kebab));
+for (const [slug, entry] of hookSlugs) {
+  if (!entry.planned && !hookFileSlugs.has(slug)) {
+    errors.push(`registry(hooks) "${slug}": 대응하는 훅 파일이 없다 (죽은 문서 링크)`);
+  }
+}
+
 if (errors.length > 0) {
   console.error(`✖ 문서 페이지 검사 실패 (${String(errors.length)}건)`);
   for (const e of errors) console.error(`  - ${e}`);
   process.exit(1);
 }
 console.error(
-  `✔ 문서 페이지 검사 통과 — 컴포넌트 ${String(componentFolders.length)}개 / 레지스트리 ${String(registrySlugs.size)}개`,
+  `✔ 문서 페이지 검사 통과 — 컴포넌트 ${String(componentFolders.length)}개 · 훅 ${String(hookFiles.length)}개`,
 );

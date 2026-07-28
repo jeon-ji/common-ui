@@ -29,6 +29,9 @@ dist/components/index.d.ts
 dist/components/index.js
 dist/hooks/index.d.ts
 dist/hooks/index.js
+dist/hooks/useControllableState.d.ts
+dist/hooks/useControllableState.js
+dist/hooks/useControllableState.js.map
 dist/icons/index.d.ts
 dist/icons/index.js
 dist/icons/index.js.map

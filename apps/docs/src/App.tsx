@@ -16,6 +16,7 @@ import { ZIndex } from "./pages/foundation/ZIndex";
 import { Installation } from "./pages/guide/Installation";
 import { Usage } from "./pages/guide/Usage";
 import { Home } from "./pages/Home";
+import { UseControllableStatePage } from "./pages/hooks/UseControllableStatePage";
 
 export function App() {
   return (
@@ -28,6 +29,7 @@ export function App() {
         <Route path="/foundation/typography" element={<Typography />} />
         <Route path="/foundation/spacing" element={<Spacing />} />
         <Route path="/foundation/z-index" element={<ZIndex />} />
+        <Route path="/hooks/use-controllable-state" element={<UseControllableStatePage />} />
         <Route path="/components/button" element={<ButtonPage />} />
         <Route path="/components/icon" element={<IconPage />} />
         <Route path="/components/icon-button" element={<IconButtonPage />} />
