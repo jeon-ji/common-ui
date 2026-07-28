@@ -1,0 +1,58 @@
+# CI 게이트 — 순서는 02 문서 §7 그대로:
+# install(frozen) → typecheck → lint → format:check → test → build → publint/attw → pack 스모크
+#
+# 규칙(리뷰 M15·M16·S2):
+# - pull_request 와 기본 브랜치 push 양쪽 트리거 (기본 브랜치가 CI 밖이면 안 된다)
+# - permissions 최소 선언 + concurrency 그룹
+# - 셸 스텝(run:)에 `${{ }}` 직접 치환 금지 — 값이 필요하면 env: 경유
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      # 버전 입력 없음 — 루트 package.json의 packageManager 필드가 유일한 소스
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Format check
+        run: pnpm format:check
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+      - name: publint + attw
+        run: pnpm verify:pkg
+
+      - name: Pack smoke
+        run: pnpm smoke:pack
