@@ -25,6 +25,9 @@ dist/components/Radio/index.js.map
 dist/components/Sample/index.d.ts
 dist/components/Sample/index.js
 dist/components/Sample/index.js.map
+dist/components/Select/index.d.ts
+dist/components/Select/index.js
+dist/components/Select/index.js.map
 dist/components/Skeleton/index.d.ts
 dist/components/Skeleton/index.js
 dist/components/Skeleton/index.js.map
