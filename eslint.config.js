@@ -89,6 +89,13 @@ export default defineConfig(
       globals: globals.node,
     },
   },
+  // CLI 스크립트는 콘솔 출력이 목적이다 — no-console은 컴포넌트 소스를 겨냥한 규칙
+  {
+    files: ["scripts/**/*.ts"],
+    rules: {
+      "no-console": "off",
+    },
+  },
   {
     files: ["**/*.js"],
     extends: [tseslint.disableTypeChecked],
