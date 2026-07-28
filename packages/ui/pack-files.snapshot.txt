@@ -19,6 +19,9 @@ dist/components/NumberField/index.js.map
 dist/components/Portal/index.d.ts
 dist/components/Portal/index.js
 dist/components/Portal/index.js.map
+dist/components/Radio/index.d.ts
+dist/components/Radio/index.js
+dist/components/Radio/index.js.map
 dist/components/Sample/index.d.ts
 dist/components/Sample/index.js
 dist/components/Sample/index.js.map

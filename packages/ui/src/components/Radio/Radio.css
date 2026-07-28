@@ -1,0 +1,64 @@
+/* Radio — 표시는 CSS로만 그린다 (전역 규칙 12) */
+
+@layer ui.components {
+  .ui-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ui-spacing-2);
+    font-family: var(--ui-font-sans);
+    font-size: var(--ui-text-body2-size);
+    color: var(--ui-color-text-primary);
+    cursor: pointer;
+  }
+
+  .ui-radio[data-disabled] {
+    color: var(--ui-color-text-disabled);
+    cursor: not-allowed;
+  }
+
+  .ui-radio-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .ui-radio-circle {
+    position: relative;
+    width: var(--ui-spacing-4);
+    height: var(--ui-spacing-4);
+    flex: none;
+    background: var(--ui-color-bg-default);
+    border: 1px solid var(--ui-color-border-strong);
+    border-radius: var(--ui-radius-full);
+    transition: border-color var(--ui-duration-fast) var(--ui-easing-standard);
+  }
+
+  .ui-radio-input:checked + .ui-radio-circle {
+    border-color: var(--ui-color-primary-default);
+  }
+
+  .ui-radio-input:checked + .ui-radio-circle::after {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    background: var(--ui-color-primary-default);
+    border-radius: var(--ui-radius-full);
+  }
+
+  .ui-radio-input:focus-visible + .ui-radio-circle {
+    outline: 2px solid var(--ui-color-primary-default);
+    outline-offset: 2px;
+  }
+
+  .ui-radio-input:disabled + .ui-radio-circle {
+    background: var(--ui-color-bg-muted);
+    border-color: var(--ui-color-border-default);
+  }
+
+  .ui-radio-input:disabled:checked + .ui-radio-circle::after {
+    background: var(--ui-color-text-disabled);
+  }
+}
