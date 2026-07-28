@@ -1,0 +1,47 @@
+# 문서 사이트 GitHub Pages 배포 (06 문서 §3)
+# main push → apps/docs 빌드 → Pages. CI와 동일하게 permissions 최소·env 경유 원칙.
+name: Docs Deploy
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: docs-deploy
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build docs
+        run: pnpm --filter @jeon-ji/common-ui-docs build
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: apps/docs/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

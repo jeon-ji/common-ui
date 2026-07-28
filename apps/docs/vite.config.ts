@@ -1,3 +1,4 @@
+import { copyFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -12,7 +13,22 @@ const uiSrc = path.resolve(rootDir, "../../packages/ui/src");
 export default defineConfig({
   // GitHub Pages 프로젝트 페이지 경로 (https://jeon-ji.github.io/common-ui/)
   base: "/common-ui/",
-  plugins: [react(), docgenPlugin()],
+  plugins: [
+    react(),
+    docgenPlugin(),
+    {
+      // GitHub Pages는 SPA 딥링크에 404를 반환한다 — index.html을 404.html로 복제해
+      // 새로고침/직접 진입에서도 라우터가 이어받게 한다
+      name: "docs:spa-404-fallback",
+      apply: "build",
+      closeBundle() {
+        copyFileSync(
+          path.join(rootDir, "dist", "index.html"),
+          path.join(rootDir, "dist", "404.html"),
+        );
+      },
+    },
+  ],
   resolve: {
     // dev·docs 빌드는 dist가 아닌 ui 소스를 직접 본다 — 소스 수정이 즉시 반영된다.
     // exports 계약(디스트 해석)은 pack 스모크가 별도로 검증한다.
