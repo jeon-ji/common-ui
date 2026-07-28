@@ -1,0 +1,57 @@
+/* Switch — 값은 전부 토큰 변수만 참조한다 (전역 규칙 12) */
+
+@layer ui.components {
+  .ui-switch {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    padding: var(--ui-spacing-0_5);
+    background: var(--ui-color-border-strong);
+    border: none;
+    border-radius: var(--ui-radius-full);
+    cursor: pointer;
+    transition: background-color var(--ui-duration-fast) var(--ui-easing-standard);
+  }
+
+  .ui-switch[data-size="md"] {
+    width: var(--ui-spacing-10);
+    height: var(--ui-spacing-5);
+  }
+
+  .ui-switch[data-size="sm"] {
+    width: var(--ui-spacing-8);
+    height: var(--ui-spacing-4);
+  }
+
+  .ui-switch[aria-checked="true"] {
+    background: var(--ui-color-primary-default);
+  }
+
+  .ui-switch-thumb {
+    display: block;
+    aspect-ratio: 1;
+    height: 100%;
+    background: var(--ui-color-bg-default);
+    border-radius: var(--ui-radius-full);
+    transition: transform var(--ui-duration-fast) var(--ui-easing-standard);
+  }
+
+  .ui-switch[data-size="md"][aria-checked="true"] .ui-switch-thumb {
+    transform: translateX(var(--ui-spacing-5));
+  }
+
+  .ui-switch[data-size="sm"][aria-checked="true"] .ui-switch-thumb {
+    transform: translateX(var(--ui-spacing-4));
+  }
+
+  .ui-switch:focus-visible {
+    outline: 2px solid var(--ui-color-primary-default);
+    outline-offset: 2px;
+  }
+
+  .ui-switch:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}

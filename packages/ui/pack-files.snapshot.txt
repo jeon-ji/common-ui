@@ -31,6 +31,9 @@ dist/components/Skeleton/index.js.map
 dist/components/Spinner/index.d.ts
 dist/components/Spinner/index.js
 dist/components/Spinner/index.js.map
+dist/components/Switch/index.d.ts
+dist/components/Switch/index.js
+dist/components/Switch/index.js.map
 dist/components/Text/index.d.ts
 dist/components/Text/index.js
 dist/components/Text/index.js.map

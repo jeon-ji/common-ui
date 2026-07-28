@@ -12,6 +12,7 @@ import { RadioPage } from "./pages/components/RadioPage";
 import { SamplePage } from "./pages/components/SamplePage";
 import { SkeletonPage } from "./pages/components/SkeletonPage";
 import { SpinnerPage } from "./pages/components/SpinnerPage";
+import { SwitchPage } from "./pages/components/SwitchPage";
 import { TextareaPage } from "./pages/components/TextareaPage";
 import { TextFieldPage } from "./pages/components/TextFieldPage";
 import { TextPage } from "./pages/components/TextPage";
@@ -47,6 +48,7 @@ export function App() {
         <Route path="/components/sample" element={<SamplePage />} />
         <Route path="/components/skeleton" element={<SkeletonPage />} />
         <Route path="/components/spinner" element={<SpinnerPage />} />
+        <Route path="/components/switch" element={<SwitchPage />} />
         <Route path="/components/text" element={<TextPage />} />
         <Route path="/components/text-field" element={<TextFieldPage />} />
         <Route path="/components/textarea" element={<TextareaPage />} />
