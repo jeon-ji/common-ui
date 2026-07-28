@@ -73,6 +73,30 @@ export default defineConfig(
     },
   },
 
+  // 스타일 값은 토큰만 참조 — hex·z-index 리터럴 금지 (전역 규칙 12 / 03 문서 §5).
+  // 예외는 tokens/ 디렉터리뿐. CSS 파일 쪽은 validate-tokens가 같은 규칙을 강제한다.
+  {
+    files: ["packages/ui/src/**/*.{ts,tsx}"],
+    ignores: ["packages/ui/src/tokens/**"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+          message: "hex 리터럴 금지 — 토큰(var(--ui-color-*))만 참조한다 (전역 규칙 12).",
+        },
+        {
+          selector: "TemplateElement[value.raw=/#[0-9a-fA-F]{3,8}\\b/]",
+          message: "hex 리터럴 금지 — 토큰(var(--ui-color-*))만 참조한다 (전역 규칙 12).",
+        },
+        {
+          selector: "Property[key.name='zIndex']",
+          message: "z-index 리터럴 금지 — var(--ui-z-*) 토큰만 참조한다.",
+        },
+      ],
+    },
+  },
+
   // React — a11y는 strict, exhaustive-deps는 error. 경고로 두면 방치된다.
   {
     files: ["**/*.{jsx,tsx}"],
