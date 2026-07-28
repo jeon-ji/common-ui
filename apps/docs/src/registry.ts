@@ -54,6 +54,7 @@ export const docGroups: readonly DocGroup[] = [
     entries: [
       { slug: "button", title: "Button" },
       { slug: "checkbox", title: "Checkbox" },
+      { slug: "confirm-modal", title: "ConfirmModal" },
       { slug: "field", title: "Field" },
       { slug: "icon", title: "Icon" },
       { slug: "icon-button", title: "IconButton" },

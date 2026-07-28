@@ -4,6 +4,9 @@ dist/components/Button/index.js.map
 dist/components/Checkbox/index.d.ts
 dist/components/Checkbox/index.js
 dist/components/Checkbox/index.js.map
+dist/components/ConfirmModal/index.d.ts
+dist/components/ConfirmModal/index.js
+dist/components/ConfirmModal/index.js.map
 dist/components/Field/index.d.ts
 dist/components/Field/index.js
 dist/components/Field/index.js.map
