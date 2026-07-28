@@ -12,5 +12,14 @@
       "@jeon-ji/common-ui/styles.css": ["../../packages/ui/src/styles/index.css"]
     }
   },
-  "include": ["src", "vite.config.ts", "plugins"]
+  // paths가 가리키는 ui 소스도 이 프로젝트의 파일 목록에 있어야 한다 (TS6307).
+  // 테스트는 vitest 전용 타입 증강(lib 프로젝트 소관)이라 제외한다.
+  "include": [
+    "src",
+    "vite.config.ts",
+    "plugins",
+    "../../packages/ui/src",
+    "../../packages/ui/types"
+  ],
+  "exclude": ["../../packages/ui/src/**/*.test.*"]
 }

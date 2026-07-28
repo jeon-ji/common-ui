@@ -320,3 +320,118 @@ body {
   margin-left: var(--ui-spacing-0_5);
   font-style: normal;
 }
+
+/* ── Foundation: 스와치·스케일 ───────────────────────────────────────────── */
+
+.docs-swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--ui-spacing-3);
+  margin: var(--ui-spacing-3) 0 var(--ui-spacing-6);
+}
+
+.docs-swatch {
+  display: flex;
+  gap: var(--ui-spacing-3);
+  align-items: center;
+}
+
+.docs-swatch-chip {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: var(--ui-radius-md);
+  border: 1px solid var(--ui-color-border-default);
+}
+
+.docs-swatch-chip.is-bordered {
+  border: 1px solid var(--ui-color-border-strong);
+}
+
+.docs-swatch-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-spacing-0_5);
+  font-size: var(--ui-text-caption-size);
+  min-width: 0;
+}
+
+.docs-swatch-hex {
+  color: var(--ui-color-text-secondary);
+}
+
+.docs-swatch-copy {
+  font-family: var(--ui-font-mono);
+  font-size: var(--ui-text-caption-size);
+  color: var(--ui-color-text-secondary);
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: copy;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docs-swatch-copy:hover {
+  color: var(--ui-color-primary-default);
+}
+
+.docs-scale-row {
+  display: flex;
+  gap: var(--ui-spacing-2);
+  margin: var(--ui-spacing-3) 0 var(--ui-spacing-6);
+  flex-wrap: wrap;
+}
+
+.docs-scale-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ui-spacing-1);
+  font-size: var(--ui-text-caption-size);
+}
+
+.docs-scale-cell .docs-swatch-chip {
+  width: 56px;
+  height: 36px;
+}
+
+.docs-spacing-bar {
+  height: var(--ui-spacing-3);
+  background: var(--ui-color-primary-default);
+  border-radius: var(--ui-radius-sm);
+}
+
+.docs-radius-chip {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  background: var(--ui-color-primary-subtle);
+  border: 2px solid var(--ui-color-primary-default);
+}
+
+.docs-shadow-chip {
+  width: 72px;
+  height: 48px;
+  flex: none;
+  background: var(--ui-color-bg-default);
+  border-radius: var(--ui-radius-md);
+}
+
+.docs-z-diagram {
+  position: relative;
+  padding: var(--ui-spacing-4) 0;
+}
+
+.docs-z-layer {
+  width: 220px;
+  padding: var(--ui-spacing-4);
+  background: var(--ui-color-bg-subtle);
+  border: 1px solid var(--ui-color-border-strong);
+  border-radius: var(--ui-radius-md);
+  box-shadow: var(--ui-shadow-md);
+  font-family: var(--ui-font-mono);
+  font-size: var(--ui-text-caption-size);
+}

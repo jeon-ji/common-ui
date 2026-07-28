@@ -2,6 +2,12 @@ import { Route, Routes } from "react-router";
 
 import { Layout } from "./layout/Layout";
 import { DemoBlockDev } from "./pages/dev/DemoBlockDev";
+import { Colors } from "./pages/foundation/Colors";
+import { Spacing } from "./pages/foundation/Spacing";
+import { Typography } from "./pages/foundation/Typography";
+import { ZIndex } from "./pages/foundation/ZIndex";
+import { Installation } from "./pages/guide/Installation";
+import { Usage } from "./pages/guide/Usage";
 import { Home } from "./pages/Home";
 
 export function App() {
@@ -9,6 +15,12 @@ export function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/guide/installation" element={<Installation />} />
+        <Route path="/guide/usage" element={<Usage />} />
+        <Route path="/foundation/colors" element={<Colors />} />
+        <Route path="/foundation/typography" element={<Typography />} />
+        <Route path="/foundation/spacing" element={<Spacing />} />
+        <Route path="/foundation/z-index" element={<ZIndex />} />
         <Route path="/dev/demo-block" element={<DemoBlockDev />} />
         <Route
           path="*"
