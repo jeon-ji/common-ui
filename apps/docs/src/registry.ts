@@ -41,7 +41,10 @@ export const docGroups: readonly DocGroup[] = [
   {
     title: "Hooks",
     base: "/hooks",
-    entries: [{ slug: "use-controllable-state", title: "useControllableState" }],
+    entries: [
+      { slug: "use-click-outside", title: "useClickOutside" },
+      { slug: "use-controllable-state", title: "useControllableState" },
+    ],
   },
   {
     title: "Components",

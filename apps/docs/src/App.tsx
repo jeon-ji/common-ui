@@ -23,6 +23,7 @@ import { ZIndex } from "./pages/foundation/ZIndex";
 import { Installation } from "./pages/guide/Installation";
 import { Usage } from "./pages/guide/Usage";
 import { Home } from "./pages/Home";
+import { UseClickOutsidePage } from "./pages/hooks/UseClickOutsidePage";
 import { UseControllableStatePage } from "./pages/hooks/UseControllableStatePage";
 
 export function App() {
@@ -36,6 +37,7 @@ export function App() {
         <Route path="/foundation/typography" element={<Typography />} />
         <Route path="/foundation/spacing" element={<Spacing />} />
         <Route path="/foundation/z-index" element={<ZIndex />} />
+        <Route path="/hooks/use-click-outside" element={<UseClickOutsidePage />} />
         <Route path="/hooks/use-controllable-state" element={<UseControllableStatePage />} />
         <Route path="/components/button" element={<ButtonPage />} />
         <Route path="/components/checkbox" element={<CheckboxPage />} />

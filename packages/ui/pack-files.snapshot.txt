@@ -50,6 +50,9 @@ dist/components/index.d.ts
 dist/components/index.js
 dist/hooks/index.d.ts
 dist/hooks/index.js
+dist/hooks/useClickOutside.d.ts
+dist/hooks/useClickOutside.js
+dist/hooks/useClickOutside.js.map
 dist/hooks/useControllableState.d.ts
 dist/hooks/useControllableState.js
 dist/hooks/useControllableState.js.map
