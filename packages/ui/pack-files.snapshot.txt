@@ -7,6 +7,12 @@ dist/components/Portal/index.js.map
 dist/components/Sample/index.d.ts
 dist/components/Sample/index.js
 dist/components/Sample/index.js.map
+dist/components/Skeleton/index.d.ts
+dist/components/Skeleton/index.js
+dist/components/Skeleton/index.js.map
+dist/components/Spinner/index.d.ts
+dist/components/Spinner/index.js
+dist/components/Spinner/index.js.map
 dist/components/Text/index.d.ts
 dist/components/Text/index.js
 dist/components/Text/index.js.map

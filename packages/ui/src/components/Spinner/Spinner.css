@@ -1,0 +1,40 @@
+/* Spinner — 값은 전부 토큰 변수만 참조한다 (전역 규칙 12) */
+
+@layer ui.components {
+  .ui-spinner {
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: var(--ui-radius-full);
+    border: 2px solid var(--ui-color-border-default);
+    border-top-color: var(--ui-color-primary-default);
+    animation: ui-spinner-rotate 0.8s linear infinite;
+  }
+
+  .ui-spinner[data-size="sm"] {
+    width: var(--ui-spacing-3);
+    height: var(--ui-spacing-3);
+  }
+
+  .ui-spinner[data-size="md"] {
+    width: var(--ui-spacing-4);
+    height: var(--ui-spacing-4);
+  }
+
+  .ui-spinner[data-size="lg"] {
+    width: var(--ui-spacing-6);
+    height: var(--ui-spacing-6);
+    border-width: 3px;
+  }
+
+  @keyframes ui-spinner-rotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ui-spinner {
+      animation-duration: 1.6s;
+    }
+  }
+}

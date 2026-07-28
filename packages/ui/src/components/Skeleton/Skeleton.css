@@ -1,0 +1,37 @@
+/* Skeleton — 값은 전부 토큰 변수만 참조한다 (전역 규칙 12) */
+
+@layer ui.components {
+  .ui-skeleton {
+    background: var(--ui-color-bg-muted);
+    animation: ui-skeleton-pulse var(--ui-duration-slow) var(--ui-easing-standard) infinite
+      alternate;
+  }
+
+  .ui-skeleton[data-variant="text"] {
+    height: 1em;
+    border-radius: var(--ui-radius-sm);
+  }
+
+  .ui-skeleton[data-variant="rect"] {
+    border-radius: var(--ui-radius-md);
+  }
+
+  .ui-skeleton[data-variant="circle"] {
+    border-radius: var(--ui-radius-full);
+  }
+
+  @keyframes ui-skeleton-pulse {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.45;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ui-skeleton {
+      animation: none;
+    }
+  }
+}
