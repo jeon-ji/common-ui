@@ -4,6 +4,7 @@ import { Layout } from "./layout/Layout";
 import { IconPage } from "./pages/components/IconPage";
 import { PortalPage } from "./pages/components/PortalPage";
 import { SamplePage } from "./pages/components/SamplePage";
+import { TextPage } from "./pages/components/TextPage";
 import { Colors } from "./pages/foundation/Colors";
 import { Spacing } from "./pages/foundation/Spacing";
 import { Typography } from "./pages/foundation/Typography";
@@ -26,6 +27,7 @@ export function App() {
         <Route path="/components/icon" element={<IconPage />} />
         <Route path="/components/portal" element={<PortalPage />} />
         <Route path="/components/sample" element={<SamplePage />} />
+        <Route path="/components/text" element={<TextPage />} />
         <Route
           path="*"
           element={

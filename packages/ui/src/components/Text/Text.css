@@ -1,0 +1,78 @@
+/* Text / Heading — 값은 전부 토큰 변수만 참조한다 (전역 규칙 12) */
+
+@layer ui.components {
+  .ui-text {
+    margin: 0;
+    font-family: var(--ui-font-sans);
+  }
+
+  .ui-text[data-variant="display"] {
+    font-size: var(--ui-text-display-size);
+    line-height: var(--ui-text-display-line-height);
+    font-weight: var(--ui-text-display-weight);
+  }
+
+  .ui-text[data-variant="h1"] {
+    font-size: var(--ui-text-h1-size);
+    line-height: var(--ui-text-h1-line-height);
+    font-weight: var(--ui-text-h1-weight);
+  }
+
+  .ui-text[data-variant="h2"] {
+    font-size: var(--ui-text-h2-size);
+    line-height: var(--ui-text-h2-line-height);
+    font-weight: var(--ui-text-h2-weight);
+  }
+
+  .ui-text[data-variant="h3"] {
+    font-size: var(--ui-text-h3-size);
+    line-height: var(--ui-text-h3-line-height);
+    font-weight: var(--ui-text-h3-weight);
+  }
+
+  .ui-text[data-variant="body1"] {
+    font-size: var(--ui-text-body1-size);
+    line-height: var(--ui-text-body1-line-height);
+    font-weight: var(--ui-text-body1-weight);
+  }
+
+  .ui-text[data-variant="body2"] {
+    font-size: var(--ui-text-body2-size);
+    line-height: var(--ui-text-body2-line-height);
+    font-weight: var(--ui-text-body2-weight);
+  }
+
+  .ui-text[data-variant="caption"] {
+    font-size: var(--ui-text-caption-size);
+    line-height: var(--ui-text-caption-line-height);
+    font-weight: var(--ui-text-caption-weight);
+    color: var(--ui-color-text-secondary);
+  }
+
+  .ui-text[data-variant="code"] {
+    font-family: var(--ui-font-mono);
+    font-size: var(--ui-text-code-size);
+    line-height: var(--ui-text-code-line-height);
+    font-weight: var(--ui-text-code-weight);
+    background: var(--ui-color-bg-muted);
+    border-radius: var(--ui-radius-sm);
+    padding: 0 var(--ui-spacing-1);
+  }
+
+  /* 1줄 말줄임 — inline 요소로는 동작하지 않으므로 block으로 강제 */
+  .ui-text[data-ellipsis] {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* n줄 말줄임 — 줄 수는 인라인 커스텀 프로퍼티로 주입된다 */
+  .ui-text[data-line-clamp] {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--ui-text-line-clamp);
+    line-clamp: var(--ui-text-line-clamp);
+    overflow: hidden;
+  }
+}

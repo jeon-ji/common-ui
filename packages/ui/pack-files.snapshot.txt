@@ -7,6 +7,12 @@ dist/components/Portal/index.js.map
 dist/components/Sample/index.d.ts
 dist/components/Sample/index.js
 dist/components/Sample/index.js.map
+dist/components/Text/index.d.ts
+dist/components/Text/index.js
+dist/components/Text/index.js.map
+dist/components/Text/useTruncationOverflow.d.ts
+dist/components/Text/useTruncationOverflow.js
+dist/components/Text/useTruncationOverflow.js.map
 dist/components/index.d.ts
 dist/components/index.js
 dist/hooks/index.d.ts
@@ -42,6 +48,9 @@ dist/icons/svg/x-circle.js
 dist/icons/svg/x-circle.js.map
 dist/index.d.ts
 dist/index.js
+dist/internal/composeRefs.d.ts
+dist/internal/composeRefs.js
+dist/internal/composeRefs.js.map
 dist/style.css
 dist/tailwind-preset.css
 dist/tokens/color.d.ts

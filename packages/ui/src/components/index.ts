@@ -6,3 +6,4 @@
 export { createIcon, type IconComponent, type IconProps } from "./Icon/index.js";
 export { Portal, type PortalProps } from "./Portal/index.js";
 export { Sample, type SampleProps } from "./Sample/index.js";
+export { Heading, type HeadingProps, Text, type TextProps } from "./Text/index.js";
