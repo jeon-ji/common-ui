@@ -1,3 +1,6 @@
+dist/components/Sample/index.d.ts
+dist/components/Sample/index.js
+dist/components/Sample/index.js.map
 dist/components/index.d.ts
 dist/components/index.js
 dist/hooks/index.d.ts

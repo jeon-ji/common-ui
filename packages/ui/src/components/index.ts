@@ -3,4 +3,4 @@
  * 내부 모듈은 이 배럴을 역참조하지 않는다. 항상 직접 경로로 import 한다 (전역 규칙 17).
  */
 
-export {};
+export { Sample, type SampleProps } from "./Sample/index.js";

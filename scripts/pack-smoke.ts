@@ -149,15 +149,14 @@ await import("@jeon-ji/common-ui/tokens");
 
 const { createElement } = await import("react");
 const { createRoot } = await import("react-dom/client");
+const { Sample } = await import("@jeon-ji/common-ui/components");
 
-// 대표 컴포넌트 렌더 대상 — Sample 컴포넌트가 들어오면 교체한다
-const representative = createElement("div", null, "smoke");
-
+// 대표 컴포넌트 렌더 — 설치된 배포물의 컴포넌트가 실제로 동작하는지 확인
 const container = dom.window.document.getElementById("root");
-createRoot(container).render(representative);
+createRoot(container).render(createElement(Sample, { tone: "primary" }, "smoke"));
 await new Promise((resolve) => setTimeout(resolve, 50));
 
-if (!container.innerHTML.includes("smoke")) {
+if (!container.innerHTML.includes("smoke") || !container.innerHTML.includes("ui-sample")) {
   throw new Error("렌더 결과가 비어 있다: " + container.innerHTML);
 }
 console.error("  렌더 OK: " + container.innerHTML);
@@ -174,6 +173,9 @@ console.error("  렌더 OK: " + container.innerHTML);
   if (css.trim().length === 0) fail("dist/style.css가 비어 있다");
   if (!css.includes("--ui-color-") || !css.includes('[data-theme="dark"]')) {
     fail("dist/style.css에 토큰 CSS 변수(--ui-color-)나 다크 테마 블록이 없다 (리뷰 C2 유형)");
+  }
+  if (!css.includes(".ui-sample")) {
+    fail("dist/style.css에 컴포넌트 CSS(.ui-sample)가 없다 — 그래프 밖 CSS (리뷰 C2 유형)");
   }
   const preset = path.join(
     tempDir,

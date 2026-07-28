@@ -1,0 +1,20 @@
+/* Sample — 값은 전부 토큰 변수만 참조한다 (전역 규칙 12) */
+
+@layer ui.components {
+  .ui-sample {
+    padding: var(--ui-spacing-4);
+    border: 1px solid var(--ui-color-border-default);
+    border-radius: var(--ui-radius-md);
+    background: var(--ui-color-bg-subtle);
+    color: var(--ui-color-text-primary);
+    font-family: var(--ui-font-sans);
+    font-size: var(--ui-text-body2-size);
+    line-height: var(--ui-text-body2-line-height);
+  }
+
+  .ui-sample[data-tone="primary"] {
+    border-color: var(--ui-color-primary-default);
+    background: var(--ui-color-primary-subtle);
+    color: var(--ui-color-primary-default);
+  }
+}
