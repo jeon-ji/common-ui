@@ -1,0 +1,86 @@
+/* Tag — tone이 로컬 변수를 정하고 variant가 소비한다 (Button과 같은 구조) */
+
+@layer ui.components {
+  .ui-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ui-spacing-1);
+    height: var(--ui-spacing-6);
+    padding: 0 var(--ui-spacing-2);
+    font-family: var(--ui-font-sans);
+    font-size: var(--ui-text-caption-size);
+    font-weight: 500;
+    border: 1px solid transparent;
+    border-radius: var(--ui-radius-sm);
+    white-space: nowrap;
+  }
+
+  .ui-tag[data-tone="neutral"] {
+    --tag-fg: var(--ui-color-text-primary);
+    --tag-bg: var(--ui-color-bg-muted);
+    --tag-border: var(--ui-color-border-strong);
+  }
+
+  .ui-tag[data-tone="primary"] {
+    --tag-fg: var(--ui-color-primary-default);
+    --tag-bg: var(--ui-color-primary-subtle);
+    --tag-border: var(--ui-color-primary-default);
+  }
+
+  .ui-tag[data-tone="success"] {
+    --tag-fg: var(--ui-color-success-text);
+    --tag-bg: var(--ui-color-success-subtle);
+    --tag-border: var(--ui-color-success-default);
+  }
+
+  .ui-tag[data-tone="warning"] {
+    --tag-fg: var(--ui-color-warning-text);
+    --tag-bg: var(--ui-color-warning-subtle);
+    --tag-border: var(--ui-color-warning-default);
+  }
+
+  .ui-tag[data-tone="danger"] {
+    --tag-fg: var(--ui-color-danger-text);
+    --tag-bg: var(--ui-color-danger-subtle);
+    --tag-border: var(--ui-color-danger-default);
+  }
+
+  .ui-tag[data-tone="info"] {
+    --tag-fg: var(--ui-color-info-text);
+    --tag-bg: var(--ui-color-info-subtle);
+    --tag-border: var(--ui-color-info-default);
+  }
+
+  .ui-tag[data-variant="subtle"] {
+    color: var(--tag-fg);
+    background: var(--tag-bg);
+  }
+
+  .ui-tag[data-variant="outline"] {
+    color: var(--tag-fg);
+    background: transparent;
+    border-color: var(--tag-border);
+  }
+
+  .ui-tag-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: calc(-1 * var(--ui-spacing-0_5));
+    padding: var(--ui-spacing-0_5);
+    color: inherit;
+    background: none;
+    border: none;
+    border-radius: var(--ui-radius-sm);
+    cursor: pointer;
+  }
+
+  .ui-tag-close:hover {
+    background: color-mix(in srgb, currentColor 12%, transparent);
+  }
+
+  .ui-tag-close:focus-visible {
+    outline: 2px solid var(--tag-fg);
+    outline-offset: 1px;
+  }
+}

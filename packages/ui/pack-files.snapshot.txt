@@ -46,6 +46,9 @@ dist/components/Spinner/index.js.map
 dist/components/Switch/index.d.ts
 dist/components/Switch/index.js
 dist/components/Switch/index.js.map
+dist/components/Tag/index.d.ts
+dist/components/Tag/index.js
+dist/components/Tag/index.js.map
 dist/components/Text/index.d.ts
 dist/components/Text/index.js
 dist/components/Text/index.js.map
