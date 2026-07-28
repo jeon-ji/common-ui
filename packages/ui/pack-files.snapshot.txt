@@ -1,3 +1,6 @@
+dist/components/Badge/index.d.ts
+dist/components/Badge/index.js
+dist/components/Badge/index.js.map
 dist/components/Button/index.d.ts
 dist/components/Button/index.js
 dist/components/Button/index.js.map

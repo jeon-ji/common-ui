@@ -3,6 +3,7 @@
  * 내부 모듈은 이 배럴을 역참조하지 않는다. 항상 직접 경로로 import 한다 (전역 규칙 17).
  */
 
+export { Badge, type BadgeProps } from "./Badge/index.js";
 export { Button, type ButtonProps } from "./Button/index.js";
 export { Checkbox, type CheckboxProps } from "./Checkbox/index.js";
 export { ConfirmModal, type ConfirmModalProps } from "./ConfirmModal/index.js";

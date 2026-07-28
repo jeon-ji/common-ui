@@ -52,6 +52,7 @@ export const docGroups: readonly DocGroup[] = [
     base: "/components",
     // M2에서 05 문서의 필수 컴포넌트가 순서대로 채워진다
     entries: [
+      { slug: "badge", title: "Badge" },
       { slug: "button", title: "Button" },
       { slug: "checkbox", title: "Checkbox" },
       { slug: "confirm-modal", title: "ConfirmModal" },
