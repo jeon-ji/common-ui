@@ -48,6 +48,9 @@ jobs:
       - name: Validate tokens (드리프트 게이트 포함)
         run: pnpm validate:tokens
 
+      - name: Check docs pages (데모 없는 머지 금지)
+        run: pnpm check:docs
+
       - name: Test
         run: pnpm test
 

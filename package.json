@@ -11,12 +11,13 @@
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "pnpm --filter @jeon-ji/common-ui test",
+    "test": "pnpm -r test",
     "verify:pkg": "publint --strict packages/ui && attw --pack packages/ui --profile esm-only --exclude-entrypoints ./styles.css ./tailwind-preset.css",
     "smoke:pack": "tsx scripts/pack-smoke.ts",
     "build:tokens": "tsx scripts/build-tokens.ts",
     "validate:tokens": "tsx scripts/validate-tokens.ts",
-    "prepare": "git config core.hooksPath .githooks"
+    "prepare": "git config core.hooksPath .githooks",
+    "check:docs": "tsx scripts/check-docs-pages.ts"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
