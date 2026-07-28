@@ -24,6 +24,10 @@
   --color-primary-hover: var(--ui-color-primary-hover);
   --color-primary-active: var(--ui-color-primary-active);
   --color-primary-subtle: var(--ui-color-primary-subtle);
+  --color-neutral-default: var(--ui-color-neutral-default);
+  --color-neutral-hover: var(--ui-color-neutral-hover);
+  --color-neutral-active: var(--ui-color-neutral-active);
+  --color-neutral-subtle: var(--ui-color-neutral-subtle);
   --color-danger-default: var(--ui-color-danger-default);
   --color-danger-hover: var(--ui-color-danger-hover);
   --color-danger-subtle: var(--ui-color-danger-subtle);

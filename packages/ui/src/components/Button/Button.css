@@ -1,0 +1,137 @@
+/*
+ * Button — 값은 전부 토큰 변수만 참조한다 (전역 규칙 12).
+ * tone이 버튼 로컬 변수(--btn-*)를 정하고 variant가 그것을 소비한다 —
+ * 3×3 조합을 분기 없이 표현하는 구조 (중첩 삼항 금지의 CSS판).
+ */
+
+@layer ui.components {
+  .ui-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--ui-font-sans);
+    font-weight: 500;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition:
+      background-color var(--ui-duration-fast) var(--ui-easing-standard),
+      border-color var(--ui-duration-fast) var(--ui-easing-standard),
+      color var(--ui-duration-fast) var(--ui-easing-standard);
+  }
+
+  /* ── tone → 로컬 변수 ─────────────────────────────────────────────────── */
+
+  .ui-button[data-tone="primary"] {
+    --btn-accent: var(--ui-color-primary-default);
+    --btn-accent-hover: var(--ui-color-primary-hover);
+    --btn-accent-active: var(--ui-color-primary-active);
+    --btn-subtle: var(--ui-color-primary-subtle);
+  }
+
+  .ui-button[data-tone="neutral"] {
+    --btn-accent: var(--ui-color-neutral-default);
+    --btn-accent-hover: var(--ui-color-neutral-hover);
+    --btn-accent-active: var(--ui-color-neutral-active);
+    --btn-subtle: var(--ui-color-neutral-subtle);
+  }
+
+  .ui-button[data-tone="danger"] {
+    --btn-accent: var(--ui-color-danger-default);
+    --btn-accent-hover: var(--ui-color-danger-hover);
+    --btn-accent-active: var(--ui-color-danger-hover);
+    --btn-subtle: var(--ui-color-danger-subtle);
+  }
+
+  /* ── variant → 변수 소비 ──────────────────────────────────────────────── */
+
+  .ui-button[data-variant="solid"] {
+    background: var(--btn-accent);
+    color: var(--ui-color-text-inverse);
+  }
+
+  .ui-button[data-variant="solid"]:hover:not(:disabled) {
+    background: var(--btn-accent-hover);
+  }
+
+  .ui-button[data-variant="solid"]:active:not(:disabled) {
+    background: var(--btn-accent-active);
+  }
+
+  .ui-button[data-variant="outline"] {
+    background: transparent;
+    color: var(--btn-accent);
+    border-color: var(--ui-color-border-strong);
+  }
+
+  .ui-button[data-variant="outline"][data-tone="primary"],
+  .ui-button[data-variant="outline"][data-tone="danger"] {
+    border-color: var(--btn-accent);
+  }
+
+  .ui-button[data-variant="outline"]:hover:not(:disabled),
+  .ui-button[data-variant="ghost"]:hover:not(:disabled) {
+    background: var(--btn-subtle);
+  }
+
+  .ui-button[data-variant="ghost"] {
+    background: transparent;
+    color: var(--btn-accent);
+  }
+
+  .ui-button[data-variant="outline"][data-tone="neutral"],
+  .ui-button[data-variant="ghost"][data-tone="neutral"] {
+    color: var(--ui-color-text-primary);
+  }
+
+  /* ── size (Record 룩업의 CSS판 — 분기 없음) ───────────────────────────── */
+
+  .ui-button[data-size="sm"] {
+    height: var(--ui-spacing-8);
+    padding: 0 var(--ui-spacing-3);
+    gap: var(--ui-spacing-1_5);
+    font-size: var(--ui-text-body2-size);
+    border-radius: var(--ui-radius-sm);
+  }
+
+  .ui-button[data-size="md"] {
+    height: var(--ui-spacing-10);
+    padding: 0 var(--ui-spacing-4);
+    gap: var(--ui-spacing-2);
+    font-size: var(--ui-text-body2-size);
+    border-radius: var(--ui-radius-md);
+  }
+
+  .ui-button[data-size="lg"] {
+    height: var(--ui-spacing-12);
+    padding: 0 var(--ui-spacing-5);
+    gap: var(--ui-spacing-2);
+    font-size: var(--ui-text-body1-size);
+    border-radius: var(--ui-radius-md);
+  }
+
+  /* ── 상태 ─────────────────────────────────────────────────────────────── */
+
+  .ui-button:focus-visible {
+    outline: 2px solid var(--btn-accent);
+    outline-offset: 2px;
+  }
+
+  .ui-button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .ui-button[data-loading] {
+    cursor: wait;
+  }
+
+  .ui-button[data-full-width] {
+    width: 100%;
+  }
+
+  /* 버튼 안 Spinner는 현재 글자색을 따른다 (solid 위에서도 보이도록) */
+  .ui-button .ui-spinner {
+    border-color: color-mix(in srgb, currentColor 30%, transparent);
+    border-top-color: currentColor;
+  }
+}

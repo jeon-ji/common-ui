@@ -43,6 +43,7 @@ export const docGroups: readonly DocGroup[] = [
     base: "/components",
     // M2에서 05 문서의 필수 컴포넌트가 순서대로 채워진다
     entries: [
+      { slug: "button", title: "Button" },
       { slug: "icon", title: "Icon" },
       { slug: "portal", title: "Portal" },
       { slug: "sample", title: "Sample" },

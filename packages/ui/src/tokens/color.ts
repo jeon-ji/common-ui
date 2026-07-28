@@ -121,6 +121,14 @@ export const semanticColor = {
     active: { light: palette.brand[800], dark: palette.brand[300] },
     subtle: { light: palette.brand[50], dark: palette.brand[900] },
   },
+  // 무채색 인터랙션 스케일 — Button tone="neutral" 등이 소비한다.
+  // solid 배경으로 쓰일 때 글자색은 text.inverse와 짝이 맞는다 (light: 진한 회색↔흰 글자).
+  neutral: {
+    default: { light: palette.gray[700], dark: palette.gray[300] },
+    hover: { light: palette.gray[800], dark: palette.gray[200] },
+    active: { light: palette.gray[900], dark: palette.gray[100] },
+    subtle: { light: palette.gray[100], dark: palette.gray[800] },
+  },
   danger: {
     default: { light: palette.red[600], dark: palette.red[500] },
     hover: { light: palette.red[700], dark: palette.red[400] },

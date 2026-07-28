@@ -18,6 +18,10 @@
     --ui-color-primary-hover: #4338ca;
     --ui-color-primary-active: #3730a3;
     --ui-color-primary-subtle: #eef2ff;
+    --ui-color-neutral-default: #374151;
+    --ui-color-neutral-hover: #1f2937;
+    --ui-color-neutral-active: #111827;
+    --ui-color-neutral-subtle: #f3f4f6;
     --ui-color-danger-default: #dc2626;
     --ui-color-danger-hover: #b91c1c;
     --ui-color-danger-subtle: #fef2f2;
@@ -112,6 +116,10 @@
     --ui-color-primary-hover: #818cf8;
     --ui-color-primary-active: #a5b4fc;
     --ui-color-primary-subtle: #312e81;
+    --ui-color-neutral-default: #d1d5db;
+    --ui-color-neutral-hover: #e5e7eb;
+    --ui-color-neutral-active: #f3f4f6;
+    --ui-color-neutral-subtle: #1f2937;
     --ui-color-danger-default: #ef4444;
     --ui-color-danger-hover: #f87171;
     --ui-color-danger-subtle: #7f1d1d;
