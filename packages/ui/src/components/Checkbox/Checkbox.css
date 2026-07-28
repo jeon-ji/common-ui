@@ -1,0 +1,86 @@
+/* Checkbox — 체크 표시는 CSS로만 그린다 (외부 파일 참조 금지, 리뷰 C1) */
+
+@layer ui.components {
+  .ui-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ui-spacing-2);
+    font-family: var(--ui-font-sans);
+    font-size: var(--ui-text-body2-size);
+    color: var(--ui-color-text-primary);
+    cursor: pointer;
+  }
+
+  .ui-checkbox[data-disabled] {
+    color: var(--ui-color-text-disabled);
+    cursor: not-allowed;
+  }
+
+  /* 네이티브 input은 시각적으로만 숨긴다 — 포커스·키보드·폼 제출은 그대로 동작 */
+  .ui-checkbox-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .ui-checkbox-box {
+    position: relative;
+    width: var(--ui-spacing-4);
+    height: var(--ui-spacing-4);
+    flex: none;
+    background: var(--ui-color-bg-default);
+    border: 1px solid var(--ui-color-border-strong);
+    border-radius: var(--ui-radius-sm);
+    transition:
+      background-color var(--ui-duration-fast) var(--ui-easing-standard),
+      border-color var(--ui-duration-fast) var(--ui-easing-standard);
+  }
+
+  .ui-checkbox-input:checked + .ui-checkbox-box,
+  .ui-checkbox-box[data-indeterminate] {
+    background: var(--ui-color-primary-default);
+    border-color: var(--ui-color-primary-default);
+  }
+
+  /* 체크 표시 — 회전한 테두리 두 변 */
+  .ui-checkbox-input:checked + .ui-checkbox-box:not([data-indeterminate])::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 5px;
+    height: 9px;
+    border: solid var(--ui-color-text-inverse);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  /* 부분 선택 — 수평 바 */
+  .ui-checkbox-box[data-indeterminate]::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 6px;
+    width: 8px;
+    height: 2px;
+    background: var(--ui-color-text-inverse);
+  }
+
+  .ui-checkbox-input:focus-visible + .ui-checkbox-box {
+    outline: 2px solid var(--ui-color-primary-default);
+    outline-offset: 2px;
+  }
+
+  .ui-checkbox-input:disabled + .ui-checkbox-box {
+    background: var(--ui-color-bg-muted);
+    border-color: var(--ui-color-border-default);
+  }
+
+  .ui-checkbox-input:disabled:checked + .ui-checkbox-box {
+    background: var(--ui-color-text-disabled);
+    border-color: var(--ui-color-text-disabled);
+  }
+}

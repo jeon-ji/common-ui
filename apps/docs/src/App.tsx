@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router";
 
 import { Layout } from "./layout/Layout";
 import { ButtonPage } from "./pages/components/ButtonPage";
+import { CheckboxPage } from "./pages/components/CheckboxPage";
 import { FieldPage } from "./pages/components/FieldPage";
 import { IconButtonPage } from "./pages/components/IconButtonPage";
 import { IconPage } from "./pages/components/IconPage";
@@ -35,6 +36,7 @@ export function App() {
         <Route path="/foundation/z-index" element={<ZIndex />} />
         <Route path="/hooks/use-controllable-state" element={<UseControllableStatePage />} />
         <Route path="/components/button" element={<ButtonPage />} />
+        <Route path="/components/checkbox" element={<CheckboxPage />} />
         <Route path="/components/field" element={<FieldPage />} />
         <Route path="/components/icon" element={<IconPage />} />
         <Route path="/components/icon-button" element={<IconButtonPage />} />
