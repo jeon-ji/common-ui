@@ -45,6 +45,9 @@ jobs:
       - name: Format check
         run: pnpm format:check
 
+      - name: Validate tokens (드리프트 게이트 포함)
+        run: pnpm validate:tokens
+
       - name: Test
         run: pnpm test
 

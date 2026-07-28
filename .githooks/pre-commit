@@ -1,0 +1,3 @@
+#!/bin/sh
+# 토큰 검증 + 생성물 드리프트 게이트 (03 문서 §4)
+pnpm validate:tokens

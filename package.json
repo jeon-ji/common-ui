@@ -14,7 +14,9 @@
     "test": "pnpm --filter @jeon-ji/common-ui test",
     "verify:pkg": "publint --strict packages/ui && attw --pack packages/ui --profile esm-only --exclude-entrypoints ./styles.css ./tailwind-preset.css",
     "smoke:pack": "tsx scripts/pack-smoke.ts",
-    "build:tokens": "tsx scripts/build-tokens.ts"
+    "build:tokens": "tsx scripts/build-tokens.ts",
+    "validate:tokens": "tsx scripts/validate-tokens.ts",
+    "prepare": "git config core.hooksPath .githooks"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",

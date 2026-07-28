@@ -3,3 +3,5 @@ coverage
 pnpm-lock.yaml
 .omc
 docs/personal_plan
+packages/ui/src/styles/tokens.css
+packages/ui/src/styles/tailwind-preset.css
