@@ -5,6 +5,7 @@ import { ButtonPage } from "./pages/components/ButtonPage";
 import { FieldPage } from "./pages/components/FieldPage";
 import { IconButtonPage } from "./pages/components/IconButtonPage";
 import { IconPage } from "./pages/components/IconPage";
+import { NumberFieldPage } from "./pages/components/NumberFieldPage";
 import { PortalPage } from "./pages/components/PortalPage";
 import { SamplePage } from "./pages/components/SamplePage";
 import { SkeletonPage } from "./pages/components/SkeletonPage";
@@ -36,6 +37,7 @@ export function App() {
         <Route path="/components/field" element={<FieldPage />} />
         <Route path="/components/icon" element={<IconPage />} />
         <Route path="/components/icon-button" element={<IconButtonPage />} />
+        <Route path="/components/number-field" element={<NumberFieldPage />} />
         <Route path="/components/portal" element={<PortalPage />} />
         <Route path="/components/sample" element={<SamplePage />} />
         <Route path="/components/skeleton" element={<SkeletonPage />} />
