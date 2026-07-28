@@ -12,5 +12,5 @@
       "@jeon-ji/common-ui/styles.css": ["../../packages/ui/src/styles/index.css"]
     }
   },
-  "include": ["src", "vite.config.ts"]
+  "include": ["src", "vite.config.ts", "plugins"]
 }

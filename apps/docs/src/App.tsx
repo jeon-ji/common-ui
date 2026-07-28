@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router";
 
 import { Layout } from "./layout/Layout";
+import { DemoBlockDev } from "./pages/dev/DemoBlockDev";
 import { Home } from "./pages/Home";
 
 export function App() {
@@ -8,6 +9,7 @@ export function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/dev/demo-block" element={<DemoBlockDev />} />
         <Route
           path="*"
           element={

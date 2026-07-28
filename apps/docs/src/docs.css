@@ -240,3 +240,83 @@ body {
     display: none;
   }
 }
+
+/* ── 데모 블록 ───────────────────────────────────────────────────────────── */
+
+.docs-demo {
+  border: 1px solid var(--ui-color-border-default);
+  border-radius: var(--ui-radius-lg);
+  margin: var(--ui-spacing-4) 0 var(--ui-spacing-6);
+  overflow: hidden;
+}
+
+.docs-demo-preview {
+  padding: var(--ui-spacing-8) var(--ui-spacing-6);
+  background: var(--ui-color-bg-default);
+}
+
+.docs-demo-meta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--ui-spacing-3);
+  padding: var(--ui-spacing-3) var(--ui-spacing-4);
+  border-top: 1px solid var(--ui-color-border-default);
+  font-size: var(--ui-text-body2-size);
+}
+
+.docs-demo-description {
+  color: var(--ui-color-text-secondary);
+}
+
+.docs-demo-actions {
+  display: flex;
+  gap: var(--ui-spacing-2);
+  padding: 0 var(--ui-spacing-4) var(--ui-spacing-3);
+}
+
+.docs-demo-code {
+  margin: 0;
+  padding: var(--ui-spacing-4);
+  border-top: 1px solid var(--ui-color-border-default);
+  background: var(--ui-color-bg-subtle);
+  font-family: var(--ui-font-mono);
+  font-size: var(--ui-text-code-size);
+  line-height: var(--ui-text-code-line-height);
+  overflow-x: auto;
+}
+
+/* ── Props 표 ────────────────────────────────────────────────────────────── */
+
+.docs-props-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--ui-text-body2-size);
+  margin: var(--ui-spacing-3) 0 var(--ui-spacing-6);
+}
+
+.docs-props-table th,
+.docs-props-table td {
+  text-align: left;
+  padding: var(--ui-spacing-2) var(--ui-spacing-3);
+  border-bottom: 1px solid var(--ui-color-border-default);
+  vertical-align: top;
+}
+
+.docs-props-table th {
+  color: var(--ui-color-text-secondary);
+  font-weight: 600;
+}
+
+.docs-props-table code {
+  font-family: var(--ui-font-mono);
+  font-size: var(--ui-text-caption-size);
+  background: var(--ui-color-bg-muted);
+  padding: 0 var(--ui-spacing-1);
+  border-radius: var(--ui-radius-sm);
+}
+
+.docs-required {
+  color: var(--ui-color-danger-default);
+  margin-left: var(--ui-spacing-0_5);
+  font-style: normal;
+}

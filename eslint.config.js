@@ -54,6 +54,18 @@ export default defineConfig(
 
       // 배럴 역참조 구조 차단 (전역 규칙 17 / 리뷰 A1)
       "import-x/no-cycle": ["error", { maxDepth: Infinity, ignoreExternal: true }],
+
+      // TS가 이미 export 형태를 검증한다 — 이 규칙은 vite 쿼리 import(?raw/?docgen/?react)를
+      // 실파일로 해석해 오탐만 낸다
+      "import-x/default": "off",
+    },
+  },
+
+  // 데모 페이지는 같은 파일을 렌더용 + ?raw 소스용으로 두 번 import 하는 것이 표준 패턴
+  {
+    files: ["apps/docs/**/*.{ts,tsx}"],
+    rules: {
+      "import-x/no-duplicates": "off",
     },
   },
 
