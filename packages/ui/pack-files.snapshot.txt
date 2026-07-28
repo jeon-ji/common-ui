@@ -4,6 +4,9 @@ dist/components/Button/index.js.map
 dist/components/Icon/index.d.ts
 dist/components/Icon/index.js
 dist/components/Icon/index.js.map
+dist/components/IconButton/index.d.ts
+dist/components/IconButton/index.js
+dist/components/IconButton/index.js.map
 dist/components/Portal/index.d.ts
 dist/components/Portal/index.js
 dist/components/Portal/index.js.map

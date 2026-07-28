@@ -5,6 +5,7 @@
 
 export { Button, type ButtonProps } from "./Button/index.js";
 export { createIcon, type IconComponent, type IconProps } from "./Icon/index.js";
+export { IconButton, type IconButtonProps } from "./IconButton/index.js";
 export { Portal, type PortalProps } from "./Portal/index.js";
 export { Sample, type SampleProps } from "./Sample/index.js";
 export { Skeleton, type SkeletonProps } from "./Skeleton/index.js";
