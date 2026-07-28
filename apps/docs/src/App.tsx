@@ -26,6 +26,7 @@ import { Usage } from "./pages/guide/Usage";
 import { Home } from "./pages/Home";
 import { UseClickOutsidePage } from "./pages/hooks/UseClickOutsidePage";
 import { UseControllableStatePage } from "./pages/hooks/UseControllableStatePage";
+import { UseDisclosurePage } from "./pages/hooks/UseDisclosurePage";
 
 export function App() {
   return (
@@ -40,6 +41,7 @@ export function App() {
         <Route path="/foundation/z-index" element={<ZIndex />} />
         <Route path="/hooks/use-click-outside" element={<UseClickOutsidePage />} />
         <Route path="/hooks/use-controllable-state" element={<UseControllableStatePage />} />
+        <Route path="/hooks/use-disclosure" element={<UseDisclosurePage />} />
         <Route path="/components/button" element={<ButtonPage />} />
         <Route path="/components/checkbox" element={<CheckboxPage />} />
         <Route path="/components/field" element={<FieldPage />} />

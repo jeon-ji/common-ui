@@ -59,6 +59,9 @@ dist/hooks/useClickOutside.js.map
 dist/hooks/useControllableState.d.ts
 dist/hooks/useControllableState.js
 dist/hooks/useControllableState.js.map
+dist/hooks/useDisclosure.d.ts
+dist/hooks/useDisclosure.js
+dist/hooks/useDisclosure.js.map
 dist/icons/index.d.ts
 dist/icons/index.js
 dist/icons/index.js.map

@@ -2,3 +2,8 @@
 
 export { useClickOutside } from "./useClickOutside.js";
 export { useControllableState, type UseControllableStateOptions } from "./useControllableState.js";
+export {
+  useDisclosure,
+  type UseDisclosureOptions,
+  type UseDisclosureReturn,
+} from "./useDisclosure.js";
