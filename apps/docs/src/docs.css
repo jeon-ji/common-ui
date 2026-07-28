@@ -1,0 +1,12 @@
+/* 문서 사이트 자체 스타일 — 디자인 시스템 토큰만 참조한다 (dogfooding) */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--ui-font-sans);
+  background: var(--ui-color-bg-default);
+  color: var(--ui-color-text-primary);
+}

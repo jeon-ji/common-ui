@@ -54,6 +54,14 @@ export default defineConfig(
 
       // 배럴 역참조 구조 차단 (전역 규칙 17 / 리뷰 A1)
       "import-x/no-cycle": ["error", { maxDepth: Infinity, ignoreExternal: true }],
+    },
+  },
+
+  // 배럴·자기 패키지 역참조 금지는 packages/ui 내부에만 적용한다 —
+  // 문서 앱(apps/docs)은 소비자이므로 @jeon-ji/common-ui import가 정상이다.
+  {
+    files: ["packages/ui/src/**/*.{ts,tsx}"],
+    rules: {
       "no-restricted-imports": [
         "error",
         {
