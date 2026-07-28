@@ -8,6 +8,7 @@
     --ui-color-bg-default: #ffffff;
     --ui-color-bg-subtle: #f9fafb;
     --ui-color-bg-muted: #f3f4f6;
+    --ui-color-bg-overlay: #000000;
     --ui-color-text-primary: #111827;
     --ui-color-text-secondary: #4b5563;
     --ui-color-text-disabled: #9ca3af;
@@ -106,6 +107,7 @@
     --ui-color-bg-default: #111827;
     --ui-color-bg-subtle: #1f2937;
     --ui-color-bg-muted: #374151;
+    --ui-color-bg-overlay: #000000;
     --ui-color-text-primary: #f9fafb;
     --ui-color-text-secondary: #d1d5db;
     --ui-color-text-disabled: #4b5563;

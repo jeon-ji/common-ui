@@ -1,4 +1,4 @@
-import { type RefObject, useEffect } from "react";
+import { useEffect } from "react";
 
 const FOCUSABLE_SELECTOR = [
   "a[href]",
@@ -14,13 +14,14 @@ const FOCUSABLE_SELECTOR = [
  * 열릴 때 initial focus([data-autofocus] > 첫 포커서블 > 컨테이너)를 잡고
  * 닫힐 때 이전 포커스(트리거)로 복원한다 (리뷰 A8).
  *
+ * 컨테이너는 ref가 아니라 **요소 상태**로 받는다 — Portal 아래 콘텐츠는 이펙트
+ * 이후에야 마운트되므로, ref 객체로는 이펙트가 재실행될 계기가 없다.
+ * (콜백 ref → setState로 연결하면 마운트 시점에 이 이펙트가 다시 돈다)
  * 컨테이너 자체가 폴백 포커스를 받으려면 tabIndex={-1}이 있어야 한다.
  */
-export function useFocusTrap(ref: RefObject<HTMLElement | null>, active: boolean): void {
+export function useFocusTrap(container: HTMLElement | null, active: boolean): void {
   useEffect(() => {
-    if (!active) return;
-    const container = ref.current;
-    if (!container) return;
+    if (!active || !container) return;
 
     const previouslyFocused =
       document.activeElement instanceof HTMLElement ? document.activeElement : null;
@@ -59,5 +60,5 @@ export function useFocusTrap(ref: RefObject<HTMLElement | null>, active: boolean
       container.removeEventListener("keydown", onKeyDown);
       previouslyFocused?.focus(); // 트리거로 복원
     };
-  }, [ref, active]);
+  }, [container, active]);
 }

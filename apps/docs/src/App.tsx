@@ -6,6 +6,7 @@ import { CheckboxPage } from "./pages/components/CheckboxPage";
 import { FieldPage } from "./pages/components/FieldPage";
 import { IconButtonPage } from "./pages/components/IconButtonPage";
 import { IconPage } from "./pages/components/IconPage";
+import { ModalPage } from "./pages/components/ModalPage";
 import { NumberFieldPage } from "./pages/components/NumberFieldPage";
 import { PortalPage } from "./pages/components/PortalPage";
 import { RadioPage } from "./pages/components/RadioPage";
@@ -47,6 +48,7 @@ export function App() {
         <Route path="/components/field" element={<FieldPage />} />
         <Route path="/components/icon" element={<IconPage />} />
         <Route path="/components/icon-button" element={<IconButtonPage />} />
+        <Route path="/components/modal" element={<ModalPage />} />
         <Route path="/components/number-field" element={<NumberFieldPage />} />
         <Route path="/components/portal" element={<PortalPage />} />
         <Route path="/components/radio" element={<RadioPage />} />

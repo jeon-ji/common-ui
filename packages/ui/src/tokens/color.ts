@@ -104,6 +104,8 @@ export const semanticColor = {
     default: { light: paletteBase.white, dark: palette.gray[900] },
     subtle: { light: palette.gray[50], dark: palette.gray[800] },
     muted: { light: palette.gray[100], dark: palette.gray[700] },
+    // 오버레이 백드롭 원색 — 투명도는 CSS에서 color-mix로 조절한다
+    overlay: { light: paletteBase.black, dark: paletteBase.black },
   },
   text: {
     primary: { light: palette.gray[900], dark: palette.gray[50] },

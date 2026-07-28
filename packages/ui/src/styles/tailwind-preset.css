@@ -14,6 +14,7 @@
   --color-bg-default: var(--ui-color-bg-default);
   --color-bg-subtle: var(--ui-color-bg-subtle);
   --color-bg-muted: var(--ui-color-bg-muted);
+  --color-bg-overlay: var(--ui-color-bg-overlay);
   --color-text-primary: var(--ui-color-text-primary);
   --color-text-secondary: var(--ui-color-text-secondary);
   --color-text-disabled: var(--ui-color-text-disabled);

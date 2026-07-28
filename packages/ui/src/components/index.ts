@@ -8,6 +8,7 @@ export { Checkbox, type CheckboxProps } from "./Checkbox/index.js";
 export { Field, type FieldProps } from "./Field/index.js";
 export { createIcon, type IconComponent, type IconProps } from "./Icon/index.js";
 export { IconButton, type IconButtonProps } from "./IconButton/index.js";
+export { Modal, type ModalProps, OverlayProvider } from "./Modal/index.js";
 export { NumberField, type NumberFieldProps } from "./NumberField/index.js";
 export { Portal, type PortalProps } from "./Portal/index.js";
 export { Radio, RadioGroup, type RadioGroupProps, type RadioProps } from "./Radio/index.js";

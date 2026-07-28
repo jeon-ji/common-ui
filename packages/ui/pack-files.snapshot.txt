@@ -13,6 +13,9 @@ dist/components/Icon/index.js.map
 dist/components/IconButton/index.d.ts
 dist/components/IconButton/index.js
 dist/components/IconButton/index.js.map
+dist/components/Modal/index.d.ts
+dist/components/Modal/index.js
+dist/components/Modal/index.js.map
 dist/components/NumberField/index.d.ts
 dist/components/NumberField/index.js
 dist/components/NumberField/index.js.map
@@ -96,6 +99,15 @@ dist/index.js
 dist/internal/composeRefs.d.ts
 dist/internal/composeRefs.js
 dist/internal/composeRefs.js.map
+dist/internal/overlay/overlayStack.d.ts
+dist/internal/overlay/overlayStack.js
+dist/internal/overlay/overlayStack.js.map
+dist/internal/overlay/useFocusTrap.d.ts
+dist/internal/overlay/useFocusTrap.js
+dist/internal/overlay/useFocusTrap.js.map
+dist/internal/overlay/useScrollLock.d.ts
+dist/internal/overlay/useScrollLock.js
+dist/internal/overlay/useScrollLock.js.map
 dist/style.css
 dist/tailwind-preset.css
 dist/tokens/color.d.ts

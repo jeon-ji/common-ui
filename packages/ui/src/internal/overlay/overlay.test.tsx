@@ -1,6 +1,6 @@
 import { render, renderHook, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { expect, test, vi } from "vitest";
 
 import { OverlayProvider, useOverlayEscape } from "./overlayStack.js";
@@ -90,10 +90,10 @@ test("scroll lock: 카운팅 + 원래 값 복원", () => {
 // ── focus trap ───────────────────────────────────────────────────────────────
 
 function TrapHarness({ active }: { active: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
-  useFocusTrap(ref, active);
+  const [el, setEl] = useState<HTMLDivElement | null>(null);
+  useFocusTrap(el, active);
   return (
-    <div ref={ref} tabIndex={-1}>
+    <div ref={setEl} tabIndex={-1}>
       <button type="button">첫째</button>
       <button type="button">둘째</button>
     </div>
@@ -137,10 +137,10 @@ test("focus trap: initial focus + Tab 순환 + 트리거 복원", async () => {
 
 test("focus trap: [data-autofocus]가 있으면 그 요소가 initial focus", () => {
   function Harness() {
-    const ref = useRef<HTMLDivElement>(null);
-    useFocusTrap(ref, true);
+    const [el, setEl] = useState<HTMLDivElement | null>(null);
+    useFocusTrap(el, true);
     return (
-      <div ref={ref} tabIndex={-1}>
+      <div ref={setEl} tabIndex={-1}>
         <button type="button">먼저</button>
         <button type="button" data-autofocus>
           지정
