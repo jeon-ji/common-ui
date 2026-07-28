@@ -99,6 +99,7 @@
     --ui-z-overlay: 1300;
     --ui-z-modal: 1400;
     --ui-z-popover: 1500;
+    --ui-z-tooltip: 1600;
     --ui-z-toast: 1700;
   }
 

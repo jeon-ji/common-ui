@@ -15,6 +15,7 @@ export const zIndex = {
   overlay: 1300,
   modal: 1400,
   popover: 1500,
+  tooltip: 1600,
   toast: 1700,
 } as const satisfies Record<string, number>;
 

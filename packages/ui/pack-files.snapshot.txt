@@ -58,6 +58,9 @@ dist/components/Textarea/index.js.map
 dist/components/Toast/index.d.ts
 dist/components/Toast/index.js
 dist/components/Toast/index.js.map
+dist/components/Tooltip/index.d.ts
+dist/components/Tooltip/index.js
+dist/components/Tooltip/index.js.map
 dist/components/index.d.ts
 dist/components/index.js
 dist/hooks/index.d.ts

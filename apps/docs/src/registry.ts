@@ -69,6 +69,7 @@ export const docGroups: readonly DocGroup[] = [
       { slug: "switch", title: "Switch" },
       { slug: "text", title: "Text · Heading" },
       { slug: "toast", title: "Toast" },
+      { slug: "tooltip", title: "Tooltip" },
       { slug: "text-field", title: "TextField" },
       { slug: "textarea", title: "Textarea" },
     ],

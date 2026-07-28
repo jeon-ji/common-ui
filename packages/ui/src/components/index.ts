@@ -35,3 +35,4 @@ export {
   type ToastType,
   useToast,
 } from "./Toast/index.js";
+export { Tooltip, type TooltipProps } from "./Tooltip/index.js";
