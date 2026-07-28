@@ -1,0 +1,58 @@
+/* Toast — 값은 전부 토큰 변수만 참조한다 (전역 규칙 12) */
+
+@layer ui.components {
+  .ui-toast-region {
+    position: fixed;
+    top: var(--ui-spacing-4);
+    right: var(--ui-spacing-4);
+    z-index: var(--ui-z-toast);
+    display: flex;
+    flex-direction: column;
+    gap: var(--ui-spacing-2);
+    width: 320px;
+    max-width: calc(100vw - var(--ui-spacing-8));
+  }
+
+  .ui-toast {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--ui-spacing-2);
+    padding: var(--ui-spacing-3);
+    background: var(--ui-color-bg-default);
+    border: 1px solid var(--ui-color-border-default);
+    border-radius: var(--ui-radius-md);
+    box-shadow: var(--ui-shadow-lg);
+    font-family: var(--ui-font-sans);
+    font-size: var(--ui-text-body2-size);
+    line-height: var(--ui-text-body2-line-height);
+    color: var(--ui-color-text-primary);
+  }
+
+  .ui-toast-icon {
+    flex: none;
+    margin-top: var(--ui-spacing-0_5);
+  }
+
+  .ui-toast[data-type="success"] .ui-toast-icon {
+    color: var(--ui-color-success-default);
+  }
+
+  .ui-toast[data-type="warning"] .ui-toast-icon {
+    color: var(--ui-color-warning-default);
+  }
+
+  .ui-toast[data-type="danger"] .ui-toast-icon {
+    color: var(--ui-color-danger-default);
+  }
+
+  .ui-toast[data-type="info"] .ui-toast-icon {
+    color: var(--ui-color-info-default);
+  }
+
+  .ui-toast-message {
+    flex: 1;
+    min-width: 0;
+    padding-top: var(--ui-spacing-0_5);
+    overflow-wrap: break-word;
+  }
+}

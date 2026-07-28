@@ -19,6 +19,7 @@ import { SwitchPage } from "./pages/components/SwitchPage";
 import { TextareaPage } from "./pages/components/TextareaPage";
 import { TextFieldPage } from "./pages/components/TextFieldPage";
 import { TextPage } from "./pages/components/TextPage";
+import { ToastPage } from "./pages/components/ToastPage";
 import { Colors } from "./pages/foundation/Colors";
 import { Spacing } from "./pages/foundation/Spacing";
 import { Typography } from "./pages/foundation/Typography";
@@ -60,6 +61,7 @@ export function App() {
         <Route path="/components/spinner" element={<SpinnerPage />} />
         <Route path="/components/switch" element={<SwitchPage />} />
         <Route path="/components/text" element={<TextPage />} />
+        <Route path="/components/toast" element={<ToastPage />} />
         <Route path="/components/text-field" element={<TextFieldPage />} />
         <Route path="/components/textarea" element={<TextareaPage />} />
         <Route
