@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router";
 
 import { Layout } from "./layout/Layout";
+import { PortalPage } from "./pages/components/PortalPage";
 import { SamplePage } from "./pages/components/SamplePage";
 import { Colors } from "./pages/foundation/Colors";
 import { Spacing } from "./pages/foundation/Spacing";
@@ -21,6 +22,7 @@ export function App() {
         <Route path="/foundation/typography" element={<Typography />} />
         <Route path="/foundation/spacing" element={<Spacing />} />
         <Route path="/foundation/z-index" element={<ZIndex />} />
+        <Route path="/components/portal" element={<PortalPage />} />
         <Route path="/components/sample" element={<SamplePage />} />
         <Route
           path="*"
