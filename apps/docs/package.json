@@ -23,6 +23,7 @@
     "jsdom": "^30.0.0",
     "react-docgen-typescript": "^2.4.0",
     "vite": "^8.1.5",
+    "vite-plugin-svgr": "^5.2.0",
     "vitest": "^4.1.10"
   }
 }

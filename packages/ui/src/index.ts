@@ -8,4 +8,5 @@ import "./styles/index.css";
 // 빈 모듈에 대한 `export *`는 import-x/export 에러다.
 export * from "./components/index.js";
 // export * from "./hooks/index.js";
+export * from "./icons/index.js";
 export * from "./tokens/index.js";

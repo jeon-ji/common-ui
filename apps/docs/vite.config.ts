@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import svgr from "vite-plugin-svgr";
 
 import { docgenPlugin } from "./plugins/docgen";
 
@@ -15,6 +16,8 @@ export default defineConfig({
   base: "/common-ui/",
   plugins: [
     react(),
+    // ui 소스를 alias로 직접 보므로 svg?react 처리도 ui와 동일하게 필요하다
+    svgr({ svgrOptions: { ref: true } }),
     docgenPlugin(),
     {
       // GitHub Pages는 SPA 딥링크에 404를 반환한다 — index.html을 404.html로 복제해
@@ -37,6 +40,8 @@ export default defineConfig({
         find: "@jeon-ji/common-ui/styles.css",
         replacement: path.join(uiSrc, "styles/index.css"),
       },
+      { find: "@jeon-ji/common-ui/hooks", replacement: path.join(uiSrc, "hooks/index.ts") },
+      { find: "@jeon-ji/common-ui/icons", replacement: path.join(uiSrc, "icons/index.ts") },
       { find: "@jeon-ji/common-ui/tokens", replacement: path.join(uiSrc, "tokens/index.ts") },
       { find: "@jeon-ji/common-ui", replacement: path.join(uiSrc, "index.ts") },
     ],

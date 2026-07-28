@@ -17,7 +17,8 @@
     "build:tokens": "tsx scripts/build-tokens.ts",
     "validate:tokens": "tsx scripts/validate-tokens.ts",
     "prepare": "git config core.hooksPath .githooks",
-    "check:docs": "tsx scripts/check-docs-pages.ts"
+    "check:docs": "tsx scripts/check-docs-pages.ts",
+    "check:icons": "tsx scripts/check-icons.ts"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",

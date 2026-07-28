@@ -71,6 +71,8 @@ export default defineConfig(
 
   // 배럴·자기 패키지 역참조 금지는 packages/ui 내부에만 적용한다 —
   // 문서 앱(apps/docs)은 소비자이므로 @jeon-ji/common-ui import가 정상이다.
+  // 컴포넌트 자체 엔트리(components/<Name>/index.js)는 배럴이 아니므로 패턴은
+  // 실제 배럴 5종(components/hooks/icons/tokens 배럴 + 자기 패키지명)만 겨냥한다.
   {
     files: ["packages/ui/src/**/*.{ts,tsx}"],
     rules: {
@@ -80,8 +82,14 @@ export default defineConfig(
           patterns: [
             {
               group: [
-                "../**/index",
-                "../**/index.js",
+                "**/components/index",
+                "**/components/index.js",
+                "**/hooks/index",
+                "**/hooks/index.js",
+                "**/icons/index",
+                "**/icons/index.js",
+                "**/tokens/index",
+                "**/tokens/index.js",
                 "@jeon-ji/common-ui",
                 "@jeon-ji/common-ui/*",
               ],
@@ -90,6 +98,14 @@ export default defineConfig(
           ],
         },
       ],
+    },
+  },
+  // 루트 배럴(src/index.ts)은 하위 배럴을 모으는 것이 역할이고,
+  // 테스트는 public 표면(배럴)을 통해 검증하는 것이 오히려 바람직하다.
+  {
+    files: ["packages/ui/src/index.ts", "packages/ui/src/**/*.test.{ts,tsx}"],
+    rules: {
+      "no-restricted-imports": "off",
     },
   },
 

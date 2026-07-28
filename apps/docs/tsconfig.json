@@ -8,6 +8,8 @@
     // dev는 dist가 아닌 소스를 본다 — vite.config.ts의 alias와 짝
     "paths": {
       "@jeon-ji/common-ui": ["../../packages/ui/src/index.ts"],
+      "@jeon-ji/common-ui/hooks": ["../../packages/ui/src/hooks/index.ts"],
+      "@jeon-ji/common-ui/icons": ["../../packages/ui/src/icons/index.ts"],
       "@jeon-ji/common-ui/tokens": ["../../packages/ui/src/tokens/index.ts"],
       "@jeon-ji/common-ui/styles.css": ["../../packages/ui/src/styles/index.css"]
     }

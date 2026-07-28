@@ -100,9 +100,10 @@ try {
 import * as root from "@jeon-ji/common-ui";
 import * as components from "@jeon-ji/common-ui/components";
 import * as hooks from "@jeon-ji/common-ui/hooks";
+import * as icons from "@jeon-ji/common-ui/icons";
 import * as tokens from "@jeon-ji/common-ui/tokens";
 
-export const modules = { root, components, hooks, tokens };
+export const modules = { root, components, hooks, icons, tokens };
 `,
   );
   writeFileSync(
@@ -145,6 +146,7 @@ Object.defineProperty(globalThis, "navigator", { value: dom.window.navigator, co
 await import("@jeon-ji/common-ui");
 await import("@jeon-ji/common-ui/components");
 await import("@jeon-ji/common-ui/hooks");
+await import("@jeon-ji/common-ui/icons");
 await import("@jeon-ji/common-ui/tokens");
 
 const { createElement } = await import("react");

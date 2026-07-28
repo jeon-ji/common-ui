@@ -43,7 +43,8 @@ function collectEntries(dir: string, entries: Record<string, string> = {}) {
 export default defineConfig({
   plugins: [
     react(),
-    svgr(),
+    // ref: true — createIcon이 svg 요소로 ref를 전달할 수 있어야 한다 (전역 규칙 7)
+    svgr({ svgrOptions: { ref: true } }),
     dts({
       tsconfigPath: path.join(rootDir, "tsconfig.lib.json"),
       entryRoot: srcDir,

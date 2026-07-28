@@ -51,6 +51,9 @@ jobs:
       - name: Check docs pages (데모 없는 머지 금지)
         run: pnpm check:docs
 
+      - name: Check icons (md5 중복·네이밍·배럴 누락)
+        run: pnpm check:icons
+
       - name: Test
         run: pnpm test
 
