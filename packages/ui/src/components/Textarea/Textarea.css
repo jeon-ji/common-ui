@@ -1,0 +1,65 @@
+/* Textarea — 값은 전부 토큰 변수만 참조한다 (전역 규칙 12) */
+
+@layer ui.components {
+  .ui-textarea {
+    display: flex;
+    flex-direction: column;
+    background: var(--ui-color-bg-default);
+    border: 1px solid var(--ui-color-border-default);
+    border-radius: var(--ui-radius-md);
+    font-family: var(--ui-font-sans);
+    transition: border-color var(--ui-duration-fast) var(--ui-easing-standard);
+  }
+
+  .ui-textarea:focus-within {
+    border-color: var(--ui-color-primary-default);
+    outline: 1px solid var(--ui-color-primary-default);
+    outline-offset: 0;
+  }
+
+  .ui-textarea[data-invalid] {
+    border-color: var(--ui-color-danger-default);
+  }
+
+  .ui-textarea[data-invalid]:focus-within {
+    outline-color: var(--ui-color-danger-default);
+  }
+
+  .ui-textarea[data-disabled] {
+    background: var(--ui-color-bg-muted);
+    opacity: 0.7;
+  }
+
+  .ui-textarea-input {
+    width: 100%;
+    padding: var(--ui-spacing-2) var(--ui-spacing-3);
+    font: inherit;
+    font-size: var(--ui-text-body2-size);
+    line-height: var(--ui-text-body2-line-height);
+    color: var(--ui-color-text-primary);
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: vertical;
+  }
+
+  .ui-textarea-input[data-auto-resize] {
+    resize: none;
+    overflow: hidden;
+  }
+
+  .ui-textarea-input::placeholder {
+    color: var(--ui-color-text-disabled);
+  }
+
+  .ui-textarea-input:disabled {
+    cursor: not-allowed;
+  }
+
+  .ui-textarea-counter {
+    align-self: flex-end;
+    padding: 0 var(--ui-spacing-2) var(--ui-spacing-1);
+    font-size: var(--ui-text-caption-size);
+    color: var(--ui-color-text-secondary);
+  }
+}

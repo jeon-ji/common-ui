@@ -34,6 +34,9 @@ dist/components/Text/useTruncationOverflow.js.map
 dist/components/TextField/index.d.ts
 dist/components/TextField/index.js
 dist/components/TextField/index.js.map
+dist/components/Textarea/index.d.ts
+dist/components/Textarea/index.js
+dist/components/Textarea/index.js.map
 dist/components/index.d.ts
 dist/components/index.js
 dist/hooks/index.d.ts
