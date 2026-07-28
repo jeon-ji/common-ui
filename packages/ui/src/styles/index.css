@@ -7,3 +7,6 @@
  */
 
 @layer ui.tokens, ui.reset, ui.components;
+
+/* 생성물(tokens.css)을 그래프에 편입 — dist/style.css 포함이 이 한 줄로 보장된다 */
+@import "./tokens.css";

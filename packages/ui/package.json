@@ -22,7 +22,7 @@
     "**/*.css"
   ],
   "scripts": {
-    "build": "vite build --config vite.lib.config.ts",
+    "build": "tsx ../../scripts/build-tokens.ts && vite build --config vite.lib.config.ts",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -47,6 +47,7 @@
       "import": "./dist/tokens/index.js"
     },
     "./styles.css": "./dist/style.css",
+    "./tailwind-preset.css": "./dist/tailwind-preset.css",
     "./package.json": "./package.json"
   },
   "peerDependencies": {

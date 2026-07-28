@@ -1,4 +1,4 @@
-import { readdirSync, statSync } from "node:fs";
+import { copyFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -50,6 +50,17 @@ export default defineConfig({
       include: ["src"],
       exclude: ["src/**/*.test.*", "src/**/*.spec.*"],
     }),
+    {
+      // tailwind-preset.css는 소비자가 선택 import 하는 독립 파일 —
+      // 모듈 그래프(style.css)에 합쳐지면 안 되므로 빌드 산출물로 복사만 한다.
+      name: "copy-tailwind-preset",
+      writeBundle() {
+        copyFileSync(
+          path.join(srcDir, "styles", "tailwind-preset.css"),
+          path.join(rootDir, "dist", "tailwind-preset.css"),
+        );
+      },
+    },
   ],
   build: {
     outDir: "dist",

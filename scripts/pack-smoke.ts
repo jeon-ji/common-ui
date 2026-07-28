@@ -172,8 +172,19 @@ console.error("  렌더 OK: " + container.innerHTML);
   if (!existsSync(styleCss)) fail("설치된 패키지에 dist/style.css가 없다 (리뷰 C2 유형)");
   const css = readFileSync(styleCss, "utf8");
   if (css.trim().length === 0) fail("dist/style.css가 비어 있다");
-  // TODO(토큰 도입 시): 토큰 CSS 변수(--ui-) 포함 여부 assert 추가 — 03 문서
-  console.error("• style.css OK");
+  if (!css.includes("--ui-color-") || !css.includes('[data-theme="dark"]')) {
+    fail("dist/style.css에 토큰 CSS 변수(--ui-color-)나 다크 테마 블록이 없다 (리뷰 C2 유형)");
+  }
+  const preset = path.join(
+    tempDir,
+    "node_modules",
+    "@jeon-ji",
+    "common-ui",
+    "dist",
+    "tailwind-preset.css",
+  );
+  if (!existsSync(preset)) fail("설치된 패키지에 dist/tailwind-preset.css가 없다");
+  console.error("• style.css / tailwind-preset.css OK");
 
   console.error("\n✔ pack smoke 통과");
 } finally {
