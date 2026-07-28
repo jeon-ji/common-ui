@@ -1,20 +1,23 @@
 import { Route, Routes } from "react-router";
 
+import { Layout } from "./layout/Layout";
+import { Home } from "./pages/Home";
+
 export function App() {
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          <main style={{ padding: "var(--ui-spacing-6)" }}>
-            <h1>@jeon-ji/common-ui</h1>
-            <p style={{ color: "var(--ui-color-text-secondary)" }}>
-              문서 사이트 부트스트랩 — 토큰 CSS 변수가 이 문장의 색을 결정하면 workspace 참조가
-              동작하는 것이다.
-            </p>
-          </main>
-        }
-      />
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="*"
+          element={
+            <article>
+              <h1>페이지 없음</h1>
+              <p>아직 작성되지 않은 문서입니다.</p>
+            </article>
+          }
+        />
+      </Route>
     </Routes>
   );
 }
