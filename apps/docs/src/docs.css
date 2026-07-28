@@ -435,3 +435,18 @@ body {
   font-family: var(--ui-font-mono);
   font-size: var(--ui-text-caption-size);
 }
+
+/* Field 데모용 네이티브 input — 실전에서는 TextField가 이 역할을 한다 */
+.demo-native-input {
+  height: var(--ui-spacing-10);
+  padding: 0 var(--ui-spacing-3);
+  font: inherit;
+  color: var(--ui-color-text-primary);
+  background: var(--ui-color-bg-default);
+  border: 1px solid var(--ui-color-border-default);
+  border-radius: var(--ui-radius-md);
+}
+
+.demo-native-input[aria-invalid="true"] {
+  border-color: var(--ui-color-danger-default);
+}
