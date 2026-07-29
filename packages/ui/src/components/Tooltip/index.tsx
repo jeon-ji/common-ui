@@ -3,7 +3,6 @@ import "./Tooltip.css";
 import {
   Children,
   cloneElement,
-  type CSSProperties,
   type FocusEvent,
   type MouseEvent,
   type ReactElement,
@@ -11,12 +10,12 @@ import {
   type Ref,
   useEffect,
   useId,
-  useLayoutEffect,
   useRef,
   useState,
 } from "react";
 
 import { composeRefs } from "../../internal/composeRefs.js";
+import { useAnchorPosition } from "../../internal/positioning/useAnchorPosition.js";
 import { motion } from "../../tokens/motion.js";
 import { Portal } from "../Portal/index.js";
 
@@ -70,13 +69,21 @@ export function Tooltip({
   delay = DEFAULT_DELAY,
 }: TooltipProps) {
   const [open, setOpen] = useState(false);
-  const [style, setStyle] = useState<CSSProperties>();
-  const [actualPlacement, setActualPlacement] = useState(placement);
-  const triggerRef = useRef<HTMLElement | null>(null);
+  const [triggerEl, setTriggerEl] = useState<HTMLElement | null>(null);
   // Portal 아래 툴팁은 이펙트 이후에 마운트된다 — ref가 아닌 요소 상태여야 측정 이펙트가 발동한다
   const [tipEl, setTipEl] = useState<HTMLDivElement | null>(null);
   const showTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tooltipId = useId();
+
+  // 측정→플립→배치는 공용 위치 엔진이 담당한다 (Popover와 공유)
+  const { style, side: actualPlacement } = useAnchorPosition({
+    anchorEl: triggerEl,
+    floatingEl: tipEl,
+    side: placement,
+    align: "center",
+    offset: OFFSET,
+    enabled: open,
+  });
 
   const clearShowTimer = () => {
     if (showTimer.current !== null) {
@@ -93,36 +100,6 @@ export function Tooltip({
 
   // 언마운트 시 대기 중 타이머 정리
   useEffect(() => clearShowTimer, []);
-
-  // 열릴 때 위치 계산 — 측정(트리거·툴팁 rect) 후 배치하고, 뷰포트를 벗어나면 플립한다.
-  // 측정→배치는 페인트 전에 끝나야 하므로 layoutEffect + setState가 표준 패턴이다.
-  useLayoutEffect(() => {
-    if (!open || !tipEl) return;
-    const trigger = triggerRef.current;
-    if (!trigger) return;
-
-    const rect = trigger.getBoundingClientRect();
-    const tipRect = tipEl.getBoundingClientRect();
-
-    let resolved = placement;
-    if (placement === "top" && rect.top - tipRect.height - OFFSET < 0) resolved = "bottom";
-    if (
-      placement === "bottom" &&
-      rect.bottom + tipRect.height + OFFSET > window.innerHeight &&
-      rect.top - tipRect.height - OFFSET >= 0
-    ) {
-      resolved = "top";
-    }
-
-    const top = resolved === "top" ? rect.top - tipRect.height - OFFSET : rect.bottom + OFFSET;
-
-    setActualPlacement(resolved);
-    setStyle({
-      top,
-      left: rect.left + rect.width / 2,
-      transform: "translateX(-50%)",
-    });
-  }, [open, placement, tipEl]);
 
   // Escape — 열려 있는 동안만, 소비를 표시해 상위 오버레이(Modal)로 새지 않게 한다
   useEffect(() => {
@@ -146,9 +123,7 @@ export function Tooltip({
   /* eslint-disable react-hooks/refs -- cloneElement로 전달하는 콜백 ref: 쓰기는 렌더가 아닌
      커밋 단계(콜백 실행 시점)에 일어난다. JSX ref 속성이 아니라 규칙이 패턴을 인식하지 못한다 */
   const trigger = cloneElement(child, {
-    ref: composeRefs<HTMLElement>(getChildRef(child), (node) => {
-      triggerRef.current = node;
-    }),
+    ref: composeRefs<HTMLElement>(getChildRef(child), setTriggerEl),
     "aria-describedby": open ? tooltipId : childProps["aria-describedby"],
     onMouseEnter: (event: MouseEvent<HTMLElement>) => {
       childProps.onMouseEnter?.(event);
