@@ -23,7 +23,7 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       # 버전 입력 없음 — 루트 package.json의 packageManager 필드가 유일한 소스
       - uses: pnpm/action-setup@v4
