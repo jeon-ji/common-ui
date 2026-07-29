@@ -18,10 +18,12 @@
     "validate:tokens": "tsx scripts/validate-tokens.ts",
     "prepare": "git config core.hooksPath .githooks",
     "check:docs": "tsx scripts/check-docs-pages.ts",
-    "check:icons": "tsx scripts/check-icons.ts"
+    "check:icons": "tsx scripts/check-icons.ts",
+    "changeset": "changeset"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
+    "@changesets/cli": "^2.31.1",
     "@eslint/js": "9.39.5",
     "@types/node": "^26.1.1",
     "eslint": "9.39.5",
