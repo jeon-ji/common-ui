@@ -1,0 +1,79 @@
+# publish — GitHub Release published 트리거 (06 문서 §2)
+# CI 전체 게이트 + 추가 검증(태그↔version assert) 후에만 발행한다.
+# 셸 스텝에 `${{ }}` 직접 치환 금지 — 전부 env 경유 (S2).
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: publish-${{ github.ref }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@jeon-ji"
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Validate tokens
+        run: pnpm validate:tokens
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+      # changesets가 보장하지만 이중 안전망 — 태그와 package.json version이 다르면 중단 (H3a)
+      - name: Assert tag == package.json version
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        run: |
+          PKG_VERSION="$(node -p "require('./packages/ui/package.json').version")"
+          TAG_VERSION="${TAG_NAME#v}"
+          if [ "$PKG_VERSION" != "$TAG_VERSION" ]; then
+            echo "태그($TAG_VERSION)와 package.json version($PKG_VERSION)이 다르다"
+            exit 1
+          fi
+
+      - name: publint + attw
+        run: pnpm verify:pkg
+
+      - name: Pack smoke
+        run: pnpm smoke:pack
+
+      # prerelease는 --tag next — latest 오염 방지 (H3e)
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IS_PRERELEASE: ${{ github.event.release.prerelease }}
+        working-directory: packages/ui
+        run: |
+          if [ "$IS_PRERELEASE" = "true" ]; then
+            pnpm publish --no-git-checks --tag next
+          else
+            pnpm publish --no-git-checks
+          fi
