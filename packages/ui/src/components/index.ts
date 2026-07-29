@@ -14,7 +14,6 @@ export { Modal, type ModalProps, OverlayProvider } from "./Modal/index.js";
 export { NumberField, type NumberFieldProps } from "./NumberField/index.js";
 export { Portal, type PortalProps } from "./Portal/index.js";
 export { Radio, RadioGroup, type RadioGroupProps, type RadioProps } from "./Radio/index.js";
-export { Sample, type SampleProps } from "./Sample/index.js";
 export {
   Select,
   type SelectItem,

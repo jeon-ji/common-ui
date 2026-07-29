@@ -12,7 +12,6 @@ import { ModalPage } from "./pages/components/ModalPage";
 import { NumberFieldPage } from "./pages/components/NumberFieldPage";
 import { PortalPage } from "./pages/components/PortalPage";
 import { RadioPage } from "./pages/components/RadioPage";
-import { SamplePage } from "./pages/components/SamplePage";
 import { SelectPage } from "./pages/components/SelectPage";
 import { SkeletonPage } from "./pages/components/SkeletonPage";
 import { SpinnerPage } from "./pages/components/SpinnerPage";
@@ -59,7 +58,6 @@ export function App() {
         <Route path="/components/number-field" element={<NumberFieldPage />} />
         <Route path="/components/portal" element={<PortalPage />} />
         <Route path="/components/radio" element={<RadioPage />} />
-        <Route path="/components/sample" element={<SamplePage />} />
         <Route path="/components/select" element={<SelectPage />} />
         <Route path="/components/skeleton" element={<SkeletonPage />} />
         <Route path="/components/spinner" element={<SpinnerPage />} />
