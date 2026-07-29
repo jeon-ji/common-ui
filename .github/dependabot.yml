@@ -1,0 +1,16 @@
+# 의존성 자동 업데이트 (06 문서 §5 / 리뷰 M15)
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # 워크스페이스 전체 lockfile 하나이므로 루트만 지정한다
+    groups:
+      minor-and-patch:
+        update-types: ["minor", "patch"]
