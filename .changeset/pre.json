@@ -1,0 +1,9 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "@jeon-ji/common-ui-docs": "0.0.0",
+    "@jeon-ji/common-ui": "0.0.0"
+  },
+  "changesets": ["v0-1-0-initial"]
+}
