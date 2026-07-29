@@ -1,0 +1,43 @@
+/* Menu — 값은 전부 토큰 변수만 참조한다 (전역 규칙 12) */
+
+@layer ui.components {
+  /* Popover 패널 위에서 메뉴용으로 여백만 조인다 */
+  .ui-popover.ui-menu {
+    min-width: 160px;
+    padding: var(--ui-spacing-1);
+  }
+
+  .ui-menu-list {
+    max-height: 320px;
+    overflow-y: auto;
+    outline: none;
+  }
+
+  .ui-menu-item {
+    display: flex;
+    align-items: center;
+    gap: var(--ui-spacing-2);
+    padding: var(--ui-spacing-2) var(--ui-spacing-3);
+    font-size: var(--ui-text-body2-size);
+    color: var(--ui-color-text-primary);
+    border-radius: var(--ui-radius-sm);
+    cursor: pointer;
+  }
+
+  .ui-menu-item[data-active] {
+    background: var(--ui-color-primary-subtle);
+  }
+
+  .ui-menu-item[data-danger] {
+    color: var(--ui-color-danger-default);
+  }
+
+  .ui-menu-item[data-danger][data-active] {
+    background: var(--ui-color-danger-subtle);
+  }
+
+  .ui-menu-item[aria-disabled="true"] {
+    color: var(--ui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}

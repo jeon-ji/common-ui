@@ -8,6 +8,7 @@ import { ConfirmModalPage } from "./pages/components/ConfirmModalPage";
 import { FieldPage } from "./pages/components/FieldPage";
 import { IconButtonPage } from "./pages/components/IconButtonPage";
 import { IconPage } from "./pages/components/IconPage";
+import { MenuPage } from "./pages/components/MenuPage";
 import { ModalPage } from "./pages/components/ModalPage";
 import { NumberFieldPage } from "./pages/components/NumberFieldPage";
 import { PopoverPage } from "./pages/components/PopoverPage";
@@ -55,6 +56,7 @@ export function App() {
         <Route path="/components/field" element={<FieldPage />} />
         <Route path="/components/icon" element={<IconPage />} />
         <Route path="/components/icon-button" element={<IconButtonPage />} />
+        <Route path="/components/menu" element={<MenuPage />} />
         <Route path="/components/modal" element={<ModalPage />} />
         <Route path="/components/number-field" element={<NumberFieldPage />} />
         <Route path="/components/popover" element={<PopoverPage />} />

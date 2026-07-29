@@ -10,6 +10,7 @@ export { ConfirmModal, type ConfirmModalProps } from "./ConfirmModal/index.js";
 export { Field, type FieldProps } from "./Field/index.js";
 export { createIcon, type IconComponent, type IconProps } from "./Icon/index.js";
 export { IconButton, type IconButtonProps } from "./IconButton/index.js";
+export { Menu, type MenuItem, type MenuProps } from "./Menu/index.js";
 export { Modal, type ModalProps, OverlayProvider } from "./Modal/index.js";
 export { NumberField, type NumberFieldProps } from "./NumberField/index.js";
 export { Popover, type PopoverProps } from "./Popover/index.js";
