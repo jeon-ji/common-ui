@@ -1,0 +1,39 @@
+# 소비 검증 (06 문서 §4) — GitHub Packages에서 실제 설치해 확인한다.
+# publish 직후 수동 실행(workflow_dispatch)한다. GITHUB_TOKEN이 read:packages를 가진
+# 유일한 자동화 경로라 CI에서 돈다 (로컬 PAT가 있으면 스크립트를 직접 실행해도 된다).
+name: Consume Check
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "검증할 버전 (latest / next / x.y.z)"
+        default: "latest"
+        required: false
+
+permissions:
+  contents: read
+  packages: read
+
+concurrency:
+  group: consume-check
+
+jobs:
+  consume:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Consume check
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_VERSION: ${{ inputs.version }}
+        run: pnpm exec tsx scripts/consume-check.ts "$TARGET_VERSION"
