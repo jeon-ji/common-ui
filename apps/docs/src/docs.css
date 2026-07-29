@@ -450,3 +450,9 @@ body {
 .demo-native-input[aria-invalid="true"] {
   border-color: var(--ui-color-danger-default);
 }
+
+.docs-version {
+  font-size: var(--ui-text-caption-size);
+  font-weight: 400;
+  color: var(--ui-color-text-secondary);
+}

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router";
 
+// 배포 버전과 문서의 불일치를 인지할 수 있도록 헤더에 패키지 버전을 표기한다 (06 문서 §3)
+import uiPackage from "../../../../packages/ui/package.json";
 import { useTheme } from "../theme";
 
 export function Header({ onSearch }: { onSearch: (query: string) => void }) {
@@ -10,7 +12,7 @@ export function Header({ onSearch }: { onSearch: (query: string) => void }) {
   return (
     <header className="docs-header">
       <Link to="/" className="docs-logo">
-        @jeon-ji/common-ui
+        @jeon-ji/common-ui <span className="docs-version">v{uiPackage.version}</span>
       </Link>
 
       <input
