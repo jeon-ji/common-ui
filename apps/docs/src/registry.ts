@@ -61,6 +61,7 @@ export const docGroups: readonly DocGroup[] = [
       { slug: "icon-button", title: "IconButton" },
       { slug: "modal", title: "Modal" },
       { slug: "number-field", title: "NumberField" },
+      { slug: "popover", title: "Popover" },
       { slug: "portal", title: "Portal" },
       { slug: "radio", title: "Radio · RadioGroup" },
       { slug: "select", title: "Select" },

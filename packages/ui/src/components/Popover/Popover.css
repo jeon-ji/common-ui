@@ -1,0 +1,18 @@
+/* Popover — 값은 전부 토큰 변수만 참조한다 (전역 규칙 12) */
+
+@layer ui.components {
+  .ui-popover {
+    position: fixed;
+    z-index: var(--ui-z-popover);
+    max-width: 320px;
+    padding: var(--ui-spacing-3);
+    background: var(--ui-color-bg-default);
+    border: 1px solid var(--ui-color-border-default);
+    border-radius: var(--ui-radius-md);
+    box-shadow: var(--ui-shadow-lg);
+    color: var(--ui-color-text-primary);
+    font-family: var(--ui-font-sans);
+    font-size: var(--ui-text-body2-size);
+    line-height: var(--ui-text-body2-line-height);
+  }
+}

@@ -10,6 +10,7 @@ import { IconButtonPage } from "./pages/components/IconButtonPage";
 import { IconPage } from "./pages/components/IconPage";
 import { ModalPage } from "./pages/components/ModalPage";
 import { NumberFieldPage } from "./pages/components/NumberFieldPage";
+import { PopoverPage } from "./pages/components/PopoverPage";
 import { PortalPage } from "./pages/components/PortalPage";
 import { RadioPage } from "./pages/components/RadioPage";
 import { SelectPage } from "./pages/components/SelectPage";
@@ -56,6 +57,7 @@ export function App() {
         <Route path="/components/icon-button" element={<IconButtonPage />} />
         <Route path="/components/modal" element={<ModalPage />} />
         <Route path="/components/number-field" element={<NumberFieldPage />} />
+        <Route path="/components/popover" element={<PopoverPage />} />
         <Route path="/components/portal" element={<PortalPage />} />
         <Route path="/components/radio" element={<RadioPage />} />
         <Route path="/components/select" element={<SelectPage />} />
