@@ -7,6 +7,7 @@ import { composeRefs } from "../../internal/composeRefs.js";
 import { OverlayProvider, useOverlayLayer } from "../../internal/overlay/overlayStack.js";
 import { useFocusTrap } from "../../internal/overlay/useFocusTrap.js";
 import { useScrollLock } from "../../internal/overlay/useScrollLock.js";
+import { PortalContainerProvider } from "../../internal/portalContainer.js";
 import { IconButton } from "../IconButton/index.js";
 import { Portal } from "../Portal/index.js";
 
@@ -85,8 +86,12 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
               <CloseIcon />
             </IconButton>
           </header>
-          <div className="ui-modal-body">{children}</div>
-          {footer != null && <footer className="ui-modal-footer">{footer}</footer>}
+          {/* 모달 안에서 열리는 오버레이(팝오버·메뉴·툴팁)는 이 패널 안으로 포털된다 —
+              aria-modal 서브트리 밖은 보조기술이 노출하지 않기 때문이다 */}
+          <PortalContainerProvider container={panel}>
+            <div className="ui-modal-body">{children}</div>
+            {footer != null && <footer className="ui-modal-footer">{footer}</footer>}
+          </PortalContainerProvider>
         </div>
       </div>
     </Portal>

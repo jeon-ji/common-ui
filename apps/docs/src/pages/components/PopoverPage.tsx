@@ -62,6 +62,14 @@ export function PopoverPage() {
             </td>
           </tr>
           <tr>
+            <td>모달 안에서</td>
+            <td>
+              패널이 모달의 <code>dialog</code> 서브트리 안으로 렌더된다 —{" "}
+              <code>aria-modal=&quot;true&quot;</code> 밖은 보조기술이 노출하지 않으므로 body로
+              포털하면 화면에만 보이고 스크린리더로는 도달할 수 없다
+            </td>
+          </tr>
+          <tr>
             <td>패널의 Tab 순서</td>
             <td>
               패널은 포털(문서 끝)에 렌더되므로 트리거 다음 Tab 대상이 아니다. 인터랙티브 내용을

@@ -157,6 +157,15 @@ test("중첩 포털: 바깥 클릭은 최상단부터 한 겹씩 닫는다 (Esca
   expect(screen.queryByRole("dialog")).not.toBeInTheDocument(); // 이제 팝오버
 });
 
+test("모달 안 팝오버는 dialog 서브트리 안에 렌더된다 (aria-modal 도달성)", () => {
+  render(<NestedHarness onModalClose={vi.fn()} />);
+  fireEvent.click(screen.getByRole("button", { name: "팝오버 열기" }));
+
+  const modalPanel = screen.getByRole("dialog", { name: "설정" });
+  // body 아래로 새면 화면에는 보이지만 스크린리더가 도달하지 못한다
+  expect(modalPanel.contains(screen.getByText("내용"))).toBe(true);
+});
+
 test("Modal 백드롭 클릭도 한 겹씩 — 팝오버가 위에 있으면 모달은 남는다", () => {
   const onModalClose = vi.fn();
   render(<NestedHarness onModalClose={onModalClose} />);

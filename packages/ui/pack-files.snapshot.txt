@@ -126,6 +126,9 @@ dist/internal/overlay/useFocusTrap.js.map
 dist/internal/overlay/useScrollLock.d.ts
 dist/internal/overlay/useScrollLock.js
 dist/internal/overlay/useScrollLock.js.map
+dist/internal/portalContainer.d.ts
+dist/internal/portalContainer.js
+dist/internal/portalContainer.js.map
 dist/internal/positioning/computePosition.d.ts
 dist/internal/positioning/computePosition.js
 dist/internal/positioning/computePosition.js.map

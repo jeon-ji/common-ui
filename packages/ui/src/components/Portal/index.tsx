@@ -1,9 +1,12 @@
 import { type ReactNode, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
+import { usePortalContainer } from "../../internal/portalContainer.js";
+
 export interface PortalProps {
   /**
-   * 포털 대상 컨테이너. 생략하면 body 아래에 전용 컨테이너를 만들고 언마운트 시 정리한다.
+   * 포털 대상 컨테이너. 생략하면 상위가 지정한 컨테이너(모달 안에서는 그 패널)를 쓰고,
+   * 그것도 없으면 body 아래에 전용 컨테이너를 만들고 언마운트 시 정리한다.
    */
   container?: Element | null;
   children: ReactNode;
@@ -18,13 +21,16 @@ export interface PortalProps {
  */
 export function Portal({ container, children }: PortalProps) {
   const [target, setTarget] = useState<Element | null>(null);
+  // 상위가 지정한 컨테이너 — 모달 안에서는 그 패널(aria-modal 서브트리 유지)
+  const inherited = usePortalContainer();
+  const resolved = container ?? inherited;
 
   useEffect(() => {
     // 마운트 후에만 DOM을 만질 수 있으므로 타겟 확정은 effect 안 1회 setState가 불가피하다
     // (SSR-safe 포털의 표준 패턴 — "자동 생성 + 정리" 스펙이 렌더 단계 생성으로는 불가능)
-    if (container) {
+    if (resolved) {
       // eslint-disable-next-line react-hooks/set-state-in-effect -- 상단 주석 참조
-      setTarget(container);
+      setTarget(resolved);
       return;
     }
 
@@ -36,7 +42,7 @@ export function Portal({ container, children }: PortalProps) {
     return () => {
       el.remove();
     };
-  }, [container]);
+  }, [resolved]);
 
   if (!target) return null;
   return createPortal(children, target);
