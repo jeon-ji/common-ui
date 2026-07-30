@@ -1,0 +1,72 @@
+/* SegmentedControl — 값은 전부 토큰 변수만 참조한다 (전역 규칙 12) */
+
+@layer ui.components {
+  .ui-segmented {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ui-spacing-0_5);
+    padding: var(--ui-spacing-1);
+    background: var(--ui-color-bg-muted);
+    border-radius: var(--ui-radius-md);
+    font-family: var(--ui-font-sans);
+  }
+
+  .ui-segmented-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ui-spacing-1_5);
+    padding: var(--ui-spacing-1_5) var(--ui-spacing-3);
+    font: inherit;
+    font-size: var(--ui-text-body2-size);
+    line-height: var(--ui-text-body2-line-height);
+    color: var(--ui-color-text-secondary);
+    background: none;
+    border: none;
+    border-radius: var(--ui-radius-sm);
+    cursor: pointer;
+    transition:
+      color var(--ui-duration-fast) var(--ui-easing-standard),
+      background var(--ui-duration-fast) var(--ui-easing-standard);
+  }
+
+  .ui-segmented-item:focus-visible {
+    outline: 1px solid var(--ui-color-primary-default);
+    outline-offset: -1px;
+  }
+
+  .ui-segmented-item[aria-checked="true"] {
+    color: var(--ui-color-text-primary);
+    background: var(--ui-color-bg-default);
+    box-shadow: var(--ui-shadow-sm);
+  }
+
+  .ui-segmented-item:disabled {
+    color: var(--ui-color-text-disabled);
+    cursor: not-allowed;
+  }
+
+  .ui-segmented[data-size="sm"] .ui-segmented-item {
+    padding: var(--ui-spacing-1) var(--ui-spacing-2);
+    font-size: var(--ui-text-caption-size);
+    line-height: var(--ui-text-caption-line-height);
+  }
+
+  .ui-segmented-icon {
+    display: inline-flex;
+    flex: none;
+  }
+
+  /* iconOnly — 라벨은 접근 이름으로 남기고 화면에서만 감춘다 */
+  .ui-segmented-label[data-hidden] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+}

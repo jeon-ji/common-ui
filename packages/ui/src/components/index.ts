@@ -17,6 +17,11 @@ export { Popover, type PopoverProps } from "./Popover/index.js";
 export { Portal, type PortalProps } from "./Portal/index.js";
 export { Radio, RadioGroup, type RadioGroupProps, type RadioProps } from "./Radio/index.js";
 export {
+  SegmentedControl,
+  type SegmentedControlProps,
+  type SegmentedItem,
+} from "./SegmentedControl/index.js";
+export {
   Select,
   type SelectItem,
   type SelectMultipleProps,

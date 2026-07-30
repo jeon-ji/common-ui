@@ -37,6 +37,9 @@ dist/components/Portal/index.js.map
 dist/components/Radio/index.d.ts
 dist/components/Radio/index.js
 dist/components/Radio/index.js.map
+dist/components/SegmentedControl/index.d.ts
+dist/components/SegmentedControl/index.js
+dist/components/SegmentedControl/index.js.map
 dist/components/Select/index.d.ts
 dist/components/Select/index.js
 dist/components/Select/index.js.map

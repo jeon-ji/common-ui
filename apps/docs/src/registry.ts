@@ -65,6 +65,7 @@ export const docGroups: readonly DocGroup[] = [
       { slug: "popover", title: "Popover" },
       { slug: "portal", title: "Portal" },
       { slug: "radio", title: "Radio · RadioGroup" },
+      { slug: "segmented-control", title: "SegmentedControl" },
       { slug: "select", title: "Select" },
       { slug: "skeleton", title: "Skeleton" },
       { slug: "spinner", title: "Spinner" },
