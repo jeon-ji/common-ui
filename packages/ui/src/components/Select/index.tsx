@@ -14,6 +14,7 @@ import {
 import { useClickOutside } from "../../hooks/useClickOutside.js";
 import { useControllableState } from "../../hooks/useControllableState.js";
 import { CheckIcon, ChevronDownIcon } from "../../icons/index.js";
+import { edgeEnabledIndex, nextEnabledIndex } from "../../internal/enabledIndex.js";
 import { useFieldControl } from "../Field/index.js";
 
 export interface SelectItem {
@@ -90,19 +91,6 @@ function normalizeProps(props: SelectProps) {
   } as const;
 }
 
-/** 다음 활성(비활성 제외) 인덱스 — direction 방향으로 탐색, 없으면 현재 유지 */
-function nextEnabled(items: SelectItem[], from: number, direction: 1 | -1): number {
-  for (let i = from + direction; i >= 0 && i < items.length; i += direction) {
-    const item = items[i];
-    if (item && !item.disabled) return i;
-  }
-  return from;
-}
-
-function edgeEnabled(items: SelectItem[], direction: 1 | -1): number {
-  return nextEnabled(items, direction === 1 ? -1 : items.length, direction);
-}
-
 /**
  * 단일 선택 셀렉트. sije-common Select의 키보드 내비 패턴을 계승하고
  * ARIA 결손을 수정했다 — Trigger는 combobox, List는 listbox/option 시맨틱.
@@ -142,7 +130,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
 
   const openList = () => {
     const selectedIndex = items.findIndex((item) => values.includes(item.value) && !item.disabled);
-    setActiveIndex(selectedIndex >= 0 ? selectedIndex : edgeEnabled(items, 1));
+    setActiveIndex(selectedIndex >= 0 ? selectedIndex : edgeEnabledIndex(items, 1));
     setOpen(true);
   };
 
@@ -191,19 +179,19 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault();
-        setActiveIndex((prev) => nextEnabled(items, prev, 1));
+        setActiveIndex((prev) => nextEnabledIndex(items, prev, 1));
         break;
       case "ArrowUp":
         event.preventDefault();
-        setActiveIndex((prev) => nextEnabled(items, prev, -1));
+        setActiveIndex((prev) => nextEnabledIndex(items, prev, -1));
         break;
       case "Home":
         event.preventDefault();
-        setActiveIndex(edgeEnabled(items, 1));
+        setActiveIndex(edgeEnabledIndex(items, 1));
         break;
       case "End":
         event.preventDefault();
-        setActiveIndex(edgeEnabled(items, -1));
+        setActiveIndex(edgeEnabledIndex(items, -1));
         break;
       case "Enter":
       case " ":

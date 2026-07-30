@@ -1,5 +1,6 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
+import { useState } from "react";
 import { expect, test, vi } from "vitest";
 
 import { Field } from "../Field/index.js";
@@ -10,6 +11,34 @@ const ITEMS: SelectItem[] = [
   { value: "banana", label: "바나나", disabled: true },
   { value: "grape", label: "포도" },
 ];
+
+test("옵션이 줄어든 뒤에도 화살표 이동이 계속 동작한다 (공용 인덱스 유틸 계약)", async () => {
+  const user = userEvent.setup();
+  function Shrinking() {
+    const [items, setItems] = useState(ITEMS);
+    return (
+      <>
+        {/* pointerdown이 아닌 click만 발생시키므로 목록이 닫히지 않는다 */}
+        <button type="button" onClick={() => setItems(ITEMS.slice(0, 1))}>
+          줄이기
+        </button>
+        <Select items={items} aria-label="과일" />
+      </>
+    );
+  }
+  render(<Shrinking />);
+  const trigger = screen.getByRole("combobox");
+
+  await user.click(trigger);
+  await user.keyboard("{End}"); // 마지막 옵션(포도) 활성
+  fireEvent.click(screen.getByRole("button", { name: "줄이기" })); // 활성 인덱스가 범위 밖이 된다
+
+  await user.keyboard("{ArrowDown}");
+  expect(trigger).toHaveAttribute(
+    "aria-activedescendant",
+    screen.getByRole("option", { name: "사과" }).id,
+  );
+});
 
 test("닫힌 상태: combobox 시맨틱 + placeholder", () => {
   render(<Select items={ITEMS} placeholder="과일 선택" aria-label="과일" />);

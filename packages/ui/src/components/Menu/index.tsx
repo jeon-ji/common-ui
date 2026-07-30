@@ -16,6 +16,7 @@ import {
 
 import { useDisclosure } from "../../hooks/useDisclosure.js";
 import { composeRefs } from "../../internal/composeRefs.js";
+import { edgeEnabledIndex, nextEnabledIndex } from "../../internal/enabledIndex.js";
 import { Popover } from "../Popover/index.js";
 
 /**
@@ -81,28 +82,6 @@ export interface MenuProps {
   onOpenChange?: (open: boolean) => void;
 }
 
-/** delta 방향으로 disabled를 건너뛰며 이동 — 끝에서 멈춘다 (랩 없음, Select 컨벤션) */
-function moveActive(items: MenuItem[], from: number, delta: 1 | -1): number {
-  // 범위를 벗어난 시작점(열린 동안 items가 줄어든 경우)은 끝에서 다시 잡는다 —
-  // 그러지 않으면 이동 대상이 없어 화살표 키가 영구히 멈춘다
-  if (from < 0 || from >= items.length) return edgeActive(items, delta);
-  let index = from + delta;
-  while (index >= 0 && index < items.length) {
-    if (items[index]?.disabled !== true) return index;
-    index += delta;
-  }
-  return from;
-}
-
-/** 시작(delta=1)/끝(delta=-1)에서 첫 활성 항목 — 전부 disabled면 -1 */
-function edgeActive(items: MenuItem[], delta: 1 | -1): number {
-  const start = delta === 1 ? 0 : items.length - 1;
-  for (let index = start; index >= 0 && index < items.length; index += delta) {
-    if (items[index]?.disabled !== true) return index;
-  }
-  return -1;
-}
-
 /**
  * 동작 실행용 드롭다운 메뉴 — sije-common Dropdown+useDropdown(JSX 반환 훅)의 재설계.
  * 값 선택에는 Select를 쓴다 (문서에 사용 기준 명시).
@@ -138,7 +117,7 @@ export function Menu({
 
   const openMenu = (fromEnd: boolean) => {
     pendingFromEnd.current = fromEnd;
-    setActiveIndex(edgeActive(items, fromEnd ? -1 : 1));
+    setActiveIndex(edgeEnabledIndex(items, fromEnd ? -1 : 1));
     onOpen();
   };
 
@@ -162,7 +141,7 @@ export function Menu({
   // items를 deps에 넣지 않는 이유: 인라인 배열 리터럴이면 매 렌더 새 참조라 화살표 이동 중
   // 활성 항목이 초기화된다 — 열림 전환에서만 계산하는 것이 의도다
   useEffect(() => {
-    setActiveIndex(open ? edgeActive(items, pendingFromEnd.current ? -1 : 1) : -1);
+    setActiveIndex(open ? edgeEnabledIndex(items, pendingFromEnd.current ? -1 : 1) : -1);
     pendingFromEnd.current = false;
     // eslint-disable-next-line react-hooks/exhaustive-deps -- 위 주석 참조 (items 의도적 제외)
   }, [open]);
@@ -184,19 +163,20 @@ export function Menu({
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault();
-        setActiveIndex((prev) => (prev < 0 ? edgeActive(items, 1) : moveActive(items, prev, 1)));
+        // 범위 밖(-1 포함) 시작점은 유틸이 끝에서 다시 잡는다
+        setActiveIndex((prev) => nextEnabledIndex(items, prev, 1));
         break;
       case "ArrowUp":
         event.preventDefault();
-        setActiveIndex((prev) => (prev < 0 ? edgeActive(items, -1) : moveActive(items, prev, -1)));
+        setActiveIndex((prev) => nextEnabledIndex(items, prev, -1));
         break;
       case "Home":
         event.preventDefault();
-        setActiveIndex(edgeActive(items, 1));
+        setActiveIndex(edgeEnabledIndex(items, 1));
         break;
       case "End":
         event.preventDefault();
-        setActiveIndex(edgeActive(items, -1));
+        setActiveIndex(edgeEnabledIndex(items, -1));
         break;
       case "Enter":
       case " ":
