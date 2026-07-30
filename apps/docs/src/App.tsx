@@ -11,6 +11,7 @@ import { IconPage } from "./pages/components/IconPage";
 import { MenuPage } from "./pages/components/MenuPage";
 import { ModalPage } from "./pages/components/ModalPage";
 import { NumberFieldPage } from "./pages/components/NumberFieldPage";
+import { PaginationPage } from "./pages/components/PaginationPage";
 import { PopoverPage } from "./pages/components/PopoverPage";
 import { PortalPage } from "./pages/components/PortalPage";
 import { RadioPage } from "./pages/components/RadioPage";
@@ -61,6 +62,7 @@ export function App() {
         <Route path="/components/menu" element={<MenuPage />} />
         <Route path="/components/modal" element={<ModalPage />} />
         <Route path="/components/number-field" element={<NumberFieldPage />} />
+        <Route path="/components/pagination" element={<PaginationPage />} />
         <Route path="/components/popover" element={<PopoverPage />} />
         <Route path="/components/portal" element={<PortalPage />} />
         <Route path="/components/radio" element={<RadioPage />} />

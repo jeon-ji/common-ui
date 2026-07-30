@@ -28,6 +28,12 @@ dist/components/Modal/index.js.map
 dist/components/NumberField/index.d.ts
 dist/components/NumberField/index.js
 dist/components/NumberField/index.js.map
+dist/components/Pagination/index.d.ts
+dist/components/Pagination/index.js
+dist/components/Pagination/index.js.map
+dist/components/Pagination/visiblePages.d.ts
+dist/components/Pagination/visiblePages.js
+dist/components/Pagination/visiblePages.js.map
 dist/components/Popover/index.d.ts
 dist/components/Popover/index.js
 dist/components/Popover/index.js.map

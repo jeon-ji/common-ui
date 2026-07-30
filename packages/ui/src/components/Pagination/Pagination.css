@@ -1,0 +1,81 @@
+/* Pagination — 값은 전부 토큰 변수만 참조한다 (전역 규칙 12) */
+
+@layer ui.components {
+  .ui-pagination {
+    display: flex;
+    align-items: center;
+    gap: var(--ui-spacing-3);
+    font-family: var(--ui-font-sans);
+  }
+
+  .ui-pagination-list {
+    display: flex;
+    align-items: center;
+    gap: var(--ui-spacing-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ui-pagination-page,
+  .ui-pagination-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--ui-spacing-8);
+    height: var(--ui-spacing-8);
+    padding: 0 var(--ui-spacing-2);
+    font: inherit;
+    font-size: var(--ui-text-body2-size);
+    color: var(--ui-color-text-secondary);
+    background: none;
+    border: 1px solid transparent;
+    border-radius: var(--ui-radius-sm);
+    cursor: pointer;
+    transition:
+      color var(--ui-duration-fast) var(--ui-easing-standard),
+      background var(--ui-duration-fast) var(--ui-easing-standard);
+  }
+
+  .ui-pagination-page:hover:not([aria-current="page"]),
+  .ui-pagination-nav:hover:not(:disabled) {
+    background: var(--ui-color-bg-muted);
+  }
+
+  .ui-pagination-page:focus-visible,
+  .ui-pagination-nav:focus-visible {
+    outline: 1px solid var(--ui-color-primary-default);
+    outline-offset: -1px;
+  }
+
+  .ui-pagination-page[aria-current="page"] {
+    color: var(--ui-color-text-inverse);
+    background: var(--ui-color-primary-default);
+  }
+
+  .ui-pagination-nav:disabled {
+    color: var(--ui-color-text-disabled);
+    cursor: not-allowed;
+  }
+
+  .ui-pagination-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--ui-spacing-8);
+    height: var(--ui-spacing-8);
+    color: var(--ui-color-text-secondary);
+  }
+
+  .ui-pagination-input {
+    width: var(--ui-spacing-20);
+  }
+
+  .ui-pagination[data-size="sm"] .ui-pagination-page,
+  .ui-pagination[data-size="sm"] .ui-pagination-nav,
+  .ui-pagination[data-size="sm"] .ui-pagination-ellipsis {
+    min-width: var(--ui-spacing-6);
+    height: var(--ui-spacing-6);
+    font-size: var(--ui-text-caption-size);
+  }
+}
