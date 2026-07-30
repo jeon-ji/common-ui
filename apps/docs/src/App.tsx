@@ -18,6 +18,7 @@ import { SelectPage } from "./pages/components/SelectPage";
 import { SkeletonPage } from "./pages/components/SkeletonPage";
 import { SpinnerPage } from "./pages/components/SpinnerPage";
 import { SwitchPage } from "./pages/components/SwitchPage";
+import { TabsPage } from "./pages/components/TabsPage";
 import { TagPage } from "./pages/components/TagPage";
 import { TextareaPage } from "./pages/components/TextareaPage";
 import { TextFieldPage } from "./pages/components/TextFieldPage";
@@ -66,6 +67,7 @@ export function App() {
         <Route path="/components/skeleton" element={<SkeletonPage />} />
         <Route path="/components/spinner" element={<SpinnerPage />} />
         <Route path="/components/switch" element={<SwitchPage />} />
+        <Route path="/components/tabs" element={<TabsPage />} />
         <Route path="/components/tag" element={<TagPage />} />
         <Route path="/components/text" element={<TextPage />} />
         <Route path="/components/toast" element={<ToastPage />} />

@@ -49,6 +49,9 @@ dist/components/Spinner/index.js.map
 dist/components/Switch/index.d.ts
 dist/components/Switch/index.js
 dist/components/Switch/index.js.map
+dist/components/Tabs/index.d.ts
+dist/components/Tabs/index.js
+dist/components/Tabs/index.js.map
 dist/components/Tag/index.d.ts
 dist/components/Tag/index.js
 dist/components/Tag/index.js.map
@@ -117,6 +120,9 @@ dist/index.js
 dist/internal/composeRefs.d.ts
 dist/internal/composeRefs.js
 dist/internal/composeRefs.js.map
+dist/internal/enabledIndex.d.ts
+dist/internal/enabledIndex.js
+dist/internal/enabledIndex.js.map
 dist/internal/overlay/overlayStack.d.ts
 dist/internal/overlay/overlayStack.js
 dist/internal/overlay/overlayStack.js.map

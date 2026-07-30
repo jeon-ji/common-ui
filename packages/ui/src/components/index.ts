@@ -26,6 +26,7 @@ export {
 export { Skeleton, type SkeletonProps } from "./Skeleton/index.js";
 export { Spinner, type SpinnerProps } from "./Spinner/index.js";
 export { Switch, type SwitchProps } from "./Switch/index.js";
+export { type TabItem, Tabs, type TabsProps } from "./Tabs/index.js";
 export { Tag, type TagProps } from "./Tag/index.js";
 export { Heading, type HeadingProps, Text, type TextProps } from "./Text/index.js";
 export { Textarea, type TextareaProps } from "./Textarea/index.js";
