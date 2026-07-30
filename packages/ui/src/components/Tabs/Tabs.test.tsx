@@ -139,6 +139,40 @@ test("목록에 없는 value: 패널을 렌더하지 않고 탭 목록 진입은
   expect(screen.getByRole("tab", { name: "프로필" })).toHaveAttribute("tabindex", "0");
 });
 
+test("활성 값이 disabled 탭이어도 다른 활성 탭으로 키보드 진입이 가능하다", () => {
+  // disabled 버튼은 tabIndex와 무관하게 탭 순서에서 제외된다 — 거기에 roving을 걸면
+  // 탭 스톱이 0개가 되어 화살표 이동에 도달할 수 없다
+  render(<Tabs items={ITEMS} defaultValue="billing" />);
+
+  const enabled = screen.getByRole("tab", { name: "프로필" });
+  expect(enabled).toHaveAttribute("tabindex", "0"); // 포커스 가능한 탭이 실제로 활성 탭이다
+  expect(screen.getByRole("tab", { name: "결제" })).toHaveAttribute("tabindex", "-1");
+
+  // 그 탭에서 화살표 이동이 동작한다
+  fireEvent.keyDown(enabled, { key: "ArrowRight" });
+  expect(screen.getByRole("tab", { name: "팀" })).toHaveAttribute("aria-selected", "true");
+});
+
+test("items가 나중에 도착해도 첫 활성 탭이 활성화된다", () => {
+  function AsyncItems() {
+    const [items, setItems] = useState<TabItem[]>([]);
+    return (
+      <>
+        <button type="button" onClick={() => setItems(ITEMS)}>
+          불러오기
+        </button>
+        <Tabs items={items} />
+      </>
+    );
+  }
+  render(<AsyncItems />);
+  expect(screen.queryByRole("tab")).not.toBeInTheDocument();
+
+  fireEvent.click(screen.getByRole("button", { name: "불러오기" }));
+  expect(screen.getByRole("tab", { name: "프로필" })).toHaveAttribute("aria-selected", "true");
+  expect(screen.getByRole("tabpanel")).toHaveTextContent("프로필 내용");
+});
+
 test("전부 disabled면 패널이 없고 이동해도 선택되지 않는다", () => {
   const items: TabItem[] = [
     { value: "a", label: "가", content: "가 내용", disabled: true },

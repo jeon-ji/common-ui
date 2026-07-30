@@ -73,11 +73,11 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
   },
   ref,
 ) {
-  // 항목이 없으면 활성 값도 없으므로 T가 undefined를 포함한다. 캐스트가 안전한 이유:
+  // 고른 값이 없을 수 있으므로 T가 undefined를 포함한다. 캐스트가 안전한 이유:
   // setActiveValue에 넘기는 값은 항상 존재하는 항목의 value(문자열)다 (RadioGroup 선례)
   const [activeValue, setActiveValue] = useControllableState<string | undefined>({
     value: valueProp,
-    defaultValue: defaultValue ?? items[edgeEnabledIndex(items, 1)]?.value,
+    defaultValue,
     onChange: onChange as (value: string | undefined) => void,
   });
 
@@ -85,10 +85,19 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
   const tabId = (index: number) => `${baseId}-tab-${index}`;
   const panelId = (index: number) => `${baseId}-panel-${index}`;
 
+  // 아직 고른 값이 없으면 첫 활성 탭을 활성으로 본다 — 상태를 쓰지 않는 렌더 시 폴백이라
+  // items가 비동기로 도착해도(첫 렌더 기준 초기값이 굳는 문제) 활성 탭이 생기고,
+  // 제어 값을 몰래 바꾸지도 않는다
+  const effectiveValue = activeValue ?? items[edgeEnabledIndex(items, 1)]?.value;
   // 목록에 없는 값은 캐스팅으로 덮지 않는다 — 활성 탭 없음으로 두어 오작동이 드러나게 한다(리뷰 M12)
-  const activeIndex = items.findIndex((item) => item.value === activeValue);
-  // 활성 탭이 없어도 탭 목록에는 진입할 수 있어야 한다(포커스 가능한 탭이 하나는 필요)
-  const focusIndex = activeIndex >= 0 ? activeIndex : edgeEnabledIndex(items, 1);
+  const activeIndex = items.findIndex((item) => item.value === effectiveValue);
+  // 탭 목록에는 항상 진입할 수 있어야 한다 — 활성 탭이 없거나 **disabled**면 다른 활성 탭에
+  // tabIndex=0을 준다. disabled 버튼은 tabIndex와 무관하게 탭 순서에서 제외되므로,
+  // 그 버튼에 roving을 걸면 탭 스톱이 0개가 되어 키보드로 위젯에 들어올 수 없다
+  const focusIndex =
+    activeIndex >= 0 && items[activeIndex]?.disabled !== true
+      ? activeIndex
+      : edgeEnabledIndex(items, 1);
 
   const activate = (index: number) => {
     const item = items[index];

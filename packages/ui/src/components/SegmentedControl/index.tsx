@@ -73,19 +73,26 @@ export const SegmentedControl = forwardRef<HTMLDivElement, SegmentedControlProps
     },
     ref,
   ) {
-    // 항목이 없으면 값도 없다 — Tabs와 같은 이유로 T가 undefined를 포함한다
+    // 고른 값이 없을 수 있다 — Tabs와 같은 이유로 T가 undefined를 포함한다
     const [value, setValue] = useControllableState<string | undefined>({
       value: valueProp,
-      defaultValue: defaultValue ?? items[edgeEnabledIndex(items, 1)]?.value,
+      defaultValue,
       onChange: onChange as (value: string | undefined) => void,
     });
 
     const baseId = useId();
     const itemId = (index: number) => `${baseId}-item-${index}`;
 
-    const selectedIndex = items.findIndex((item) => item.value === value);
-    // 선택 항목이 없어도 그룹에는 진입할 수 있어야 한다
-    const focusIndex = selectedIndex >= 0 ? selectedIndex : edgeEnabledIndex(items, 1);
+    // 아직 고른 값이 없으면 첫 활성 항목을 선택으로 본다 — 렌더 시 폴백이라 items가 비동기로
+    // 도착해도 동작하고(초기값이 첫 렌더에 굳는 문제) 제어 값을 몰래 바꾸지 않는다
+    const effectiveValue = value ?? items[edgeEnabledIndex(items, 1)]?.value;
+    const selectedIndex = items.findIndex((item) => item.value === effectiveValue);
+    // 그룹에는 항상 진입할 수 있어야 한다 — 선택 항목이 없거나 **disabled**면 다른 활성 항목에
+    // tabIndex=0을 준다. disabled 버튼은 포커스를 받지 못해 탭 스톱이 0개가 되기 때문이다
+    const focusIndex =
+      selectedIndex >= 0 && items[selectedIndex]?.disabled !== true
+        ? selectedIndex
+        : edgeEnabledIndex(items, 1);
 
     const select = (index: number) => {
       const item = items[index];

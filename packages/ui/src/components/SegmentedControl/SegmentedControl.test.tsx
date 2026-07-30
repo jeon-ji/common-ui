@@ -137,6 +137,34 @@ test("아이콘은 주입형이며 장식 요소로 감춰진다", () => {
   expect(icon.parentElement).toHaveAttribute("aria-hidden", "true");
 });
 
+test("선택 값이 disabled 항목이어도 활성 항목으로 키보드 진입이 가능하다", () => {
+  render(<SegmentedControl items={ITEMS} defaultValue="board" />);
+
+  const enabled = screen.getByRole("radio", { name: "목록" });
+  expect(enabled).toHaveAttribute("tabindex", "0"); // 포커스 가능한 항목이 실제로 활성 항목이다
+  expect(screen.getByRole("radio", { name: "보드" })).toHaveAttribute("tabindex", "-1");
+
+  fireEvent.keyDown(enabled, { key: "ArrowRight" });
+  expect(screen.getByRole("radio", { name: "캘린더" })).toHaveAttribute("aria-checked", "true");
+});
+
+test("items가 나중에 도착해도 첫 활성 항목이 선택된다", () => {
+  function AsyncItems() {
+    const [items, setItems] = useState<SegmentedItem[]>([]);
+    return (
+      <>
+        <button type="button" onClick={() => setItems(ITEMS)}>
+          불러오기
+        </button>
+        <SegmentedControl items={items} />
+      </>
+    );
+  }
+  render(<AsyncItems />);
+  fireEvent.click(screen.getByRole("button", { name: "불러오기" }));
+  expect(screen.getByRole("radio", { name: "목록" })).toHaveAttribute("aria-checked", "true");
+});
+
 test("목록에 없는 value: 아무것도 선택되지 않지만 그룹 진입은 유지한다", () => {
   render(<SegmentedControl items={ITEMS} value="없음" />);
 

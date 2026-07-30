@@ -52,19 +52,24 @@ export function visiblePages({
 
   return [
     ...startPages,
-    // 왼쪽: 두 칸 이상 비면 생략, 딱 한 칸 비면 그 페이지를 직접
-    ...(siblingsStart > boundaries + 2
-      ? (["ellipsis"] as PageSlot[])
-      : boundaries + 1 < total - boundaries
-        ? [boundaries + 1]
-        : []),
+    // 왼쪽: 두 칸 이상 비면 생략, 딱 한 칸 비면 그 페이지를 직접.
+    // 끝 페이지를 아예 안 보여주는 boundaries=0에서는 가릴 대상이 없으므로 생략 기호도 없다
+    ...(startPages.length === 0
+      ? []
+      : siblingsStart > boundaries + 2
+        ? (["ellipsis"] as PageSlot[])
+        : boundaries + 1 < total - boundaries
+          ? [boundaries + 1]
+          : []),
     ...range(siblingsStart, siblingsEnd),
     // 오른쪽: 같은 규칙
-    ...(siblingsEnd < total - boundaries - 1
-      ? (["ellipsis"] as PageSlot[])
-      : total - boundaries > boundaries
-        ? [total - boundaries]
-        : []),
+    ...(endPages.length === 0
+      ? []
+      : siblingsEnd < total - boundaries - 1
+        ? (["ellipsis"] as PageSlot[])
+        : total - boundaries > boundaries
+          ? [total - boundaries]
+          : []),
     ...endPages,
   ];
 }

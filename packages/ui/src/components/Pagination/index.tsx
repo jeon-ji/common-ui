@@ -1,9 +1,17 @@
 import "./Pagination.css";
 
-import { type ComponentPropsWithoutRef, forwardRef, type KeyboardEvent, useState } from "react";
+import {
+  type ComponentPropsWithoutRef,
+  type FocusEvent,
+  forwardRef,
+  type KeyboardEvent,
+  useRef,
+  useState,
+} from "react";
 
 import { useControllableState } from "../../hooks/useControllableState.js";
 import { ChevronLeftIcon, ChevronRightIcon } from "../../icons/index.js";
+import { composeRefs } from "../../internal/composeRefs.js";
 import { NumberField } from "../NumberField/index.js";
 import { visiblePages } from "./visiblePages.js";
 
@@ -78,7 +86,9 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
     defaultValue,
     onChange,
   });
-  // 직접 입력 값은 이 컴포넌트가 소유한다 — 타이핑 중에는 페이지를 옮기지 않는다
+  const navRef = useRef<HTMLElement | null>(null);
+  // 직접 입력 값은 이 컴포넌트가 소유한다 — 타이핑 중에는 페이지를 옮기지 않는다.
+  // 비어 있는 상태(null)가 기본이라 낡은 숫자가 남지 않는다
   const [draft, setDraft] = useState<number | null>(null);
 
   // total이 줄어 현재 페이지가 범위를 넘으면 표시만 클램프한다 —
@@ -87,7 +97,9 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
   const slots = visiblePages({ total, page: current, siblings, boundaries });
 
   const goTo = (next: number) => {
-    const clamped = Math.min(Math.max(next, 1), total);
+    // 페이지는 정수다 — 입력 필드가 소수를 허용하므로 여기서 반올림해 2.5페이지 같은 값이
+    // onChange로 새지 않게 한다
+    const clamped = Math.min(Math.max(Math.round(next), 1), total);
     setPage(clamped); // 같은 값이면 useControllableState가 onChange를 부르지 않는다
   };
 
@@ -103,24 +115,41 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
     commitDraft();
   };
 
+  // blur 커밋은 포커스가 이 컴포넌트 **밖으로** 나갈 때만 한다.
+  // 페이지 버튼을 마우스로 누르면 mousedown → blur가 click보다 먼저 오는데, 그때 커밋해
+  // 목록을 재계산하면 눌린 버튼이 언마운트돼 click이 사라진다(엉뚱한 페이지로 이동)
+  const handleInputBlur = (event: FocusEvent<HTMLInputElement>) => {
+    const next = event.relatedTarget;
+    if (next instanceof Node && navRef.current?.contains(next) === true) return;
+    commitDraft();
+  };
+
   if (total <= 1) return null;
 
   return (
     <nav
-      ref={ref}
+      ref={composeRefs(ref, navRef)}
       aria-label={ariaLabel ?? "페이지네이션"}
       className={["ui-pagination", className].filter(Boolean).join(" ")}
       data-size={size}
       {...rest}
     >
-      <ul className="ui-pagination-list">
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles -- 규칙 말대로 보통은 중복이지만,
+          WebKit(Safari/VoiceOver)은 list-style: none이 적용된 목록에서 list 시맨틱을 제거한다.
+          이 명시가 없으면 nav → ul → li 구조가 보조기술에 전달되지 않는다 */}
+      <ul role="list" className="ui-pagination-list">
         <li>
+          {/* 양 끝에서 disabled 속성을 쓰지 않는다: 방금 조작한 버튼이 비활성화되면 브라우저가
+              포커스를 body로 되돌려 키보드 사용자가 위치를 잃는다. aria-disabled로 알리고
+              동작만 막아 포커스를 유지한다 */}
           <button
             type="button"
             className="ui-pagination-nav"
             aria-label="이전 페이지"
-            disabled={current <= 1}
-            onClick={() => goTo(current - 1)}
+            aria-disabled={current <= 1 || undefined}
+            onClick={() => {
+              if (current > 1) goTo(current - 1);
+            }}
           >
             <ChevronLeftIcon />
           </button>
@@ -137,9 +166,9 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
                 type="button"
                 className="ui-pagination-page"
                 aria-current={slot === current ? "page" : undefined}
-                aria-label={
-                  slot === current ? `현재 페이지, ${String(slot)}` : `${String(slot)} 페이지`
-                }
+                // 이름에 "현재 페이지"를 넣지 않는다 — aria-current를 보조기술이 자기 문구로
+                // 읽어 주므로 이름에 또 넣으면 두 번 안내된다
+                aria-label={`${String(slot)} 페이지`}
                 onClick={() => goTo(slot)}
               >
                 {slot}
@@ -152,8 +181,10 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
             type="button"
             className="ui-pagination-nav"
             aria-label="다음 페이지"
-            disabled={current >= total}
-            onClick={() => goTo(current + 1)}
+            aria-disabled={current >= total || undefined}
+            onClick={() => {
+              if (current < total) goTo(current + 1);
+            }}
           >
             <ChevronRightIcon />
           </button>
@@ -167,9 +198,12 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
           min={1}
           max={total}
           value={draft}
+          // 비어 있어도 spinbutton은 값을 알려야 한다(ARIA 1.2) — 그때의 값은 현재 페이지이며
+          // placeholder가 화면에 보여 주는 것과 같다
+          aria-valuenow={draft ?? current}
           onChange={setDraft}
           onKeyDown={handleInputKeyDown}
-          onBlur={commitDraft}
+          onBlur={handleInputBlur}
         />
       )}
     </nav>

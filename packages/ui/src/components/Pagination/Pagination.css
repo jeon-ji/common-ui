@@ -38,7 +38,7 @@
   }
 
   .ui-pagination-page:hover:not([aria-current="page"]),
-  .ui-pagination-nav:hover:not(:disabled) {
+  .ui-pagination-nav:hover:not([aria-disabled]) {
     background: var(--ui-color-bg-muted);
   }
 
@@ -53,7 +53,8 @@
     background: var(--ui-color-primary-default);
   }
 
-  .ui-pagination-nav:disabled {
+  /* 포커스를 유지하려고 disabled 속성 대신 aria-disabled를 쓴다 (index.tsx 주석 참조) */
+  .ui-pagination-nav[aria-disabled] {
     color: var(--ui-color-text-disabled);
     cursor: not-allowed;
   }

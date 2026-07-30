@@ -15,9 +15,12 @@ test("시맨틱: nav 이름 + 현재 페이지에 aria-current", () => {
   expect(screen.getByRole("button", { name: "4 페이지" })).not.toHaveAttribute("aria-current");
 });
 
-test("현재 페이지 버튼은 접근 이름으로 현재임을 알린다", () => {
+test("페이지 버튼 이름은 번호만 담고 현재 여부는 aria-current가 알린다", () => {
   render(<Pagination total={5} defaultValue={2} />);
-  expect(screen.getByRole("button", { name: "현재 페이지, 2" })).toBeInTheDocument();
+  const current = screen.getByRole("button", { name: "2 페이지" });
+  // 이름에 "현재 페이지"를 넣으면 aria-current와 겹쳐 두 번 안내된다
+  expect(current).toHaveAttribute("aria-current", "page");
+  expect(current).toHaveAccessibleName("2 페이지");
 });
 
 test("total이 1 이하면 아무것도 렌더하지 않는다", () => {
@@ -42,14 +45,14 @@ test("이전·다음 버튼과 양 끝 비활성", async () => {
 
   const prev = screen.getByRole("button", { name: "이전 페이지" });
   const next = screen.getByRole("button", { name: "다음 페이지" });
-  expect(prev).toBeDisabled(); // 첫 페이지
+  expect(prev).toHaveAttribute("aria-disabled", "true"); // 첫 페이지
 
   await user.click(next);
   expect(screen.getByRole("button", { current: "page" })).toHaveTextContent("2");
-  expect(prev).toBeEnabled();
+  expect(prev).not.toHaveAttribute("aria-disabled");
 
   await user.click(next);
-  expect(next).toBeDisabled(); // 마지막 페이지
+  expect(next).toHaveAttribute("aria-disabled", "true"); // 마지막 페이지
 });
 
 test("같은 페이지를 다시 눌러도 onChange가 호출되지 않는다", async () => {
@@ -57,7 +60,7 @@ test("같은 페이지를 다시 눌러도 onChange가 호출되지 않는다", 
   const onChange = vi.fn();
   render(<Pagination total={5} defaultValue={2} onChange={onChange} />);
 
-  await user.click(screen.getByRole("button", { name: "현재 페이지, 2" }));
+  await user.click(screen.getByRole("button", { name: "2 페이지" }));
   expect(onChange).not.toHaveBeenCalled();
 });
 
@@ -151,6 +154,69 @@ test("직접 입력: 빈 값은 무시한다", async () => {
   await user.keyboard("{Enter}");
   expect(onChange).not.toHaveBeenCalled();
   expect(screen.getByRole("button", { current: "page" })).toHaveTextContent("4");
+});
+
+test("직접 입력: 페이지 버튼을 누르면 입력 커밋이 클릭을 삼키지 않는다", async () => {
+  const user = userEvent.setup();
+  const onChange = vi.fn();
+  render(<Pagination total={20} pageInput onChange={onChange} />);
+
+  // 입력에 숫자를 남긴 채 다른 페이지 버튼을 클릭한다 — blur가 click보다 먼저 온다
+  await user.type(screen.getByRole("spinbutton", { name: "페이지 번호" }), "7");
+  await user.click(screen.getByRole("button", { name: "5 페이지" }));
+
+  // 클릭한 페이지로 가야 한다. blur 커밋이 먼저 실행되면 목록이 재계산돼 클릭이 사라진다
+  expect(onChange).toHaveBeenLastCalledWith(5);
+  expect(screen.getByRole("button", { current: "page" })).toHaveTextContent("5");
+});
+
+test("직접 입력: 소수를 넣어도 정수 페이지로만 이동한다", async () => {
+  const user = userEvent.setup();
+  const onChange = vi.fn();
+  render(<Pagination total={50} pageInput onChange={onChange} />);
+
+  await user.type(screen.getByRole("spinbutton", { name: "페이지 번호" }), "2.5");
+  await user.keyboard("{Enter}");
+  expect(onChange).toHaveBeenCalledExactlyOnceWith(3); // 2.5가 그대로 새지 않는다
+});
+
+test("직접 입력: 비어 있어도 spinbutton이 현재 페이지를 값으로 알린다", () => {
+  render(<Pagination total={10} defaultValue={4} pageInput />);
+  expect(screen.getByRole("spinbutton", { name: "페이지 번호" })).toHaveAttribute(
+    "aria-valuenow",
+    "4",
+  );
+});
+
+test("양 끝 버튼은 포커스를 유지하도록 aria-disabled로 알린다", async () => {
+  const user = userEvent.setup();
+  render(<Pagination total={2} />);
+
+  const next = screen.getByRole("button", { name: "다음 페이지" });
+  expect(screen.getByRole("button", { name: "이전 페이지" })).toHaveAttribute(
+    "aria-disabled",
+    "true",
+  );
+
+  await user.click(next);
+  // 마지막 페이지에 닿아도 버튼이 포커스를 잃지 않는다 (disabled면 body로 떨어진다)
+  expect(next).toHaveAttribute("aria-disabled", "true");
+  expect(next).toHaveFocus();
+});
+
+test("비활성 상태의 양 끝 버튼은 눌러도 이동하지 않는다", async () => {
+  const user = userEvent.setup();
+  const onChange = vi.fn();
+  render(<Pagination total={5} onChange={onChange} />);
+
+  await user.click(screen.getByRole("button", { name: "이전 페이지" }));
+  expect(onChange).not.toHaveBeenCalled();
+  expect(screen.getByRole("button", { current: "page" })).toHaveTextContent("1");
+});
+
+test("페이지 목록이 list 시맨틱을 유지한다", () => {
+  render(<Pagination total={5} />);
+  expect(screen.getByRole("list")).toBeInTheDocument();
 });
 
 test("size가 data 속성으로 노출된다", () => {

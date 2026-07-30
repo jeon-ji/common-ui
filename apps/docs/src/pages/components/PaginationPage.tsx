@@ -49,8 +49,9 @@ export function PaginationPage() {
             </td>
             <td>
               전체를 이름 있는 <code>nav</code>로 감싸고, 현재 페이지 버튼에만{" "}
-              <code>aria-current</code>를 준다. 현재 페이지의 접근 이름은 &quot;현재 페이지, 3&quot;
-              형태다
+              <code>aria-current</code>를 준다. 버튼 이름은 &quot;3 페이지&quot;처럼 번호만 담는다 —
+              보조기술이 <code>aria-current</code>를 자기 문구로 읽어 주므로 이름에 &quot;현재
+              페이지&quot;를 넣으면 두 번 안내된다
             </td>
           </tr>
           <tr>
@@ -60,6 +61,14 @@ export function PaginationPage() {
               <code>&lt;li onClick&gt;</code> 구조를 바로잡았다. 각 버튼이 독립 탭 스톱이며{" "}
               <strong>roving tabindex를 쓰지 않는다</strong>(Tabs·SegmentedControl과 다른 선택 —
               페이지네이션은 링크 목록 성격이다)
+            </td>
+          </tr>
+          <tr>
+            <td>양 끝 버튼</td>
+            <td>
+              첫·마지막 페이지에서 <code>disabled</code> 속성이 아니라 <code>aria-disabled</code>를
+              쓴다 — 방금 누른 버튼이 비활성화되면 브라우저가 포커스를 body로 되돌려 키보드 사용자가
+              위치를 잃기 때문이다. 동작만 막고 포커스는 유지한다
             </td>
           </tr>
           <tr>
@@ -73,7 +82,9 @@ export function PaginationPage() {
             <td>직접 입력</td>
             <td>
               내부적으로 NumberField를 재사용하며 <code>aria-label=&quot;페이지 번호&quot;</code>가
-              붙는다. 범위를 벗어난 값은 <code>1..total</code>로 클램프된다
+              붙는다. 범위를 벗어난 값은 <code>1..total</code>로 클램프되고 소수는 정수로
+              반올림된다. 커밋은 Enter 또는 <strong>포커스가 컴포넌트 밖으로 나갈 때</strong>만
+              일어난다 — 페이지 버튼을 클릭하면 그 클릭이 이기고, 입력 커밋이 클릭을 삼키지 않는다
             </td>
           </tr>
           <tr>

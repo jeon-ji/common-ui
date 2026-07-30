@@ -86,6 +86,14 @@ test("siblings=0이면 현재 페이지만 가운데 남는다", () => {
   ]);
 });
 
+test("boundaries=0이면 첫·끝 페이지를 안 보여주므로 생략 기호도 없다", () => {
+  // 가릴 대상이 없는데 생략 기호를 넣으면 허공을 가리킨다
+  expect(visiblePages({ total: 10, page: 5, siblings: 1, boundaries: 0 })).toEqual([4, 5, 6]);
+  expect(visiblePages({ total: 10, page: 1, siblings: 1, boundaries: 0 })).not.toContain(
+    "ellipsis",
+  );
+});
+
 test("boundaries를 늘리면 양 끝이 넓어진다", () => {
   expect(visiblePages({ total: 30, page: 15, siblings: 1, boundaries: 2 })).toEqual([
     1,
