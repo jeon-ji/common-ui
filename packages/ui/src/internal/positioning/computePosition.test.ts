@@ -67,14 +67,14 @@ test("플립: 선호 방향이 안 들어가고 반대편이 들어가면 반대
   expect(result.top).toBe(76); // 70+6
 });
 
-test("폴백: 위아래 다 안 들어가면 bottom (기존 Tooltip 동작과 동치)", () => {
+test("폴백: 위아래 다 안 들어가고 공간이 같으면 선호 방향을 유지한다", () => {
   const small = { width: 1000, height: 100 };
   const anchor = rect(400, 40, 200, 20); // top 공간 40, bottom 공간 40 — 둘 다 56 필요
   const floating = rect(0, 0, 100, 50);
   expect(
     computePosition(anchor, floating, { side: "top", align: "center", offset: 6, viewport: small })
       .side,
-  ).toBe("bottom");
+  ).toBe("top");
   expect(
     computePosition(anchor, floating, {
       side: "bottom",
@@ -85,14 +85,29 @@ test("폴백: 위아래 다 안 들어가면 bottom (기존 Tooltip 동작과 �
   ).toBe("bottom");
 });
 
-test("폴백: 좌우 다 안 들어가면 right", () => {
-  const small = { width: 100, height: 800 };
-  const anchor = rect(40, 300, 20, 40);
-  const floating = rect(0, 0, 50, 50);
+test("폴백: 위아래 다 안 들어가면 남은 공간이 더 큰 쪽을 고른다", () => {
+  const short = { width: 1000, height: 300 };
+  const anchor = rect(400, 250, 120, 20); // 위 공간 250, 아래 공간 30
+  const tall = rect(0, 0, 200, 330); // 어느 쪽에도 안 들어가는 높이
+  // bottom 선호였어도 거의 다 잘리는 아래 대신 위를 고른다
+  const result = computePosition(anchor, tall, {
+    side: "bottom",
+    align: "start",
+    offset: 6,
+    viewport: short,
+  });
+  expect(result.side).toBe("top");
+  expect(result.top).toBe(-86); // 250-330-6 — 위쪽이 잘리지만 보이는 면적이 훨씬 크다
+});
+
+test("폴백: 좌우 다 안 들어가면 남은 공간이 더 큰 쪽", () => {
+  const narrow = { width: 200, height: 800 };
+  const anchor = rect(150, 300, 20, 40); // 왼쪽 공간 150, 오른쪽 공간 30
+  const wide = rect(0, 0, 180, 50);
   expect(
-    computePosition(anchor, floating, { side: "left", align: "center", offset: 6, viewport: small })
+    computePosition(anchor, wide, { side: "right", align: "center", offset: 6, viewport: narrow })
       .side,
-  ).toBe("right");
+  ).toBe("left");
 });
 
 test("clamp: 교차축이 뷰포트를 벗어나면 안쪽으로 클램핑된다", () => {

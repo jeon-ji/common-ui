@@ -43,13 +43,23 @@ const OPPOSITE: Record<PositionSide, PositionSide> = {
   right: "left",
 };
 
-/** 둘 다 안 들어갈 때의 폴백 — 축의 end쪽(bottom/right). 기존 Tooltip의 top/bottom 동작과 동치다 */
-const FALLBACK: Record<PositionSide, PositionSide> = {
-  top: "bottom",
-  bottom: "bottom",
-  left: "right",
-  right: "right",
-};
+/** 해당 방향에 남은 공간(px) — 어느 쪽도 안 들어갈 때 덜 잘리는 쪽을 고르는 기준 */
+function availableSpace(
+  side: PositionSide,
+  anchor: RectLike,
+  viewport: { width: number; height: number },
+): number {
+  switch (side) {
+    case "top":
+      return anchor.top;
+    case "bottom":
+      return viewport.height - anchor.bottom;
+    case "left":
+      return anchor.left;
+    case "right":
+      return viewport.width - anchor.right;
+  }
+}
 
 function fits(
   side: PositionSide,
@@ -79,11 +89,19 @@ export function computePosition(
   floating: RectLike,
   { side, align, offset, viewport, clamp = false }: ComputePositionOptions,
 ): ComputePositionResult {
+  // 선호 방향 → 안 들어가면 반대편 → 둘 다 안 들어가면 남은 공간이 더 큰 쪽(동률은 선호 유지).
+  // 공간 비교 없이 한쪽으로 폴백하면 앵커가 화면 끝에 있을 때 패널이 거의 다 잘린다
   let resolved = side;
   if (!fits(side, anchor, floating, offset, viewport)) {
-    resolved = fits(OPPOSITE[side], anchor, floating, offset, viewport)
-      ? OPPOSITE[side]
-      : FALLBACK[side];
+    const opposite = OPPOSITE[side];
+    if (fits(opposite, anchor, floating, offset, viewport)) {
+      resolved = opposite;
+    } else {
+      resolved =
+        availableSpace(side, anchor, viewport) >= availableSpace(opposite, anchor, viewport)
+          ? side
+          : opposite;
+    }
   }
 
   const vertical = resolved === "top" || resolved === "bottom";

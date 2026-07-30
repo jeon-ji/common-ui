@@ -3,7 +3,7 @@ import { userEvent } from "@testing-library/user-event";
 import { useState } from "react";
 import { expect, test, vi } from "vitest";
 
-import { OverlayProvider, useOverlayEscape } from "./overlayStack.js";
+import { OverlayProvider, useOverlayLayer } from "./overlayStack.js";
 import { useFocusTrap } from "./useFocusTrap.js";
 import { useScrollLock } from "./useScrollLock.js";
 
@@ -11,7 +11,7 @@ import { useScrollLock } from "./useScrollLock.js";
 
 function FakeOverlay({ name, children }: { name: string; children?: React.ReactNode }) {
   const [open, setOpen] = useState(true);
-  useOverlayEscape(open, () => setOpen(false));
+  useOverlayLayer(open, () => setOpen(false));
   if (!open) return null;
   return (
     <div>
@@ -53,7 +53,7 @@ test("이미 소비된(defaultPrevented) Escape는 처리하지 않는다", asyn
   const user = userEvent.setup();
   const onEscape = vi.fn();
   function Harness() {
-    useOverlayEscape(true, onEscape);
+    useOverlayLayer(true, onEscape);
     return <input aria-label="입력" onKeyDown={(event) => event.preventDefault()} />;
   }
   render(

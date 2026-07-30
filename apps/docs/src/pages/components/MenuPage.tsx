@@ -61,7 +61,8 @@ export function MenuPage() {
             <td>트리거</td>
             <td>
               <code>aria-haspopup=&quot;menu&quot;</code> + <code>aria-expanded</code> +{" "}
-              <code>aria-controls</code>(열렸을 때만) 자동 주입
+              <code>aria-controls</code>(열렸을 때만) 자동 주입. 메뉴의 접근 가능한 이름은 트리거가
+              주므로(<code>aria-labelledby</code>) 트리거에 id가 없으면 자동으로 부여된다
             </td>
           </tr>
           <tr>

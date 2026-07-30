@@ -51,12 +51,23 @@ export function PopoverPage() {
             <td>non-modal</td>
             <td>
               FocusTrap·ScrollLock이 없다 — 포커스를 가두지 않고, 닫힐 때 패널 안에 있던 포커스만
-              앵커로 복원한다
+              앵커로 복원한다 (Escape·바깥 클릭 모두)
             </td>
           </tr>
           <tr>
-            <td>Escape</td>
-            <td>오버레이 스택 소유권을 따른다 — Modal 안에서는 팝오버만 닫힌다</td>
+            <td>Escape · 바깥 클릭</td>
+            <td>
+              둘 다 오버레이 스택 소유권을 따라 <strong>최상단 한 겹만</strong> 닫는다 — 팝오버 안의
+              메뉴를 클릭해도 상위 팝오버가 닫히지 않고, 바깥을 클릭하면 위에서부터 차례로 닫힌다
+            </td>
+          </tr>
+          <tr>
+            <td>패널의 Tab 순서</td>
+            <td>
+              패널은 포털(문서 끝)에 렌더되므로 트리거 다음 Tab 대상이 아니다. 인터랙티브 내용을
+              담을 때는 소비자가 포커스를 관리하거나(전달한 ref로 열릴 때 포커스 이동), 역할이
+              분명한 Menu·Modal을 쓴다 — 포커스 순환은 이 버전의 범위가 아니다
+            </td>
           </tr>
           <tr>
             <td>role 없음</td>

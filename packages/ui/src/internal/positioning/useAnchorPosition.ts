@@ -1,10 +1,30 @@
-import { type CSSProperties, useCallback, useEffect, useLayoutEffect, useState } from "react";
+import {
+  type CSSProperties,
+  type RefObject,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 
 import { computePosition, type PositionAlign, type PositionSide } from "./computePosition.js";
 
+/**
+ * 앵커 지정 방식 — 요소 값 또는 ref.
+ * ref를 넘기면 측정 시점마다 `.current`를 새로 읽으므로, 열려 있는 동안 앵커가
+ * 리마운트돼도 분리된(detached) 노드를 재지 않는다. 요소 값은 마운트가 곧 측정 계기가
+ * 되어야 하는 쪽(cloneElement로 트리거를 잡는 Tooltip)이 쓴다.
+ */
+type AnchorSource = HTMLElement | RefObject<HTMLElement | null> | null;
+
+function resolveAnchor(anchor: AnchorSource): HTMLElement | null {
+  if (!anchor) return null;
+  return "current" in anchor ? anchor.current : anchor;
+}
+
 interface UseAnchorPositionOptions {
-  /** 앵커 요소 — Portal 아래 소비자는 ref 객체가 아닌 요소 상태로 넘겨야 한다 */
-  anchorEl: HTMLElement | null;
+  /** 앵커 — 요소 값 또는 ref (AnchorSource 설명 참조) */
+  anchor: AnchorSource;
   /** 위치를 잡을 부동 요소 — 요소 상태로 넘겨야 마운트 시 측정 이펙트가 발동한다 */
   floatingEl: HTMLElement | null;
   side: PositionSide;
@@ -29,7 +49,7 @@ interface AnchorPosition {
  * window 접근은 전부 이펙트·리스너 안에서만 일어난다(SSR-safe). 내부 전용.
  */
 export function useAnchorPosition({
-  anchorEl,
+  anchor,
   floatingEl,
   side,
   align,
@@ -41,6 +61,8 @@ export function useAnchorPosition({
   const [position, setPosition] = useState<{ top: number; left: number; side: PositionSide }>();
 
   const update = useCallback(() => {
+    // ref 앵커는 측정 시점에 읽는다 — 렌더가 아닌 이펙트/리스너 안이라 안전하다
+    const anchorEl = resolveAnchor(anchor);
     if (!enabled || !anchorEl || !floatingEl) return;
     const next = computePosition(
       anchorEl.getBoundingClientRect(),
@@ -50,7 +72,12 @@ export function useAnchorPosition({
         align,
         offset,
         clamp,
-        viewport: { width: window.innerWidth, height: window.innerHeight },
+        // clientWidth/Height는 스크롤바를 제외한 실제 표시 영역이다 —
+        // innerWidth를 쓰면 스크롤바 아래까지 공간으로 계산해 패널이 가려진다
+        viewport: {
+          width: document.documentElement.clientWidth || window.innerWidth,
+          height: document.documentElement.clientHeight || window.innerHeight,
+        },
       },
     );
     // 스크롤 추적 중 값이 그대로면 리렌더를 만들지 않는다
@@ -59,7 +86,7 @@ export function useAnchorPosition({
         ? prev
         : next,
     );
-  }, [enabled, anchorEl, floatingEl, side, align, offset, clamp]);
+  }, [enabled, anchor, floatingEl, side, align, offset, clamp]);
 
   useLayoutEffect(() => {
     update();

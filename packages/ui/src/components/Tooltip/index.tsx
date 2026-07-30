@@ -77,7 +77,7 @@ export function Tooltip({
 
   // 측정→플립→배치는 공용 위치 엔진이 담당한다 (Popover와 공유)
   const { style, side: actualPlacement } = useAnchorPosition({
-    anchorEl: triggerEl,
+    anchor: triggerEl,
     floatingEl: tipEl,
     side: placement,
     align: "center",

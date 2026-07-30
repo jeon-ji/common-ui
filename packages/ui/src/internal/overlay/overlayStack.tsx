@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, use, useEffect, useRef, useState } from "react";
+import { createContext, type ReactNode, use, useEffect, useMemo, useRef, useState } from "react";
 
 /**
  * 오버레이 스택 — Escape는 스택 최상단 소유자만 처리한다 (리뷰 A4·D3의 근본 해결).
@@ -43,12 +43,22 @@ export function OverlayProvider({ children }: { children: ReactNode }) {
   return <OverlayStackContext value={stack}>{children}</OverlayStackContext>;
 }
 
+export interface OverlayLayer {
+  /**
+   * 이 오버레이가 스택 최상단 소유자인지 — Escape 외의 소유권 판정에도 쓴다.
+   * 예: 바깥 클릭 닫힘은 최상단만 처리해야 중첩 오버레이(팝오버 안의 메뉴)의
+   * 패널 클릭이 상위를 닫지 않는다. 포털은 body 형제로 붙으므로 DOM 포함 검사만으로는
+   * 중첩을 판정할 수 없다.
+   */
+  isTop(): boolean;
+}
+
 /**
  * active 동안 스택에 등록하고, 자신이 최상단일 때의 Escape만 처리한다.
  * document 레벨 리스너라 포커스가 어디에 있어도 동작하며, 하위 오버레이의
  * 리스너는 isTop 검사에서 조용히 물러난다 — stopPropagation 경쟁이 없다.
  */
-export function useOverlayEscape(active: boolean, onEscape: () => void): void {
+export function useOverlayLayer(active: boolean, onEscape: () => void): OverlayLayer {
   const contextStack = use(OverlayStackContext);
   const [ownStack] = useState(createOverlayStack);
   const stack = contextStack ?? ownStack;
@@ -75,4 +85,7 @@ export function useOverlayEscape(active: boolean, onEscape: () => void): void {
       stack.remove(id);
     };
   }, [active, stack, id]);
+
+  // 정체성 고정 — 소비자가 이펙트 deps에 그대로 넣을 수 있어야 한다
+  return useMemo(() => ({ isTop: () => stack.isTop(id) }), [stack, id]);
 }

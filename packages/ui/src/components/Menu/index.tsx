@@ -28,6 +28,7 @@ function getChildRef(element: ReactElement<TriggerLikeProps>): Ref<HTMLElement> 
 
 interface TriggerLikeProps {
   ref?: Ref<HTMLElement>;
+  id?: string;
   onClick?: (event: MouseEvent<HTMLElement>) => void;
   onKeyDown?: (event: KeyboardEvent<HTMLElement>) => void;
   "aria-haspopup"?: boolean | "menu" | "dialog" | "listbox" | "tree" | "grid" | "false" | "true";
@@ -82,6 +83,9 @@ export interface MenuProps {
 
 /** delta 방향으로 disabled를 건너뛰며 이동 — 끝에서 멈춘다 (랩 없음, Select 컨벤션) */
 function moveActive(items: MenuItem[], from: number, delta: 1 | -1): number {
+  // 범위를 벗어난 시작점(열린 동안 items가 줄어든 경우)은 끝에서 다시 잡는다 —
+  // 그러지 않으면 이동 대상이 없어 화살표 키가 영구히 멈춘다
+  if (from < 0 || from >= items.length) return edgeActive(items, delta);
   let index = from + delta;
   while (index >= 0 && index < items.length) {
     if (items[index]?.disabled !== true) return index;
@@ -129,7 +133,11 @@ export function Menu({
   const listId = `${baseId}-menu`;
   const itemId = (index: number) => `${baseId}-item-${index}`;
 
+  // 다음 열림을 어느 끝에서 시작할지 — 트리거 ArrowUp만 마지막 항목부터다
+  const pendingFromEnd = useRef(false);
+
   const openMenu = (fromEnd: boolean) => {
+    pendingFromEnd.current = fromEnd;
     setActiveIndex(edgeActive(items, fromEnd ? -1 : 1));
     onOpen();
   };
@@ -147,6 +155,17 @@ export function Menu({
     closeMenu();
     onSelect?.(item.key);
   };
+
+  // 열림마다 활성 항목을 초기화한다 — defaultOpen이나 외부 제어처럼 트리거를 거치지 않는
+  // 열림에서도 첫(트리거 ArrowUp이면 마지막) 활성 항목을 가리켜야 하고, 닫힘 시 초기화가
+  // 없으면 다음 열림에 이전 세션의 활성 항목이 잔존해 Enter가 엉뚱한 동작을 실행한다.
+  // items를 deps에 넣지 않는 이유: 인라인 배열 리터럴이면 매 렌더 새 참조라 화살표 이동 중
+  // 활성 항목이 초기화된다 — 열림 전환에서만 계산하는 것이 의도다
+  useEffect(() => {
+    setActiveIndex(open ? edgeActive(items, pendingFromEnd.current ? -1 : 1) : -1);
+    pendingFromEnd.current = false;
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- 위 주석 참조 (items 의도적 제외)
+  }, [open]);
 
   // 열리면 포커스를 메뉴 컨테이너로 — activedescendant가 활성 항목을 가리킨다
   useEffect(() => {
@@ -195,11 +214,14 @@ export function Menu({
 
   const child = Children.only(trigger);
   const childProps = child.props;
+  // 메뉴의 접근 가능한 이름은 트리거가 준다 — 트리거에 id가 없으면 부여한다
+  const triggerId = childProps.id ?? `${baseId}-trigger`;
 
   /* eslint-disable react-hooks/refs -- cloneElement로 전달하는 콜백 ref: 쓰기는 렌더가 아닌
      커밋 단계(콜백 실행 시점)에 일어난다. JSX ref 속성이 아니라 규칙이 패턴을 인식하지 못한다 */
   const triggerElement = cloneElement(child, {
     ref: composeRefs<HTMLElement>(getChildRef(child), anchorRef),
+    id: triggerId,
     "aria-haspopup": "menu",
     "aria-expanded": open,
     "aria-controls": open ? listId : undefined,
@@ -238,7 +260,12 @@ export function Menu({
           id={listId}
           role="menu"
           tabIndex={-1}
-          aria-activedescendant={activeIndex >= 0 ? itemId(activeIndex) : undefined}
+          aria-labelledby={triggerId}
+          // 범위를 벗어난 인덱스는 가리키지 않는다 — items가 줄면 없는 id를 참조하게 된다
+          // (aria-controls를 열렸을 때만 넣는 것과 같은 컨벤션)
+          aria-activedescendant={
+            activeIndex >= 0 && activeIndex < items.length ? itemId(activeIndex) : undefined
+          }
           className="ui-menu-list"
           onKeyDown={handleListKeyDown}
         >
@@ -251,8 +278,8 @@ export function Menu({
               id={itemId(index)}
               role="menuitem"
               aria-disabled={item.disabled === true || undefined}
-              data-active={index === activeIndex || undefined}
-              data-danger={item.danger === true || undefined}
+              data-active={index === activeIndex ? "" : undefined}
+              data-danger={item.danger === true ? "" : undefined}
               className="ui-menu-item"
               onClick={() => selectAt(index)}
               onPointerMove={() => {

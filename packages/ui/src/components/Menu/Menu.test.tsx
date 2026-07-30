@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import { useState } from "react";
 import { expect, test, vi } from "vitest";
 
 import { Menu, type MenuItem } from "./index.js";
@@ -135,6 +136,127 @@ test("Tab: 닫고 트리거로 복귀하되 기본 포커스 이동은 막지 �
   expect(defaultAllowed).toBe(true); // preventDefault 안 함
   expect(screen.queryByRole("menu")).not.toBeInTheDocument();
   expect(trigger).toHaveFocus();
+});
+
+test("defaultOpen: 트리거를 거치지 않아도 첫 활성 항목을 가리킨다", () => {
+  render(<Harness defaultOpen />);
+  expect(screen.getByRole("menu")).toHaveAttribute(
+    "aria-activedescendant",
+    screen.getByRole("menuitem", { name: "이름 변경" }).id,
+  );
+});
+
+test("다시 열면 활성 항목이 첫 항목으로 초기화된다 (이전 세션 잔존 금지)", () => {
+  function Controlled() {
+    const [open, setOpen] = useState(false);
+    return (
+      <>
+        <button type="button" onClick={() => setOpen(true)}>
+          외부에서 열기
+        </button>
+        <Menu
+          items={ITEMS}
+          open={open}
+          onOpenChange={setOpen}
+          trigger={<button type="button">메뉴</button>}
+        />
+      </>
+    );
+  }
+  render(<Controlled />);
+
+  fireEvent.click(screen.getByRole("button", { name: "메뉴" }));
+  fireEvent.keyDown(screen.getByRole("menu"), { key: "End" }); // 마지막 항목 활성
+  fireEvent.keyDown(document, { key: "Escape" });
+
+  fireEvent.click(screen.getByRole("button", { name: "외부에서 열기" }));
+  expect(screen.getByRole("menu")).toHaveAttribute(
+    "aria-activedescendant",
+    screen.getByRole("menuitem", { name: "이름 변경" }).id,
+  );
+});
+
+test("메뉴 컨테이너는 트리거로 접근 가능한 이름을 얻는다", () => {
+  render(<Harness defaultOpen />);
+  const trigger = screen.getByRole("button", { name: "메뉴" });
+  expect(trigger).toHaveAttribute("id");
+  expect(screen.getByRole("menu")).toHaveAttribute("aria-labelledby", trigger.id);
+  expect(screen.getByRole("menu", { name: "메뉴" })).toBeInTheDocument();
+});
+
+test("소비자가 트리거에 지정한 id는 유지된다", () => {
+  render(
+    <Menu
+      items={ITEMS}
+      trigger={
+        <button type="button" id="my-trigger">
+          메뉴
+        </button>
+      }
+      defaultOpen
+    />,
+  );
+  expect(screen.getByRole("menu")).toHaveAttribute("aria-labelledby", "my-trigger");
+});
+
+test("바깥 클릭으로 닫히면 포커스가 트리거로 복원된다 (body 유실 금지)", () => {
+  render(
+    <>
+      <p>포커스 불가한 본문</p>
+      <Harness />
+    </>,
+  );
+  const trigger = screen.getByRole("button", { name: "메뉴" });
+  fireEvent.click(trigger);
+  expect(screen.getByRole("menu")).toHaveFocus();
+
+  fireEvent.pointerDown(screen.getByText("포커스 불가한 본문"));
+  expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+  expect(trigger).toHaveFocus();
+});
+
+test("항목이 줄어들면 없는 id를 가리키지 않는다", () => {
+  function Shrinking() {
+    const [items, setItems] = useState(ITEMS);
+    return (
+      <>
+        <button type="button" onClick={() => setItems(ITEMS.slice(0, 1))}>
+          줄이기
+        </button>
+        <Menu items={items} trigger={<button type="button">메뉴</button>} />
+      </>
+    );
+  }
+  render(<Shrinking />);
+  fireEvent.click(screen.getByRole("button", { name: "메뉴" }));
+  const menu = screen.getByRole("menu");
+  fireEvent.keyDown(menu, { key: "End" }); // 마지막(3번째) 활성
+
+  fireEvent.click(screen.getByRole("button", { name: "줄이기" })); // 항목 1개로
+  const activeId = menu.getAttribute("aria-activedescendant");
+  expect(activeId === null || screen.getByRole("menuitem").id === activeId).toBe(true);
+});
+
+test("항목이 줄어든 뒤에도 화살표 이동이 계속 동작한다", () => {
+  function Shrinking() {
+    const [items, setItems] = useState(ITEMS);
+    return (
+      <>
+        <button type="button" onClick={() => setItems(ITEMS.slice(0, 1))}>
+          줄이기
+        </button>
+        <Menu items={items} trigger={<button type="button">메뉴</button>} />
+      </>
+    );
+  }
+  render(<Shrinking />);
+  fireEvent.click(screen.getByRole("button", { name: "메뉴" }));
+  const menu = screen.getByRole("menu");
+  fireEvent.keyDown(menu, { key: "End" }); // 3번째 활성
+  fireEvent.click(screen.getByRole("button", { name: "줄이기" })); // 항목 1개로 — 인덱스 범위 밖
+
+  fireEvent.keyDown(menu, { key: "ArrowDown" }); // 멈추지 않고 남은 항목으로 복구
+  expect(menu).toHaveAttribute("aria-activedescendant", screen.getByRole("menuitem").id);
 });
 
 test("danger 항목은 data-danger로 노출된다", () => {

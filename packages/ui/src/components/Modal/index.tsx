@@ -4,7 +4,7 @@ import { type ComponentPropsWithoutRef, forwardRef, type ReactNode, useId, useSt
 
 import { CloseIcon } from "../../icons/index.js";
 import { composeRefs } from "../../internal/composeRefs.js";
-import { OverlayProvider, useOverlayEscape } from "../../internal/overlay/overlayStack.js";
+import { OverlayProvider, useOverlayLayer } from "../../internal/overlay/overlayStack.js";
 import { useFocusTrap } from "../../internal/overlay/useFocusTrap.js";
 import { useScrollLock } from "../../internal/overlay/useScrollLock.js";
 import { IconButton } from "../IconButton/index.js";
@@ -46,7 +46,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
   const [panel, setPanel] = useState<HTMLDivElement | null>(null);
   const titleId = useId();
 
-  useOverlayEscape(open, onClose);
+  const layer = useOverlayLayer(open, onClose);
   useScrollLock(open);
   useFocusTrap(panel, open);
 
@@ -54,7 +54,15 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(function Modal(
 
   return (
     <Portal>
-      <div className="ui-modal-backdrop" onPointerDown={onClose} aria-hidden="true" />
+      {/* 백드롭 닫힘도 Escape와 같은 스택 소유권을 따른다 — 위에 팝오버가 열려 있으면
+          그쪽이 먼저 닫히고 모달은 남는다 (한 번의 클릭에 두 겹이 닫히지 않게) */}
+      <div
+        className="ui-modal-backdrop"
+        onPointerDown={() => {
+          if (layer.isTop()) onClose();
+        }}
+        aria-hidden="true"
+      />
       <div className="ui-modal-viewport">
         <div
           ref={composeRefs(ref, setPanel)}
