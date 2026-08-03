@@ -174,10 +174,23 @@ createRoot(document.getElementById("app")).render(createElement(Button, null, "h
     .map((f) => readFileSync(path.join(assetsDir, f), "utf8"))
     .join("");
   if (!jsBundle.includes("ui-button")) fail("번들에 Button 코드가 없다");
-  if (jsBundle.includes("ui-select-trigger")) {
-    fail("Button만 import했는데 번들에 Select 코드가 있다 — 트리셰이킹 실패");
+  // 무거운 계열을 대표하는 심볼들 — 폼(Select)·오버레이(Popover/Menu)·그 인프라(위치 엔진)가
+  // Button 하나 때문에 딸려오면 안 된다. 오버레이는 Portal·스택·리스너를 함께 끌고 오므로
+  // 트리셰이킹이 깨졌을 때 소비자 번들에 가장 크게 남는다
+  // 클래스명 문자열로 검사한다 — 소비자 번들러가 최소화하면 함수·변수 이름은 사라지지만
+  // 문자열 리터럴은 남는다(위치 엔진은 이 세 컴포넌트만 쓰므로 함께 걸러진다)
+  const FORBIDDEN: Record<string, string> = {
+    "ui-select-trigger": "Select",
+    "ui-popover": "Popover",
+    "ui-menu-item": "Menu",
+    "ui-tooltip": "Tooltip",
+  };
+  for (const [symbol, name] of Object.entries(FORBIDDEN)) {
+    if (jsBundle.includes(symbol)) {
+      fail(`Button만 import했는데 번들에 ${name} 코드가 있다 — 트리셰이킹 실패`);
+    }
   }
-  console.error("• 트리셰이킹 OK (Select 미포함)");
+  console.error(`• 트리셰이킹 OK (${Object.values(FORBIDDEN).join("·")} 미포함)`);
 
   console.error("\n✔ 소비 검증 통과");
 } finally {
