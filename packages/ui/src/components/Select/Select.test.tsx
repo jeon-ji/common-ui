@@ -271,3 +271,20 @@ test("빈 items로 마운트한 뒤 항목이 도착해도 이동할 수 있다 
     screen.getByRole("option", { name: "사과" }).id,
   );
 });
+
+test("목록에 접근 이름이 있다 — Field 안이면 라벨, 단독이면 트리거", async () => {
+  const user = userEvent.setup();
+  const { unmount } = render(
+    <Field label="과일">
+      <Select items={ITEMS} />
+    </Field>,
+  );
+  await user.click(screen.getByRole("combobox"));
+  expect(screen.getByRole("listbox", { name: "과일" })).toBeInTheDocument();
+  unmount();
+
+  render(<Select items={ITEMS} placeholder="선택" aria-label="디저트" />);
+  await user.click(screen.getByRole("combobox"));
+  // 트리거를 가리키므로 트리거의 접근 이름을 그대로 물려받는다
+  expect(screen.getByRole("listbox", { name: "디저트" })).toBeInTheDocument();
+});

@@ -14,6 +14,12 @@ const srcDir = path.join(rootDir, "src");
 const EXCLUDED = /\.(test|spec)\.[cm]?[jt]sx?$/;
 
 /**
+ * 빌드에서 제외할 디렉터리 — 테스트 전용 헬퍼는 `.test.ts`가 아니라서 위 정규식에 걸리지 않는다.
+ * (빠뜨려도 pack 스냅샷이 배포 파일 목록 불일치로 잡지만, 애초에 넣지 않는다)
+ */
+const EXCLUDED_DIRS = new Set(["test-utils"]);
+
+/**
  * `src` 전체를 파일 단위 엔트리로 수집한다. `preserveModules`와 함께 쓰여
  * 소비자가 import 한 모듈만 번들에 들어가도록(트리셰이킹) 보장한다.
  */
@@ -22,7 +28,7 @@ function collectEntries(dir: string, entries: Record<string, string> = {}) {
     const full = path.join(dir, name);
 
     if (statSync(full).isDirectory()) {
-      collectEntries(full, entries);
+      if (!EXCLUDED_DIRS.has(name)) collectEntries(full, entries);
       continue;
     }
     if (!/\.[jt]sx?$/.test(name) || name.endsWith(".d.ts") || EXCLUDED.test(name)) continue;
@@ -49,7 +55,7 @@ export default defineConfig({
       tsconfigPath: path.join(rootDir, "tsconfig.lib.json"),
       entryRoot: srcDir,
       include: ["src"],
-      exclude: ["src/**/*.test.*", "src/**/*.spec.*"],
+      exclude: ["src/**/*.test.*", "src/**/*.spec.*", "src/test-utils/**"],
     }),
     {
       // tailwind-preset.css는 소비자가 선택 import 하는 독립 파일 —

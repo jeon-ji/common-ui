@@ -12,6 +12,8 @@ import {
 interface FieldContextValue {
   /** 컨트롤이 사용할 id — label의 htmlFor와 짝 */
   id: string;
+  /** label 요소의 id — 컨트롤이 여는 팝업(Select 목록 등)이 같은 이름을 참조할 때 쓴다 */
+  labelId?: string;
   /** helper/error를 가리키는 aria-describedby 값 */
   describedBy?: string;
   /** errorText가 있을 때 그 요소의 id */
@@ -28,6 +30,7 @@ const FieldContext = createContext<FieldContextValue | null>(null);
  */
 export function useFieldControl(ownId?: string): {
   id: string | undefined;
+  labelId: string | undefined;
   "aria-describedby": string | undefined;
   "aria-invalid": true | undefined;
   "aria-errormessage": string | undefined;
@@ -36,6 +39,7 @@ export function useFieldControl(ownId?: string): {
   const context = use(FieldContext);
   return {
     id: ownId ?? context?.id,
+    labelId: context?.labelId,
     "aria-describedby": context?.describedBy,
     "aria-invalid": context?.invalid ? true : undefined,
     "aria-errormessage": context?.invalid ? context.errorId : undefined,
@@ -64,6 +68,7 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
   ref,
 ) {
   const id = useId();
+  const labelId = `${id}-label`;
   const helperId = `${id}-helper`;
   const errorId = `${id}-error`;
   const invalid = errorText != null;
@@ -78,7 +83,7 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
       {...rest}
     >
       {label != null && (
-        <label className="ui-field-label" htmlFor={id}>
+        <label className="ui-field-label" id={labelId} htmlFor={id}>
           {label}
           {required && (
             <span className="ui-field-required" aria-hidden="true">
@@ -87,7 +92,16 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(function Field(
           )}
         </label>
       )}
-      <FieldContext value={{ id, describedBy, errorId, invalid, required }}>
+      <FieldContext
+        value={{
+          id,
+          labelId: label != null ? labelId : undefined,
+          describedBy,
+          errorId,
+          invalid,
+          required,
+        }}
+      >
         {children}
       </FieldContext>
       {helperText != null && !invalid && (

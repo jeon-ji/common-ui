@@ -2,10 +2,13 @@ import "./Toast.css";
 
 import {
   createContext,
+  type FocusEvent,
+  type MouseEvent,
   type ReactNode,
   use,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -177,6 +180,40 @@ export function ToastProvider({ max = 3, duration = 4000, children }: ToastProvi
     };
   }, []);
 
+  // ── 포커스 관리 ──────────────────────────────────────────────────────────
+  // 닫기 버튼을 누르면 그 버튼이 통째로 사라진다 — 넘겨줄 곳을 정하지 않으면 포커스가
+  // body로 떨어져 키보드 사용자가 위치를 잃는다 (반복 결함 유형 1)
+  const regionRef = useRef<HTMLDivElement | null>(null);
+  /** 포커스가 영역 바깥에서 들어올 때의 출발지 — 마지막 토스트를 닫으면 여기로 돌려보낸다 */
+  const focusOriginRef = useRef<HTMLElement | null>(null);
+  /** 닫힘 직후 포커스를 옮길 대상 — DOM이 갱신된 뒤에 적용해야 한다 */
+  const pendingFocusRef = useRef<HTMLElement | null>(null);
+
+  useLayoutEffect(() => {
+    const target = pendingFocusRef.current;
+    pendingFocusRef.current = null;
+    if (target?.isConnected === true) target.focus();
+  }, [items]);
+
+  const handleRegionFocus = (event: FocusEvent<HTMLDivElement>) => {
+    const from = event.relatedTarget;
+    const region = regionRef.current;
+    if (region !== null && from instanceof HTMLElement && !region.contains(from)) {
+      focusOriginRef.current = from;
+    }
+  };
+
+  const handleCloseClick = (id: number, event: MouseEvent<HTMLButtonElement>) => {
+    const toastEl = event.currentTarget.closest(".ui-toast");
+    // 포커스가 이 토스트 안에 있을 때만 이관한다 — 마우스로만 눌렀다면 건드리지 않는다
+    if (toastEl?.contains(document.activeElement) === true) {
+      const sibling = toastEl.nextElementSibling ?? toastEl.previousElementSibling;
+      pendingFocusRef.current =
+        sibling?.querySelector<HTMLButtonElement>("button") ?? focusOriginRef.current;
+    }
+    dismiss(id);
+  };
+
   const api = useMemo<ToastApi>(
     () => ({
       show,
@@ -193,11 +230,21 @@ export function ToastProvider({ max = 3, duration = 4000, children }: ToastProvi
     <ToastContext value={api}>
       {children}
       <Portal>
-        <div className="ui-toast-region" role="region" aria-label="알림">
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- 영역을
+            상호작용 요소로 만드는 게 아니라, 포커스가 밖에서 들어온 출발지를 기록하기만 한다
+            (마지막 토스트를 닫은 뒤 돌려보낼 곳). 키보드·스크린리더 동작은 그대로다 */}
+        <div
+          ref={regionRef}
+          className="ui-toast-region"
+          role="region"
+          aria-label="알림"
+          onFocus={handleRegionFocus}
+        >
           {items.map((item) => {
             const Icon = TYPE_ICON[item.type];
             // role=status = 항목 단위 polite 라이브 영역 — 삽입 시점에 한 번만 낭독된다 (리뷰 A8).
-            // hover 일시정지는 포인터 사용자 전용 보강이라(키보드/SR 경험 불변) 규칙의 예외다.
+            // 자동 닫힘은 hover뿐 아니라 **포커스에도** 멈춘다: 닫기 버튼에 포커스를 둔 채
+            // 타이머가 만료되면 사용자가 조작하려던 버튼이 발밑에서 사라진다.
             return (
               // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
               <div
@@ -207,10 +254,16 @@ export function ToastProvider({ max = 3, duration = 4000, children }: ToastProvi
                 data-type={item.type}
                 onMouseEnter={() => pause(item.id)}
                 onMouseLeave={() => resume(item.id)}
+                onFocus={() => pause(item.id)}
+                onBlur={() => resume(item.id)}
               >
                 <Icon className="ui-toast-icon" />
                 <div className="ui-toast-message">{item.message}</div>
-                <IconButton size="sm" aria-label="알림 닫기" onClick={() => dismiss(item.id)}>
+                <IconButton
+                  size="sm"
+                  aria-label="알림 닫기"
+                  onClick={(event) => handleCloseClick(item.id, event)}
+                >
                   <CloseIcon />
                 </IconButton>
               </div>

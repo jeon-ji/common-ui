@@ -123,6 +123,9 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   const field = useFieldControl(id);
   const baseId = useId();
   const listId = `${baseId}-list`;
+  // 목록의 이름을 위해 트리거에는 항상 id가 있어야 한다 — Field가 준 id(소비자 지정 id 포함)를
+  // 그대로 쓰고, 단독 사용이라 없으면 만든다 (Menu가 role="menu" 이름을 붙일 때와 같은 방식)
+  const triggerId = field.id ?? `${baseId}-trigger`;
   const optionId = (index: number) => `${baseId}-opt-${String(index)}`;
 
   // 매칭 실패는 캐스팅으로 덮지 않는다 — undefined면 placeholder를 그대로 보여준다 (리뷰 M12)
@@ -228,7 +231,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
         aria-controls={open ? listId : undefined}
         aria-activedescendant={open && activeIndex >= 0 ? optionId(activeIndex) : undefined}
         disabled={disabled}
-        id={field.id}
+        id={triggerId}
         aria-describedby={field["aria-describedby"]}
         aria-invalid={field["aria-invalid"]}
         aria-errormessage={field["aria-errormessage"]}
@@ -261,6 +264,9 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
           className="ui-select-list"
           role="listbox"
           id={listId}
+          // role을 부여한 컨테이너는 이름을 가져야 한다. Field 안이면 그 라벨을, 아니면
+          // 트리거를 가리킨다 — 이름 없는 listbox는 "목록 상자"로만 읽힌다 (Menu 리뷰 5번과 같은 유형)
+          aria-labelledby={field.labelId ?? triggerId}
           aria-multiselectable={multiple || undefined}
         >
           {items.map((item, index) => (

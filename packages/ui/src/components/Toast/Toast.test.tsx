@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { act } from "react";
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
 
+import { expectFocusRetained } from "../../test-utils/focus.js";
 import { ToastProvider, useToast } from "./index.js";
 
 beforeEach(() => {
@@ -154,4 +155,57 @@ test("Provider 밖 useToast는 명시적 에러", () => {
   }
   expect(() => render(<Naked />)).toThrow(/ToastProvider> 안에서만/);
   spy.mockRestore();
+});
+
+test("닫기 버튼으로 닫으면 포커스를 다음 토스트로 넘긴다", () => {
+  render(
+    <ToastProvider>
+      <Trigger />
+    </ToastProvider>,
+  );
+  const trigger = screen.getByRole("button", { name: "알림" });
+  fireEvent.click(trigger);
+  fireEvent.click(trigger);
+
+  const [first] = screen.getAllByRole("button", { name: "알림 닫기" });
+  first?.focus();
+  fireEvent.click(first as HTMLElement);
+
+  // 닫은 버튼은 사라진다 — 넘겨줄 곳을 정하지 않으면 포커스가 body로 떨어진다
+  expectFocusRetained({ to: screen.getByRole("button", { name: "알림 닫기" }) });
+});
+
+test("마지막 토스트를 닫으면 영역에 들어오기 전 요소로 포커스를 돌려준다", () => {
+  render(
+    <ToastProvider>
+      <Trigger />
+    </ToastProvider>,
+  );
+  const trigger = screen.getByRole("button", { name: "알림" });
+  trigger.focus();
+  fireEvent.click(trigger);
+
+  const close = screen.getByRole("button", { name: "알림 닫기" });
+  close.focus();
+  fireEvent.click(close);
+
+  expectFocusRetained({ to: trigger });
+});
+
+test("포커스가 토스트 안에 있는 동안에는 자동으로 닫히지 않는다", () => {
+  render(
+    <ToastProvider duration={1000}>
+      <Trigger />
+    </ToastProvider>,
+  );
+  fireEvent.click(screen.getByRole("button", { name: "알림" }));
+
+  const close = screen.getByRole("button", { name: "알림 닫기" });
+  close.focus();
+  act(() => {
+    vi.advanceTimersByTime(1500);
+  });
+
+  // 조작하려던 버튼이 발밑에서 사라지면 안 된다
+  expect(screen.getByRole("button", { name: "알림 닫기" })).toBeInTheDocument();
 });
