@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router";
 
 import { Layout } from "./layout/Layout";
+import { AvatarPage } from "./pages/components/AvatarPage";
 import { BadgePage } from "./pages/components/BadgePage";
 import { ButtonPage } from "./pages/components/ButtonPage";
 import { CheckboxPage } from "./pages/components/CheckboxPage";
@@ -52,6 +53,7 @@ export function App() {
         <Route path="/hooks/use-click-outside" element={<UseClickOutsidePage />} />
         <Route path="/hooks/use-controllable-state" element={<UseControllableStatePage />} />
         <Route path="/hooks/use-disclosure" element={<UseDisclosurePage />} />
+        <Route path="/components/avatar" element={<AvatarPage />} />
         <Route path="/components/badge" element={<BadgePage />} />
         <Route path="/components/button" element={<ButtonPage />} />
         <Route path="/components/checkbox" element={<CheckboxPage />} />

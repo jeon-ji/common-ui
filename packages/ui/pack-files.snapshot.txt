@@ -1,3 +1,9 @@
+dist/components/Avatar/index.d.ts
+dist/components/Avatar/index.js
+dist/components/Avatar/index.js.map
+dist/components/Avatar/initials.d.ts
+dist/components/Avatar/initials.js
+dist/components/Avatar/initials.js.map
 dist/components/Badge/index.d.ts
 dist/components/Badge/index.js
 dist/components/Badge/index.js.map

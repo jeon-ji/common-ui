@@ -1,0 +1,74 @@
+/* Avatar — 값은 전부 토큰 변수만 참조한다 (전역 규칙 12) */
+
+@layer ui.components {
+  .ui-avatar {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: var(--ui-avatar-size);
+    height: var(--ui-avatar-size);
+    overflow: hidden;
+    font-family: var(--ui-font-sans);
+    vertical-align: middle;
+  }
+
+  /* 크기는 변수 하나로 모아 width·height·글자 크기가 함께 따라가게 한다 */
+  .ui-avatar[data-size="xs"] {
+    --ui-avatar-size: var(--ui-spacing-6);
+    --ui-avatar-font: var(--ui-text-caption-size);
+  }
+
+  .ui-avatar[data-size="sm"] {
+    --ui-avatar-size: var(--ui-spacing-8);
+    --ui-avatar-font: var(--ui-text-body2-size);
+  }
+
+  .ui-avatar[data-size="md"] {
+    --ui-avatar-size: var(--ui-spacing-10);
+    --ui-avatar-font: var(--ui-text-body1-size);
+  }
+
+  .ui-avatar[data-size="lg"] {
+    --ui-avatar-size: var(--ui-spacing-12);
+    --ui-avatar-font: var(--ui-text-h3-size);
+  }
+
+  .ui-avatar[data-size="xl"] {
+    --ui-avatar-size: var(--ui-spacing-16);
+    --ui-avatar-font: var(--ui-text-h2-size);
+  }
+
+  .ui-avatar[data-shape="circle"] {
+    border-radius: var(--ui-radius-full);
+  }
+
+  .ui-avatar[data-shape="square"] {
+    border-radius: var(--ui-radius-md);
+  }
+
+  .ui-avatar-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: var(--ui-color-bg-muted);
+    color: var(--ui-color-text-secondary);
+    font-size: var(--ui-avatar-font);
+    font-weight: 600;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .ui-avatar-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    /* 폴백 위에 겹치므로, 투명 이미지가 와도 뒤 이니셜이 비치지 않도록 배경을 깐다 */
+    background: var(--ui-color-bg-muted);
+    object-fit: cover;
+  }
+}
