@@ -16,6 +16,9 @@ dist/components/Checkbox/index.js.map
 dist/components/ConfirmModal/index.d.ts
 dist/components/ConfirmModal/index.js
 dist/components/ConfirmModal/index.js.map
+dist/components/EmptyState/index.d.ts
+dist/components/EmptyState/index.js
+dist/components/EmptyState/index.js.map
 dist/components/Field/index.d.ts
 dist/components/Field/index.js
 dist/components/Field/index.js.map

@@ -6,6 +6,7 @@ import { BadgePage } from "./pages/components/BadgePage";
 import { ButtonPage } from "./pages/components/ButtonPage";
 import { CheckboxPage } from "./pages/components/CheckboxPage";
 import { ConfirmModalPage } from "./pages/components/ConfirmModalPage";
+import { EmptyStatePage } from "./pages/components/EmptyStatePage";
 import { FieldPage } from "./pages/components/FieldPage";
 import { IconButtonPage } from "./pages/components/IconButtonPage";
 import { IconPage } from "./pages/components/IconPage";
@@ -58,6 +59,7 @@ export function App() {
         <Route path="/components/button" element={<ButtonPage />} />
         <Route path="/components/checkbox" element={<CheckboxPage />} />
         <Route path="/components/confirm-modal" element={<ConfirmModalPage />} />
+        <Route path="/components/empty-state" element={<EmptyStatePage />} />
         <Route path="/components/field" element={<FieldPage />} />
         <Route path="/components/icon" element={<IconPage />} />
         <Route path="/components/icon-button" element={<IconButtonPage />} />

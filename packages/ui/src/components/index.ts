@@ -8,6 +8,7 @@ export { Badge, type BadgeProps } from "./Badge/index.js";
 export { Button, type ButtonProps } from "./Button/index.js";
 export { Checkbox, type CheckboxProps } from "./Checkbox/index.js";
 export { ConfirmModal, type ConfirmModalProps } from "./ConfirmModal/index.js";
+export { EmptyState, type EmptyStateProps } from "./EmptyState/index.js";
 export { Field, type FieldProps } from "./Field/index.js";
 export { createIcon, type IconComponent, type IconProps } from "./Icon/index.js";
 export { IconButton, type IconButtonProps } from "./IconButton/index.js";
