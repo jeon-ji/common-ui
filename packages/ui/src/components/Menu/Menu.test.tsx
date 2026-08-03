@@ -286,3 +286,20 @@ test("포인터 이동으로 활성 항목이 바뀌고 disabled 위에서는 �
   fireEvent.pointerMove(screen.getByRole("menuitem", { name: "복제" }));
   expect(menu).toHaveAttribute("aria-activedescendant", deleteItem.id); // 그대로
 });
+
+test("빈 items로 열어도 항목이 도착하면 이동할 수 있다 (가변 items 계약)", () => {
+  const trigger = <button type="button">메뉴</button>;
+  const { rerender } = render(<Menu items={[]} trigger={trigger} />);
+  fireEvent.click(screen.getByRole("button", { name: "메뉴" }));
+
+  const menu = screen.getByRole("menu");
+  expect(menu).not.toHaveAttribute("aria-activedescendant");
+
+  rerender(<Menu items={ITEMS} trigger={trigger} />);
+  fireEvent.keyDown(menu, { key: "ArrowDown" });
+
+  expect(menu).toHaveAttribute(
+    "aria-activedescendant",
+    screen.getByRole("menuitem", { name: "이름 변경" }).id,
+  );
+});

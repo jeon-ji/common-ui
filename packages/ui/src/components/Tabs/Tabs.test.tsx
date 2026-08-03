@@ -211,3 +211,10 @@ test("variant·size가 data 속성으로 노출된다", () => {
   expect(root).toHaveAttribute("data-variant", "solid");
   expect(root).toHaveAttribute("data-size", "sm");
 });
+
+test("탭 목록의 접근 이름은 소비자가 준 aria-label에서 온다", () => {
+  render(<Tabs items={ITEMS} aria-label="계정 설정" />);
+
+  // role을 부여한 컨테이너는 이름을 가져야 한다. Tabs는 루트가 아니라 tablist에 붙인다
+  expect(screen.getByRole("tablist", { name: "계정 설정" })).toBeInTheDocument();
+});

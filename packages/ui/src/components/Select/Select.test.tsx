@@ -255,3 +255,19 @@ test("판별 유니온: 모드에 맞지 않는 타입은 컴파일되지 않는
   expect(invalidSingle).toBeTruthy();
   expect(invalidMultiple).toBeTruthy();
 });
+
+test("빈 items로 마운트한 뒤 항목이 도착해도 이동할 수 있다 (가변 items 계약)", async () => {
+  const user = userEvent.setup();
+  const { rerender } = render(<Select items={[]} aria-label="과일" />);
+
+  await user.click(screen.getByRole("combobox"));
+  expect(screen.getByRole("listbox")).toBeEmptyDOMElement();
+
+  rerender(<Select items={ITEMS} aria-label="과일" />);
+  await user.keyboard("{ArrowDown}");
+
+  expect(screen.getByRole("combobox")).toHaveAttribute(
+    "aria-activedescendant",
+    screen.getByRole("option", { name: "사과" }).id,
+  );
+});

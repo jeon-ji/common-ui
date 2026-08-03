@@ -192,3 +192,9 @@ test("항목이 줄어든 뒤에도 이동이 계속 동작한다", () => {
   fireEvent.keyDown(focusableItem(), { key: "ArrowRight" });
   expect(screen.getByRole("radio", { name: "목록" })).toHaveAttribute("aria-checked", "true");
 });
+
+test("radiogroup의 접근 이름은 소비자가 준 aria-label에서 온다", () => {
+  render(<SegmentedControl items={ITEMS} aria-label="보기 방식" />);
+
+  expect(screen.getByRole("radiogroup", { name: "보기 방식" })).toBeInTheDocument();
+});
