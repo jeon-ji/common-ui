@@ -46,6 +46,12 @@ export function TagPage() {
         닫기는 <code>aria-label="제거"</code>가 있는 실제 <code>button</code>이다 — svg에 onClick을
         다는 방식은 키보드로 접근할 수 없다. <code>:focus-visible</code> 링 포함.
       </p>
+      <p>
+        <strong>제거 후 포커스는 소비 앱 책임이다.</strong> <code>onClose</code>를 받아 태그를
+        목록에서 지우는 주체가 소비 앱이므로, Tag는 자기가 언제 사라지는지 알지 못한다. 그대로 두면
+        방금 누른 버튼이 사라지며 포커스가 <code>body</code>로 떨어져 키보드 사용자가 위치를 잃는다
+        — 지운 뒤 다음 태그의 닫기 버튼이나 목록 컨테이너로 포커스를 옮겨 준다.
+      </p>
     </article>
   );
 }

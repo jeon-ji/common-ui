@@ -74,6 +74,11 @@ export function SelectPage() {
         </tbody>
       </table>
       <p>
+        열린 목록(<code>role=&quot;listbox&quot;</code>)에도 접근 이름이 붙는다 — <code>Field</code>{" "}
+        안이면 그 라벨을, 단독 사용이면 트리거의 이름을 물려받는다. 이름 없는 컨테이너는
+        보조기술에서 &quot;목록 상자&quot;로만 읽혀 무엇을 고르는 목록인지 알 수 없다.
+      </p>
+      <p>
         뷰포트 가장자리에서의 위치 플립은 Popover 위치 엔진(M3+)에서 다룬다 — 현재 목록은 항상
         아래로 열린다.
       </p>
