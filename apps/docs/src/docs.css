@@ -144,20 +144,6 @@ body {
   font-weight: 500;
 }
 
-.docs-sidebar-link.is-planned {
-  color: var(--ui-color-text-disabled);
-  cursor: default;
-}
-
-.docs-badge {
-  font-size: var(--ui-text-caption-size);
-  font-style: normal;
-  padding: 0 var(--ui-spacing-1);
-  border: 1px solid var(--ui-color-border-default);
-  border-radius: var(--ui-radius-full);
-  color: var(--ui-color-text-secondary);
-}
-
 /* ── 본문 ────────────────────────────────────────────────────────────────── */
 
 .docs-content {

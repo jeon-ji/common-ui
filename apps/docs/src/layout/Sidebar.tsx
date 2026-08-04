@@ -22,20 +22,12 @@ export function Sidebar({ query }: { query: string }) {
             <ul>
               {entries.map((entry) => (
                 <li key={entry.slug}>
-                  {entry.planned ? (
-                    <span className="docs-sidebar-link is-planned">
-                      {entry.title} <em className="docs-badge">예정</em>
-                    </span>
-                  ) : (
-                    <NavLink
-                      to={`${group.base}/${entry.slug}`}
-                      className={({ isActive }) =>
-                        `docs-sidebar-link${isActive ? " is-active" : ""}`
-                      }
-                    >
-                      {entry.title}
-                    </NavLink>
-                  )}
+                  <NavLink
+                    to={`${group.base}/${entry.slug}`}
+                    className={({ isActive }) => `docs-sidebar-link${isActive ? " is-active" : ""}`}
+                  >
+                    {entry.title}
+                  </NavLink>
                 </li>
               ))}
             </ul>

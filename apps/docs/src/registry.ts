@@ -9,8 +9,6 @@ export interface DocEntry {
   readonly slug: string;
   /** 사이드바 표시 이름 */
   readonly title: string;
-  /** 미구현 백로그 항목 — 사이드바에 "예정" 뱃지로 노출 */
-  readonly planned?: boolean;
 }
 
 export interface DocGroup {
