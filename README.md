@@ -56,6 +56,40 @@ pnpm test
 Node 버전은 `.nvmrc`, 패키지 매니저는 `packageManager` 필드가 유일한 소스다.
 `engines`로 소비자를 제약하지 않는다.
 
+## 시각 회귀 테스트
+
+유닛 테스트는 `data-*`와 ARIA를 보지 **픽셀을 보지 않는다.** 토큰 값이나 `@layer` 순서를 바꿔
+다른 컴포넌트가 깨져도 나머지 게이트는 전부 green이다. 특히 다크 테마는 semantic 변수 교체만으로
+전환되므로 **변수 하나가 빠지면 다크에서만 깨진다.** 그 구간을 문서 사이트 데모 블록 촬영으로 덮는다.
+
+```sh
+pnpm exec playwright install chromium   # 최초 1회
+pnpm test:visual                        # 문서 사이트를 빌드해 정적 서버로 띄우고 촬영
+```
+
+기준 이미지는 `tests/visual/__screenshots__/`에 `<페이지 slug>-<데모 이름>-<테마>.png`로 둔다.
+촬영 단위는 페이지가 아니라 **데모 블록**이라 데모 하나가 바뀌어도 그 한 장만 무효가 된다.
+
+### 기준 이미지 갱신
+
+기준 이미지는 **리눅스(CI)에서 만든 것만** 쓴다. OS마다 폰트 렌더가 달라서 로컬 산출물을 섞으면
+기준 자체가 의미를 잃는다 — 그래서 로컬에서 `--update-snapshots`를 돌리지 않는다.
+(같은 이유로 로컬 실행은 윈도우·맥에서 실패할 수 있다. **레이아웃이 깨졌는지 눈으로 보는 용도**다.)
+
+의도한 스타일 변경이라면:
+
+1. Actions에서 **Visual Baseline** 워크플로를 수동 실행한다
+2. `visual-baseline` 아티팩트를 받아 `tests/visual/__screenshots__/`에 덮어쓴다
+3. `git diff --stat`으로 바뀐 장수가 예상과 맞는지 보고 커밋한다 — 의도한 것보다 많이 바뀌었다면
+   그게 곧 회귀다
+
+의도하지 않은 실패라면 CI가 실패 시 올리는 `visual-diff` 아티팩트에 `-expected`/`-actual`/`-diff`
+세 장이 들어 있다. `-diff`를 먼저 본다.
+
+거짓 실패를 막으려고 촬영 전에 애니메이션·트랜지션·캐럿·스크롤바를 고정한다
+(`tests/visual/demos.spec.ts`의 `FREEZE_CSS`). 그래도 안 되는 데모는 같은 파일의 `EXCLUDED`에
+**이유와 함께** 남긴다 — 현재는 Toast 하나뿐이다.
+
 ## 기여 규칙
 
 [docs/personal_plan/common-ui/00-INDEX.md](docs/personal_plan/common-ui/00-INDEX.md)의

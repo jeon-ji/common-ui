@@ -65,3 +65,39 @@ jobs:
 
       - name: Pack smoke
         run: pnpm smoke:pack
+
+  # 시각 회귀 (16 문서) — 유닛 테스트가 보지 않는 픽셀을 덮는다.
+  # ci 잡과 **병렬**로 돈다: 직렬로 붙이면 PR 대기 시간이 그만큼 길어진다.
+  # 기준 이미지는 이 잡(리눅스)에서 만든 것만 쓴다 — 갱신은 Visual Baseline 워크플로.
+  visual:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      # 크로스 브라우저는 비목표 — chromium 하나만 받는다
+      - name: Install chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Visual regression
+        run: pnpm test:visual
+
+      # 이게 없으면 "빨간불인데 뭐가 다른지 모름"이 되고 곧 잡을 끄게 된다
+      - name: Upload diff
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: visual-diff
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 7

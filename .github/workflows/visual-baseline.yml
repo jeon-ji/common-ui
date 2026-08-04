@@ -1,0 +1,57 @@
+# 시각 회귀 기준 이미지 생성 (16 문서 §3).
+#
+# 기준 이미지는 **리눅스에서 만든 것만** 쓴다 — OS마다 폰트 렌더가 달라서 로컬(윈도우·맥)
+# 산출물을 섞으면 기준 자체가 무의미해진다. 그래서 `--update-snapshots`는 로컬에서 금지하고
+# 이 워크플로를 수동 실행해 아티팩트로 받는다.
+#
+# 절차: Actions에서 수동 실행 → `visual-baseline` 아티팩트 다운로드 →
+#       `tests/visual/__screenshots__/`에 덮어쓰기 → 변경분 확인 후 커밋.
+name: Visual Baseline
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: visual-baseline
+  cancel-in-progress: true
+
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Install chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      # 갱신 실행은 "차이가 있다"는 이유로도 실패할 수 있다 — 결과 확인은 다음 스텝이 한다
+      - name: Update snapshots
+        continue-on-error: true
+        run: pnpm test:visual --update-snapshots
+
+      - name: 생성 결과 확인
+        run: |
+          count=$(find tests/visual/__screenshots__ -name '*.png' | wc -l)
+          echo "기준 이미지 ${count}장"
+          test "$count" -gt 0
+
+      - name: Upload baseline
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: visual-baseline
+          path: tests/visual/__screenshots__/
+          retention-days: 7
