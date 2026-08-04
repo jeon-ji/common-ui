@@ -90,6 +90,29 @@ pnpm test:visual                        # 문서 사이트를 빌드해 정적 �
 (`tests/visual/demos.spec.ts`의 `FREEZE_CSS`). 그래도 안 되는 데모는 같은 파일의 `EXCLUDED`에
 **이유와 함께** 남긴다 — 현재는 Toast 하나뿐이다.
 
+## 번들 사이즈 버짓
+
+```sh
+pnpm build && pnpm check:size
+```
+
+대표 시나리오 4종의 gzip 크기를 재서 `.size-limit.json`의 예산과 대조한다. 측정 대상은
+**실제 배포물**(`packages/ui/dist` — tgz에 들어가는 것 그대로)이고, react는 peer이므로 제외한다.
+
+| 시나리오        | 무엇을 보는가                                              |
+| --------------- | ---------------------------------------------------------- |
+| ① Button 하나   | 최소 소비 — 공용 코드가 늘면 여기가 가장 먼저 튄다         |
+| ② 폼 세트       | Field + TextField + Select                                 |
+| ③ 오버레이 세트 | Modal + Popover + Menu — Portal·스택·위치 엔진이 함께 온다 |
+| ④ 전체 배럴     | 전부 import 하는 소비자                                    |
+
+**초과해도 CI를 막지 않는다.** 처음부터 하드 실패로 두면 정당한 증가에도 빨간불이 나고, 그러면
+곧 무시된다. 대신 Actions 실행 페이지의 **잡 요약에 표로 남는다** — 줄일 수 있으면 줄이고,
+정당한 증가면 `.size-limit.json`의 예산을 올리는 커밋을 남긴다.
+
+트리셰이킹 회귀("딸려오면 안 되는 것")는 `scripts/consume-check.ts`의 금지 심볼 목록이 잡는
+별개의 검사다. 버짓은 **"정당하지만 커지는 것"**을 본다.
+
 ## 기여 규칙
 
 [docs/personal_plan/common-ui/00-INDEX.md](docs/personal_plan/common-ui/00-INDEX.md)의

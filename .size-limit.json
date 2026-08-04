@@ -1,0 +1,29 @@
+[
+  {
+    "name": "① Button 하나",
+    "path": "packages/ui/dist/index.js",
+    "import": "{ Button }",
+    "limit": "450 B",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "② 폼 세트 (Field + TextField + Select)",
+    "path": "packages/ui/dist/index.js",
+    "import": "{ Field, TextField, Select }",
+    "limit": "4 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "③ 오버레이 세트 (Modal + Popover + Menu)",
+    "path": "packages/ui/dist/index.js",
+    "import": "{ Modal, Popover, Menu }",
+    "limit": "5 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "④ 전체 배럴",
+    "path": "packages/ui/dist/index.js",
+    "limit": "14 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  }
+]

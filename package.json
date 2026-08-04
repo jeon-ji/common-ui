@@ -20,6 +20,7 @@
     "prepare": "git config core.hooksPath .githooks",
     "check:docs": "tsx scripts/check-docs-pages.ts",
     "check:icons": "tsx scripts/check-icons.ts",
+    "check:size": "tsx scripts/size-budget.ts",
     "changeset": "changeset"
   },
   "devDependencies": {
@@ -27,6 +28,7 @@
     "@changesets/cli": "^2.31.1",
     "@eslint/js": "9.39.5",
     "@playwright/test": "^1.62.1",
+    "@size-limit/preset-small-lib": "^13.0.3",
     "@types/node": "^26.1.2",
     "eslint": "9.39.5",
     "eslint-config-prettier": "^10.1.8",
@@ -38,6 +40,7 @@
     "globals": "^17.8.0",
     "prettier": "^3.9.6",
     "publint": "^0.3.22",
+    "size-limit": "^13.0.3",
     "tsx": "^4.23.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.65.0"

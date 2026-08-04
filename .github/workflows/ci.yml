@@ -66,6 +66,11 @@ jobs:
       - name: Pack smoke
         run: pnpm smoke:pack
 
+      # smoke:pack 바로 뒤 — 측정 대상이 방금 pack한 것과 같은 dist다.
+      # 초과해도 실패시키지 않는다(23 문서 §1). 숫자는 잡 요약에 표로 남는다
+      - name: Bundle size budget
+        run: pnpm check:size
+
   # 시각 회귀 (16 문서) — 유닛 테스트가 보지 않는 픽셀을 덮는다.
   # ci 잡과 **병렬**로 돈다: 직렬로 붙이면 PR 대기 시간이 그만큼 길어진다.
   # 기준 이미지는 이 잡(리눅스)에서 만든 것만 쓴다 — 갱신은 Visual Baseline 워크플로.
