@@ -56,17 +56,28 @@ export function EmptyStatePage() {
       </table>
 
       <h2 id="examples">예제</h2>
-      <DemoBlock title="기본" description="아이콘 없이 제목·설명·액션" code={basicSource}>
+      <DemoBlock
+        name="basic"
+        title="기본"
+        description="아이콘 없이 제목·설명·액션"
+        code={basicSource}
+      >
         <BasicDemo />
       </DemoBlock>
       <DemoBlock
+        name="error"
         title="오류"
         description="status='error'는 경고 아이콘을 기본으로 쓴다. 이 데모는 낭독이 필요한 경우라 role='status'를 직접 넘겼다"
         code={errorSource}
       >
         <ErrorDemo />
       </DemoBlock>
-      <DemoBlock title="좁은 자리" description="size='sm' — 카드·테이블 내부" code={compactSource}>
+      <DemoBlock
+        name="compact"
+        title="좁은 자리"
+        description="size='sm' — 카드·테이블 내부"
+        code={compactSource}
+      >
         <CompactDemo />
       </DemoBlock>
 

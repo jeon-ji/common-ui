@@ -23,6 +23,7 @@ export function SegmentedControlPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="value / onChange — 화살표 이동이 곧 선택이다"
         code={basicSource}
@@ -30,13 +31,19 @@ export function SegmentedControlPage() {
         <BasicDemo />
       </DemoBlock>
       <DemoBlock
+        name="icons"
         title="아이콘 주입 · iconOnly"
         description="아이콘은 소비자가 넣는다 — 라이브러리는 도메인 아이콘 목록을 갖지 않는다"
         code={iconsSource}
       >
         <IconsDemo />
       </DemoBlock>
-      <DemoBlock title="disabled" description="비활성 항목은 이동에서 건너뛴다" code={statesSource}>
+      <DemoBlock
+        name="states"
+        title="disabled"
+        description="비활성 항목은 이동에서 건너뛴다"
+        code={statesSource}
+      >
         <StatesDemo />
       </DemoBlock>
 

@@ -15,6 +15,7 @@ export function IconButtonPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="기본 ghost·neutral — variant/tone/size는 Button과 동일"
         code={basicSource}

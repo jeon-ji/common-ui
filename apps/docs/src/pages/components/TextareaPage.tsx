@@ -15,6 +15,7 @@ export function TextareaPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="autoResize · maxLength 카운터 · disabled"
         code={basicSource}

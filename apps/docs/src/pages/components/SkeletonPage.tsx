@@ -14,7 +14,12 @@ export function SkeletonPage() {
       </p>
 
       <h2 id="examples">예제</h2>
-      <DemoBlock title="조합" description="text · rect · circle 변형 조합" code={basicSource}>
+      <DemoBlock
+        name="basic"
+        title="조합"
+        description="text · rect · circle 변형 조합"
+        code={basicSource}
+      >
         <BasicDemo />
       </DemoBlock>
 

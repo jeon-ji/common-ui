@@ -20,16 +20,23 @@ export function AvatarPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="이미지 · 이니셜 · 직접 넣은 폴백. 아래 줄은 이름 텍스트가 옆에 있어 alt를 비운 경우다"
         code={basicSource}
       >
         <BasicDemo />
       </DemoBlock>
-      <DemoBlock title="크기와 모양" description="size 5종 × shape 2종" code={sizesSource}>
+      <DemoBlock
+        name="sizes"
+        title="크기와 모양"
+        description="size 5종 × shape 2종"
+        code={sizesSource}
+      >
         <SizesDemo />
       </DemoBlock>
       <DemoBlock
+        name="fallback"
         title="이미지 폴백"
         description="깨진 주소는 이니셜로 대체되고, src를 바꾸면 다시 시도한다"
         code={fallbackSource}

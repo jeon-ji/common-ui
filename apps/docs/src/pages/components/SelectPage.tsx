@@ -18,6 +18,7 @@ export function SelectPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="제어/비제어 · disabled 옵션 · 비활성 — 키보드로도 조작해 보세요"
         code={basicSource}
@@ -25,6 +26,7 @@ export function SelectPage() {
         <BasicDemo />
       </DemoBlock>
       <DemoBlock
+        name="multiple"
         title="다중 선택"
         description="multiple — 판별 유니온이라 value/onChange 타입이 배열로 바뀐다"
         code={multipleSource}

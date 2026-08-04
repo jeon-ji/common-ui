@@ -142,5 +142,12 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 
+# Playwright — 기준 이미지(tests/visual/__screenshots__)만 커밋한다.
+# 리포트·실패 산출물(-actual/-diff)은 실행 때마다 생기는 것이므로 제외.
+/playwright-report/
+/test-results/
+/blob-report/
+/.last-run.json
+
 # oh-my-claudecode
 .omc/

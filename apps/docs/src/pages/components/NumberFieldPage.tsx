@@ -16,6 +16,7 @@ export function NumberFieldPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="천단위 포맷 · min/max clamp · step 증감 · 붙여넣기 정제"
         code={basicSource}

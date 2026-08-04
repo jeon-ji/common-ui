@@ -16,10 +16,16 @@ export function CheckboxPage() {
       </p>
 
       <h2 id="examples">예제</h2>
-      <DemoBlock title="기본" description="기본 · 초기 선택 · 비활성" code={basicSource}>
+      <DemoBlock
+        name="basic"
+        title="기본"
+        description="기본 · 초기 선택 · 비활성"
+        code={basicSource}
+      >
         <BasicDemo />
       </DemoBlock>
       <DemoBlock
+        name="indeterminate"
         title="부분 선택 (전체 선택 패턴)"
         description="indeterminate는 시각·DOM 프로퍼티·aria-checked=mixed 세 곳 모두 반영된다"
         code={indeterminateSource}

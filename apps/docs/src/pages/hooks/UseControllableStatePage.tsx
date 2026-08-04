@@ -13,6 +13,7 @@ export function UseControllableStatePage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="같은 컴포넌트가 value 유무에 따라 controlled/uncontrolled로 동작"
         code={basicSource}

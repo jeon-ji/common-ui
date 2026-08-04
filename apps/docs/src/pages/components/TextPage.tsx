@@ -17,10 +17,16 @@ export function TextPage() {
       </p>
 
       <h2 id="examples">예제</h2>
-      <DemoBlock title="스케일" description="display·h1~h3 / body·caption·code" code={basicSource}>
+      <DemoBlock
+        name="basic"
+        title="스케일"
+        description="display·h1~h3 / body·caption·code"
+        code={basicSource}
+      >
         <BasicDemo />
       </DemoBlock>
       <DemoBlock
+        name="truncate"
         title="말줄임"
         description="ellipsis(1줄) · lineClamp(n줄) — 잘렸을 때만 title이 붙는다"
         code={truncateSource}

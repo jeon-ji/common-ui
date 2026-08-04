@@ -16,6 +16,7 @@ export function PortalPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="overflow: hidden 부모 안에서도 포털 내용은 잘리지 않는다"
         code={basicSource}

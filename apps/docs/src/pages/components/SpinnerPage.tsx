@@ -14,7 +14,7 @@ export function SpinnerPage() {
       </p>
 
       <h2 id="examples">예제</h2>
-      <DemoBlock title="크기" description="sm · md(기본) · lg" code={basicSource}>
+      <DemoBlock name="basic" title="크기" description="sm · md(기본) · lg" code={basicSource}>
         <BasicDemo />
       </DemoBlock>
 

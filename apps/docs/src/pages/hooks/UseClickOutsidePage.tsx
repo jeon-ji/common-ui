@@ -13,6 +13,7 @@ export function UseClickOutsidePage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="열려 있을 때만 document 리스너가 붙는다"
         code={basicSource}

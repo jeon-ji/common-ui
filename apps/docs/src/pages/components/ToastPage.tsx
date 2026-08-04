@@ -16,6 +16,7 @@ export function ToastPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="type 4종 · duration: 0은 수동 닫기 · hover 시 타이머 일시정지 · max 초과는 큐 대기"
         code={basicSource}

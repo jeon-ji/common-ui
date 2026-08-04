@@ -15,6 +15,7 @@ export function RadioPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="제어 그룹 · 개별 disabled — 화살표 키로 그룹 내 이동"
         code={basicSource}

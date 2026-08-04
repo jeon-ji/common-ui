@@ -18,13 +18,19 @@ export function IconPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="크기와 색"
         description="1em 기본값 · size prop · currentColor 상속"
         code={basicSource}
       >
         <BasicDemo />
       </DemoBlock>
-      <DemoBlock title="전체 아이콘" description="배럴 등록분 자동 열거" code={gallerySource}>
+      <DemoBlock
+        name="gallery"
+        title="전체 아이콘"
+        description="배럴 등록분 자동 열거"
+        code={gallerySource}
+      >
         <GalleryDemo />
       </DemoBlock>
 

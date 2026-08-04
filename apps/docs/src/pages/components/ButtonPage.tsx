@@ -17,6 +17,7 @@ export function ButtonPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="변형 × 톤"
         description="solid/outline/ghost × primary/neutral/danger"
         code={basicSource}
@@ -24,6 +25,7 @@ export function ButtonPage() {
         <BasicDemo />
       </DemoBlock>
       <DemoBlock
+        name="states"
         title="크기·상태"
         description="sm/md/lg · 아이콘 슬롯 · disabled · loading · fullWidth"
         code={statesSource}

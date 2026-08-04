@@ -11,6 +11,9 @@
       "path": "./tsconfig.scripts.json"
     },
     {
+      "path": "./tsconfig.visual.json"
+    },
+    {
       "path": "./apps/docs/tsconfig.json"
     }
   ]

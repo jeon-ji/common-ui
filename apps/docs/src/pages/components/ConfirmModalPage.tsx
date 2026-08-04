@@ -15,6 +15,7 @@ export function ConfirmModalPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="danger · primary — 확인 후 자동으로 닫힌다"
         code={basicSource}

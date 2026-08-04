@@ -15,6 +15,7 @@ export function BadgePage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="count · max(99+) · dot · count 0 숨김 · 단독 사용"
         code={basicSource}

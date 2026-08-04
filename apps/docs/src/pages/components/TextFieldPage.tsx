@@ -18,6 +18,7 @@ export function TextFieldPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본 · Field 통합"
         description="제어 입력 + label/helper/error 자동 연결"
         code={basicSource}
@@ -25,6 +26,7 @@ export function TextFieldPage() {
         <BasicDemo />
       </DemoBlock>
       <DemoBlock
+        name="variants"
         title="변형"
         description="password 토글 · search 클리어 · prefix/suffix · clearable · disabled"
         code={variantsSource}

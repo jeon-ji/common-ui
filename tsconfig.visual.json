@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.visual.tsbuildinfo",
+    "types": ["node"]
+  },
+  // 스펙은 브라우저 컨텍스트(page.evaluate) 코드를 품으므로 DOM lib이 필요하다.
+  // 대상 목록의 단일 소스인 registry.ts도 같이 본다 (scripts 프로젝트와 같은 방식).
+  "include": ["playwright.config.ts", "tests", "apps/docs/src/registry.ts"]
+}

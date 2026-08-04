@@ -3,4 +3,8 @@
 # 개행 차이만으로 실패하는 것을 막기 위한 전제 조건이다.
 * text=auto eol=lf
 
+# 시각 회귀 기준 이미지는 바이너리다 — text=auto 휴리스틱에 맡기지 않는다.
+# 개행 치환이 한 번이라도 걸리면 PNG가 깨지고 원인 찾기가 대단히 어렵다.
+*.png binary
+
 pnpm-lock.yaml linguist-generated=true -diff

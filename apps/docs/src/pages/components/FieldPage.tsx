@@ -16,6 +16,7 @@ export function FieldPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="helper · required · error (error는 helper를 대체)"
         code={basicSource}

@@ -34,7 +34,12 @@ export function TagPage() {
       </table>
 
       <h2 id="examples">예제</h2>
-      <DemoBlock title="기본" description="tone 6종 × subtle/outline · closable" code={basicSource}>
+      <DemoBlock
+        name="basic"
+        title="기본"
+        description="tone 6종 × subtle/outline · closable"
+        code={basicSource}
+      >
         <BasicDemo />
       </DemoBlock>
 

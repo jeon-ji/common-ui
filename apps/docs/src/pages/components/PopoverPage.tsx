@@ -20,6 +20,7 @@ export function PopoverPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="제어형 열림 — 트리거의 aria-expanded/aria-controls 배선은 소비자 책임이다"
         code={basicSource}
@@ -27,6 +28,7 @@ export function PopoverPage() {
         <BasicDemo />
       </DemoBlock>
       <DemoBlock
+        name="placement"
         title="배치"
         description="side 4방향 × align — 공간이 없으면 플립, 교차축은 뷰포트 클램핑"
         code={placementSource}
@@ -34,6 +36,7 @@ export function PopoverPage() {
         <PlacementDemo />
       </DemoBlock>
       <DemoBlock
+        name="nested"
         title="Modal 중첩"
         description="Escape는 오버레이 스택 최상단만 닫는다 — 공통 조상에 OverlayProvider 필요"
         code={nestedSource}

@@ -17,6 +17,7 @@ export function ModalPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="title·footer 슬롯 · data-autofocus로 initial focus 지정"
         code={basicSource}
@@ -24,6 +25,7 @@ export function ModalPage() {
         <BasicDemo />
       </DemoBlock>
       <DemoBlock
+        name="nested"
         title="중첩 모달"
         description="OverlayProvider 안에서 Escape는 스택 최상단만 닫는다"
         code={nestedSource}

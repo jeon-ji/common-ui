@@ -16,6 +16,7 @@ export function SwitchPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="제어 · size 2단 · disabled · Field 연동"
         code={basicSource}

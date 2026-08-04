@@ -19,10 +19,11 @@ export function PaginationPage() {
       </p>
 
       <h2 id="examples">예제</h2>
-      <DemoBlock title="기본" description="제어형 value / onChange" code={basicSource}>
+      <DemoBlock name="basic" title="기본" description="제어형 value / onChange" code={basicSource}>
         <BasicDemo />
       </DemoBlock>
       <DemoBlock
+        name="boundaries"
         title="생략 기호 · siblings · boundaries"
         description="현재 페이지가 끝에 붙어도 버튼 개수가 흔들리지 않는다. 생략 자리에 페이지가 하나뿐이면 생략 대신 그 페이지를 그린다"
         code={boundariesSource}
@@ -30,6 +31,7 @@ export function PaginationPage() {
         <BoundariesDemo />
       </DemoBlock>
       <DemoBlock
+        name="pageInput"
         title="페이지 직접 입력"
         description="Enter 또는 포커스 이동에서 커밋 — 타이핑 중에는 페이지가 움직이지 않는다"
         code={pageInputSource}

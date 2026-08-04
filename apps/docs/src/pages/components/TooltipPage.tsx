@@ -16,6 +16,7 @@ export function TooltipPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="hover 지연(모션 토큰) · focus는 즉시 · placement 플립"
         code={basicSource}

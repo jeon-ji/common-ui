@@ -21,6 +21,7 @@ export function TabsPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="좌우 화살표로 이동하면 곧 활성화된다 — 탭 목록에는 Tab 키로 한 번만 진입한다"
         code={basicSource}
@@ -28,6 +29,7 @@ export function TabsPage() {
         <BasicDemo />
       </DemoBlock>
       <DemoBlock
+        name="states"
         title="variant · size · disabled"
         description="line(기본)·solid 변형, sm·md 크기, disabled 탭은 이동에서 건너뛴다"
         code={statesSource}
@@ -35,6 +37,7 @@ export function TabsPage() {
         <StatesDemo />
       </DemoBlock>
       <DemoBlock
+        name="controlled"
         title="제어형"
         description="value / onChange로 외부 상태와 연결 — 라우팅 연동도 이 방식이다"
         code={controlledSource}

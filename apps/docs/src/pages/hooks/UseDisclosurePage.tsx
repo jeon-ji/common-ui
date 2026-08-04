@@ -12,7 +12,7 @@ export function UseDisclosurePage() {
       </p>
 
       <h2 id="examples">예제</h2>
-      <DemoBlock title="기본" description="비제어 패널 열림/닫힘" code={basicSource}>
+      <DemoBlock name="basic" title="기본" description="비제어 패널 열림/닫힘" code={basicSource}>
         <BasicDemo />
       </DemoBlock>
 

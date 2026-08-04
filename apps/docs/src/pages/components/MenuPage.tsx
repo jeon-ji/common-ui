@@ -21,6 +21,7 @@ export function MenuPage() {
 
       <h2 id="examples">예제</h2>
       <DemoBlock
+        name="basic"
         title="기본"
         description="onSelect(key) 하나로 항목 선택을 받는다 — 선택하면 닫히고 포커스는 트리거로"
         code={basicSource}
@@ -28,6 +29,7 @@ export function MenuPage() {
         <BasicDemo />
       </DemoBlock>
       <DemoBlock
+        name="states"
         title="disabled · danger"
         description="disabled는 키보드 이동에서 건너뛰고, danger는 파괴적 동작 색으로 표시된다"
         code={statesSource}
@@ -35,6 +37,7 @@ export function MenuPage() {
         <StatesDemo />
       </DemoBlock>
       <DemoBlock
+        name="controlled"
         title="제어형 열림"
         description="open / onOpenChange로 외부 제어"
         code={controlledSource}
