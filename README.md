@@ -72,6 +72,9 @@ Node 버전은 `.nvmrc`, 패키지 매니저는 `packageManager` 필드가 유�
 3. prerelease Release는 자동으로 `--tag next`로 분리된다
 4. 발행 후 `Consume Check` 워크플로(workflow_dispatch)로 레지스트리 실설치 검증
 
+발행이 실패해도 **태그를 지우지 않는다.** 레지스트리는 같은 버전 재발행을 거부하므로,
+원인을 고친 뒤 patch를 올려 새 Release를 만든다.
+
 ## 토큰 로테이션
 
 소비 환경의 `read:packages` PAT가 만료되면 **모든 소비 앱 CI가 동시에 401**로 죽는다.
