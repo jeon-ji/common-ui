@@ -3,6 +3,8 @@ import { DemoBlock } from "../../components/DemoBlock";
 import { PropsTable } from "../../components/PropsTable";
 import BasicDemo from "../../demos/Table/basic";
 import basicSource from "../../demos/Table/basic.tsx?raw";
+import SelectionDemo from "../../demos/Table/selection";
+import selectionSource from "../../demos/Table/selection.tsx?raw";
 import SortingDemo from "../../demos/Table/sorting";
 import sortingSource from "../../demos/Table/sorting.tsx?raw";
 import StatesDemo from "../../demos/Table/states";
@@ -41,6 +43,14 @@ export function TablePage() {
         code={sortingSource}
       >
         <SortingDemo />
+      </DemoBlock>
+      <DemoBlock
+        name="selection"
+        title="행 선택"
+        description="useTableSelection이 상태를 갖고 Table이 체크박스 열을 그린다. 일부만 고르면 헤더가 mixed로 읽히고, 잠긴 행은 전체 선택에서도 빠진다"
+        code={selectionSource}
+      >
+        <SelectionDemo />
       </DemoBlock>
       <DemoBlock
         name="sticky"

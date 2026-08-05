@@ -43,6 +43,7 @@ export const docGroups: readonly DocGroup[] = [
       { slug: "use-click-outside", title: "useClickOutside" },
       { slug: "use-controllable-state", title: "useControllableState" },
       { slug: "use-disclosure", title: "useDisclosure" },
+      { slug: "use-table-selection", title: "useTableSelection" },
     ],
   },
   {

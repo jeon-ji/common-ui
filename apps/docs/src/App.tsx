@@ -40,6 +40,7 @@ import { Home } from "./pages/Home";
 import { UseClickOutsidePage } from "./pages/hooks/UseClickOutsidePage";
 import { UseControllableStatePage } from "./pages/hooks/UseControllableStatePage";
 import { UseDisclosurePage } from "./pages/hooks/UseDisclosurePage";
+import { UseTableSelectionPage } from "./pages/hooks/UseTableSelectionPage";
 
 export function App() {
   return (
@@ -55,6 +56,7 @@ export function App() {
         <Route path="/hooks/use-click-outside" element={<UseClickOutsidePage />} />
         <Route path="/hooks/use-controllable-state" element={<UseControllableStatePage />} />
         <Route path="/hooks/use-disclosure" element={<UseDisclosurePage />} />
+        <Route path="/hooks/use-table-selection" element={<UseTableSelectionPage />} />
         <Route path="/components/avatar" element={<AvatarPage />} />
         <Route path="/components/badge" element={<BadgePage />} />
         <Route path="/components/button" element={<ButtonPage />} />

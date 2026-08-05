@@ -107,6 +107,9 @@ dist/hooks/useControllableState.js.map
 dist/hooks/useDisclosure.d.ts
 dist/hooks/useDisclosure.js
 dist/hooks/useDisclosure.js.map
+dist/hooks/useTableSelection.d.ts
+dist/hooks/useTableSelection.js
+dist/hooks/useTableSelection.js.map
 dist/icons/index.d.ts
 dist/icons/index.js
 dist/icons/index.js.map

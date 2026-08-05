@@ -7,3 +7,4 @@ export {
   type UseDisclosureOptions,
   type UseDisclosureReturn,
 } from "./useDisclosure.js";
+export { useTableSelection, type UseTableSelectionOptions } from "./useTableSelection.js";
