@@ -101,6 +101,9 @@ dist/hooks/index.js
 dist/hooks/useClickOutside.d.ts
 dist/hooks/useClickOutside.js
 dist/hooks/useClickOutside.js.map
+dist/hooks/useColumnResize.d.ts
+dist/hooks/useColumnResize.js
+dist/hooks/useColumnResize.js.map
 dist/hooks/useControllableState.d.ts
 dist/hooks/useControllableState.js
 dist/hooks/useControllableState.js.map

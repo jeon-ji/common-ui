@@ -41,6 +41,7 @@ export const docGroups: readonly DocGroup[] = [
     base: "/hooks",
     entries: [
       { slug: "use-click-outside", title: "useClickOutside" },
+      { slug: "use-column-resize", title: "useColumnResize" },
       { slug: "use-controllable-state", title: "useControllableState" },
       { slug: "use-disclosure", title: "useDisclosure" },
       { slug: "use-table-selection", title: "useTableSelection" },

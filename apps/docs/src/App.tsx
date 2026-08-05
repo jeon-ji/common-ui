@@ -38,6 +38,7 @@ import { Installation } from "./pages/guide/Installation";
 import { Usage } from "./pages/guide/Usage";
 import { Home } from "./pages/Home";
 import { UseClickOutsidePage } from "./pages/hooks/UseClickOutsidePage";
+import { UseColumnResizePage } from "./pages/hooks/UseColumnResizePage";
 import { UseControllableStatePage } from "./pages/hooks/UseControllableStatePage";
 import { UseDisclosurePage } from "./pages/hooks/UseDisclosurePage";
 import { UseTableSelectionPage } from "./pages/hooks/UseTableSelectionPage";
@@ -54,6 +55,7 @@ export function App() {
         <Route path="/foundation/spacing" element={<Spacing />} />
         <Route path="/foundation/z-index" element={<ZIndex />} />
         <Route path="/hooks/use-click-outside" element={<UseClickOutsidePage />} />
+        <Route path="/hooks/use-column-resize" element={<UseColumnResizePage />} />
         <Route path="/hooks/use-controllable-state" element={<UseControllableStatePage />} />
         <Route path="/hooks/use-disclosure" element={<UseDisclosurePage />} />
         <Route path="/hooks/use-table-selection" element={<UseTableSelectionPage />} />

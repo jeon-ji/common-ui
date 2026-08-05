@@ -3,6 +3,8 @@ import { DemoBlock } from "../../components/DemoBlock";
 import { PropsTable } from "../../components/PropsTable";
 import BasicDemo from "../../demos/Table/basic";
 import basicSource from "../../demos/Table/basic.tsx?raw";
+import ResizeDemo from "../../demos/Table/resize";
+import resizeSource from "../../demos/Table/resize.tsx?raw";
 import SelectionDemo from "../../demos/Table/selection";
 import selectionSource from "../../demos/Table/selection.tsx?raw";
 import SortingDemo from "../../demos/Table/sorting";
@@ -59,6 +61,14 @@ export function TablePage() {
         code={stickySource}
       >
         <StickyDemo />
+      </DemoBlock>
+      <DemoBlock
+        name="resize"
+        title="컬럼 폭 조절"
+        description="useColumnResize가 폭을 갖고 헤더의 핸들에 props를 펼쳐 넣는다. 핸들의 생김새는 소비자 몫이라 이 데모의 스타일도 데모 안에 있다"
+        code={resizeSource}
+      >
+        <ResizeDemo />
       </DemoBlock>
       <DemoBlock
         name="states"
