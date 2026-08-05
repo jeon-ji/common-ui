@@ -57,7 +57,7 @@ export function TablePage() {
       <DemoBlock
         name="sticky"
         title="헤더 · 컬럼 고정"
-        description="고정 컬럼은 width를 함께 준다 — 이웃한 고정 컬럼의 오프셋을 폭에서 계산한다. 세로 스크롤 높이는 --ui-table-max-height로 소비자가 정한다"
+        description="스크롤될 여지를 소비자가 정한다 — 고정 헤더는 --ui-table-max-height, 고정 컬럼은 --ui-table-min-width가 있어야 넘칠 수 있다. 고정 컬럼에는 width도 함께 준다"
         code={stickySource}
       >
         <StickyDemo />

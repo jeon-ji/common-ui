@@ -45,8 +45,13 @@ const columns: TableColumn<Row>[] = [
 
 export default function StickyDemo() {
   return (
-    // 세로 스크롤 높이는 소비자가 정한다 — stickyHeader는 스크롤될 높이가 있어야 의미가 있다
-    <div style={{ "--ui-table-max-height": "240px" } as CSSProperties}>
+    // 스크롤될 여지를 소비자가 정한다 — 고정 헤더는 넘칠 높이가, 고정 컬럼은 넘칠 폭이 있어야
+    // 의미가 있다. min-width가 없으면 표가 컨테이너에 맞춰 줄어들 뿐 가로 스크롤이 생기지 않는다
+    <div
+      style={
+        { "--ui-table-max-height": "240px", "--ui-table-min-width": "1000px" } as CSSProperties
+      }
+    >
       <Table
         caption="구성원 목록"
         columns={columns}
