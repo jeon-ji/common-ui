@@ -1,0 +1,184 @@
+/* Table — 값은 전부 토큰 변수만 참조한다 (전역 규칙 12) */
+
+@layer ui.components {
+  /* 가로 스크롤 컨테이너. 고정 컬럼·고정 헤더가 붙는 기준이 이 요소다 */
+  .ui-table-scroll {
+    overflow-x: auto;
+  }
+
+  /* 세로 스크롤 높이는 소비자가 정한다 — 높이를 주지 않으면 헤더가 고정될 자리가 없다 */
+  .ui-table-scroll[data-sticky-header] {
+    max-height: var(--ui-table-max-height, none);
+    overflow-y: auto;
+  }
+
+  .ui-table {
+    width: 100%;
+    /* collapse면 sticky 셀의 테두리가 스크롤될 때 남는다 — separate + border-bottom으로 그린다 */
+    border-collapse: separate;
+    border-spacing: 0;
+    font-family: var(--ui-font-sans);
+    font-size: var(--ui-text-body2-size);
+    line-height: var(--ui-text-body2-line-height);
+    color: var(--ui-color-text-primary);
+  }
+
+  /* 표의 이름 — 화면에서는 감추고 보조기술에는 남긴다 (규칙 26) */
+  .ui-table-caption {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .ui-table th,
+  .ui-table td {
+    padding: var(--ui-spacing-3) var(--ui-spacing-4);
+    text-align: left;
+    border-bottom: 1px solid var(--ui-color-border-default);
+  }
+
+  .ui-table th {
+    font-weight: 600;
+    color: var(--ui-color-text-secondary);
+    white-space: nowrap;
+    background: var(--ui-color-bg-subtle);
+  }
+
+  /* 행 배경은 tr이 소유한다 — 고정 컬럼 셀이 background: inherit로 이 값을 물려받아
+     hover·선택 상태에서 색이 어긋나지 않는다 */
+  .ui-table-row {
+    background: var(--ui-color-bg-default);
+    transition: background var(--ui-duration-fast) var(--ui-easing-standard);
+  }
+
+  .ui-table-row:hover {
+    background: var(--ui-color-bg-subtle);
+  }
+
+  .ui-table-row[data-selected] {
+    background: var(--ui-color-primary-subtle);
+  }
+
+  .ui-table td[data-align="center"],
+  .ui-table th[data-align="center"] {
+    text-align: center;
+  }
+
+  .ui-table td[data-align="right"],
+  .ui-table th[data-align="right"] {
+    text-align: right;
+  }
+
+  /* ── 정렬 헤더 ─────────────────────────────────────────────── */
+
+  .ui-table-sort {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ui-spacing-1);
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    border-radius: var(--ui-radius-sm);
+    cursor: pointer;
+  }
+
+  .ui-table-sort:hover {
+    color: var(--ui-color-text-primary);
+  }
+
+  .ui-table-sort:focus-visible {
+    outline: 1px solid var(--ui-color-primary-default);
+    outline-offset: 2px;
+  }
+
+  /* 정렬 기준이 아닌 컬럼의 화살표는 흐리게 — 누를 수 있다는 표시일 뿐이다 */
+  .ui-table-sort-icon[data-idle] {
+    opacity: 0.35;
+  }
+
+  /* ── 고정 헤더 ─────────────────────────────────────────────── */
+
+  .ui-table-scroll[data-sticky-header] .ui-table-head th {
+    position: sticky;
+    top: 0;
+    /* tbody의 고정 컬럼 셀(--ui-z-base)보다 위에 온다 — DOM 순서상 tbody가 나중이라
+       같은 층이면 헤더가 가려진다 */
+    z-index: var(--ui-z-sticky);
+  }
+
+  /* ── 고정 컬럼 — 그림자는 셀 종류마다 복사하지 않고 이 두 셀렉터가 전부 그린다 ── */
+
+  .ui-table th[data-sticky],
+  .ui-table td[data-sticky] {
+    position: sticky;
+    z-index: var(--ui-z-base);
+    background: inherit;
+  }
+
+  .ui-table th[data-sticky] {
+    /* th는 tr이 아니라 자기 배경을 갖는다 (헤더 색) */
+    background: var(--ui-color-bg-subtle);
+  }
+
+  .ui-table th[data-sticky="left"],
+  .ui-table td[data-sticky="left"] {
+    left: var(--ui-table-sticky-offset, 0px);
+  }
+
+  .ui-table th[data-sticky="right"],
+  .ui-table td[data-sticky="right"] {
+    right: var(--ui-table-sticky-offset, 0px);
+  }
+
+  .ui-table [data-sticky="left"]::after,
+  .ui-table [data-sticky="right"]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: var(--ui-spacing-2);
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .ui-table [data-sticky="left"]::after {
+    right: 0;
+    transform: translateX(100%);
+    background: linear-gradient(to right, var(--ui-color-border-default), transparent);
+  }
+
+  .ui-table [data-sticky="right"]::before {
+    left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(to left, var(--ui-color-border-default), transparent);
+  }
+
+  /* ── 선택 열 · 빈 상태 ─────────────────────────────────────── */
+
+  .ui-table .ui-table-selection-cell {
+    width: var(--ui-spacing-12);
+    padding-right: var(--ui-spacing-2);
+    white-space: nowrap;
+  }
+
+  .ui-table .ui-table-empty-cell {
+    padding: var(--ui-spacing-8) var(--ui-spacing-4);
+    text-align: center;
+  }
+
+  /* ── size ─────────────────────────────────────────────────── */
+
+  .ui-table[data-size="sm"] th,
+  .ui-table[data-size="sm"] td {
+    padding: var(--ui-spacing-2) var(--ui-spacing-3);
+    font-size: var(--ui-text-caption-size);
+    line-height: var(--ui-text-caption-line-height);
+  }
+}

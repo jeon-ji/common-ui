@@ -34,6 +34,13 @@ export {
 export { Skeleton, type SkeletonProps } from "./Skeleton/index.js";
 export { Spinner, type SpinnerProps } from "./Spinner/index.js";
 export { Switch, type SwitchProps } from "./Switch/index.js";
+export {
+  Table,
+  type TableColumn,
+  type TableProps,
+  type TableSelection,
+  type TableSort,
+} from "./Table/index.js";
 export { type TabItem, Tabs, type TabsProps } from "./Tabs/index.js";
 export { Tag, type TagProps } from "./Tag/index.js";
 export { Heading, type HeadingProps, Text, type TextProps } from "./Text/index.js";
