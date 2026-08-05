@@ -184,6 +184,10 @@ createRoot(document.getElementById("app")).render(createElement(Button, null, "h
     "ui-popover": "Popover",
     "ui-menu-item": "Menu",
     "ui-tooltip": "Tooltip",
+    // Table 계열 — Table은 Checkbox·Skeleton을, useColumnResize는 저장·포인터 로직을 끌고 온다.
+    // 훅은 클래스명이 없으므로 저장 키 접두사를 쓴다(문자열 리터럴이라 최소화에도 남는다)
+    "ui-table-scroll": "Table",
+    "@jeon-ji/common-ui:table:": "useColumnResize",
   };
   for (const [symbol, name] of Object.entries(FORBIDDEN)) {
     if (jsBundle.includes(symbol)) {
